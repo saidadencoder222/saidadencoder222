@@ -1,0 +1,10 @@
+# Personal targeting list - keep private, only the .example.yaml template is tracked
+config/niche.yaml
+
+# Generated data - re-created each run, no need to version it
+data/raw/*
+data/reports/*
+data/ideas/*
+!data/raw/.gitkeep
+!data/reports/.gitkeep
+!data/ideas/.gitkeep

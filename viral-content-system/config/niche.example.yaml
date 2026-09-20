@@ -1,0 +1,21 @@
+# Copy this file to config/niche.yaml and fill in your own values.
+# config/niche.yaml is gitignored — it's your personal targeting list, keep it private.
+
+niche: "fitness for beginners"        # free-text topic/keyword used for outlier + trend search
+platforms: ["tiktok", "instagram"]
+
+# Public accounts whose *patterns* you want to study (not copy). Optional but improves
+# results — vidIQ can pull outliers from specific creators as well as keyword search.
+inspiration_accounts:
+  - "@example_handle_1"
+  - "@example_handle_2"
+
+# Your own account, used for earnings estimates and to avoid suggesting ideas
+# you've already posted.
+my_account:
+  handle: "@your_handle"
+  platform: "tiktok"
+  followers: 0
+
+# Minimum views for a video to count as a "viral outlier" worth analyzing.
+min_view_threshold: 500000

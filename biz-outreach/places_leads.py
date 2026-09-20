@@ -1,7 +1,8 @@
 """
-Finds businesses with no real website via the Google Places API (legacy
-Text Search + Place Details - both officially supported, unlike scraping
-Google Search result pages directly, which violates Google's ToS).
+Finds businesses with no real website via the Google Places API (New) -
+Text Search, which returns website/phone/address directly, no separate
+Details call needed. Officially supported, unlike scraping Google Search
+result pages directly, which violates Google's ToS.
 
 Places API never returns an email address. Some very small businesses put
 a Facebook/Instagram page URL in the "website" field instead of a real
@@ -20,8 +21,11 @@ import requests
 EMAIL_RE = re.compile(r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}")
 SOCIAL_DOMAINS = ("facebook.com", "instagram.com")
 
-TEXT_SEARCH_URL = "https://maps.googleapis.com/maps/api/place/textsearch/json"
-DETAILS_URL = "https://maps.googleapis.com/maps/api/place/details/json"
+SEARCH_URL = "https://places.googleapis.com/v1/places:searchText"
+FIELD_MASK = (
+    "places.id,places.displayName,places.formattedAddress,"
+    "places.nationalPhoneNumber,places.websiteUri,places.types,nextPageToken"
+)
 
 
 def _extract_email(text: str):
@@ -44,36 +48,31 @@ def _public_page_email(url: str, session: requests.Session):
 
 def find_businesses_without_website(api_key: str, query: str, *, max_results: int = 40):
     session = requests.Session()
+    headers = {
+        "Content-Type": "application/json",
+        "X-Goog-Api-Key": api_key,
+        "X-Goog-FieldMask": FIELD_MASK,
+    }
+
     leads = []
     page_token = None
 
     while len(leads) < max_results:
-        params = {"query": query, "key": api_key}
+        body = {"textQuery": query, "pageSize": min(20, max_results - len(leads))}
         if page_token:
-            params["pagetoken"] = page_token
-            time.sleep(2)  # Google requires a short delay before a next_page_token is valid
+            body["pageToken"] = page_token
+            time.sleep(2)  # a next page token needs a short delay before it's valid
 
-        resp = session.get(TEXT_SEARCH_URL, params=params, timeout=10)
-        resp.raise_for_status()
+        resp = session.post(SEARCH_URL, headers=headers, json=body, timeout=10)
+        if resp.status_code != 200:
+            raise RuntimeError(f"Places API error: {resp.status_code} {resp.text}")
         data = resp.json()
-        status = data.get("status")
-        if status not in ("OK", "ZERO_RESULTS"):
-            raise RuntimeError(f"Places API error: {status} {data.get('error_message', '')}")
 
-        for item in data.get("results", []):
+        for place in data.get("places", []):
             if len(leads) >= max_results:
                 break
 
-            place_id = item["place_id"]
-            details_resp = session.get(DETAILS_URL, params={
-                "place_id": place_id,
-                "fields": "name,formatted_address,formatted_phone_number,website,type",
-                "key": api_key,
-            }, timeout=10)
-            details_resp.raise_for_status()
-            details = details_resp.json().get("result", {})
-
-            website = details.get("website")
+            website = place.get("websiteUri")
             if website and not _is_social_link(website):
                 continue  # already has a real website, not a lead for this campaign
 
@@ -84,18 +83,18 @@ def find_businesses_without_website(api_key: str, query: str, *, max_results: in
                 if email:
                     email_source = website.split("/")[2]
 
-            types = details.get("types") or item.get("types") or []
+            types = place.get("types") or []
             leads.append({
-                "place_id": place_id,
-                "name": details.get("name", item.get("name")),
-                "address": details.get("formatted_address", item.get("formatted_address")),
-                "phone": details.get("formatted_phone_number"),
+                "place_id": place["id"],
+                "name": place.get("displayName", {}).get("text", ""),
+                "address": place.get("formattedAddress"),
+                "phone": place.get("nationalPhoneNumber"),
                 "category": types[0] if types else None,
                 "email": email,
                 "email_source": email_source,
             })
 
-        page_token = data.get("next_page_token")
+        page_token = data.get("nextPageToken")
         if not page_token:
             break
 

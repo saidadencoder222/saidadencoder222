@@ -15,6 +15,8 @@ def cmd_find_leads(args):
         max_results=args.max,
         min_subscribers=args.min_subs,
         max_subscribers=args.max_subs,
+        min_recent_views=args.min_recent_views,
+        max_video_age_days=args.max_video_age_days,
     )
 
     with connect(CONFIG.db_path) as conn:
@@ -65,6 +67,10 @@ def build_parser():
     p_find.add_argument("--max", type=int, default=50)
     p_find.add_argument("--min-subs", type=int, default=0)
     p_find.add_argument("--max-subs", type=int, default=None)
+    p_find.add_argument("--min-recent-views", type=int, default=0,
+                         help="Only keep channels whose most recent upload has at least this many views")
+    p_find.add_argument("--max-video-age-days", type=int, default=None,
+                         help="Only keep channels whose most recent upload is this many days old or newer")
     p_find.set_defaults(func=cmd_find_leads)
 
     p_list = sub.add_parser("list-leads", help="Show stored leads")

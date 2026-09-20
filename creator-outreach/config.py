@@ -11,7 +11,7 @@ class Config:
     youtube_api_key: str
     sender_name: str
     product_name: str
-    product_link: str
+    product_preview_path: str
     daily_send_limit: int
     followup_after_days: int
     max_touches: int
@@ -23,7 +23,7 @@ def load_config() -> Config:
         youtube_api_key=os.environ.get("YOUTUBE_API_KEY", ""),
         sender_name=os.environ.get("SENDER_NAME", ""),
         product_name=os.environ.get("PRODUCT_NAME", ""),
-        product_link=os.environ.get("PRODUCT_LINK", ""),
+        product_preview_path=os.environ.get("PRODUCT_PREVIEW_PATH", "assets/listen_first_preview.pdf"),
         daily_send_limit=int(os.environ.get("DAILY_SEND_LIMIT", "20")),
         followup_after_days=int(os.environ.get("FOLLOWUP_AFTER_DAYS", "7")),
         max_touches=int(os.environ.get("MAX_TOUCHES", "2")),

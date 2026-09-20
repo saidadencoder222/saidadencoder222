@@ -59,6 +59,8 @@ def engagement_rate(v):
     views = v.get("views") or 0
     if not views:
         return None
+    if v.get("likes") is None and v.get("comments") is None and v.get("shares") is None:
+        return None
     interactions = (v.get("likes") or 0) + (v.get("comments") or 0) + (v.get("shares") or 0)
     return interactions / views
 

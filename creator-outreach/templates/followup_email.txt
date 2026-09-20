@@ -1,0 +1,15 @@
+SUBJECT: Re: Quick tool for {channel_title} - {product_name}
+
+Hi again,
+
+Just following up in case this got buried - {product_name} is still
+available if it's useful for {channel_title}: {product_link}
+
+This is the last time I'll reach out about this.
+
+Best,
+{sender_name}
+
+---
+Don't want to hear from me again? Reply with UNSUBSCRIBE in the subject
+line and I'll remove you immediately.

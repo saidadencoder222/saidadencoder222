@@ -1,0 +1,18 @@
+SUBJECT: Quick tool for {channel_title} - {product_name}
+
+Hi {channel_title} team,
+
+I'm {sender_name}. I built {product_name}, a paid tool/resource for
+YouTube creators, and thought it might be useful given your "{niche}"
+content.
+
+Here's what it does and the price: {product_link}
+
+No pressure either way - if it's not a fit, no worries at all.
+
+Best,
+{sender_name}
+
+---
+Don't want to hear from me again? Reply with UNSUBSCRIBE in the subject
+line and I'll remove you immediately.

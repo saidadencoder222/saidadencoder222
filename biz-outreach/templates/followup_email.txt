@@ -1,0 +1,16 @@
+SUBJECT: Re: A quick demo site for {business_name}
+
+Hi again,
+
+Just following up in case this got buried - here's that demo again for
+{business_name}: {demo_url}
+
+Happy to jump on a quick call if it's useful. This is the last time I'll
+reach out about this.
+
+Best,
+{sender_name}
+
+---
+Don't want to hear from me again? Reply with UNSUBSCRIBE in the subject
+line and I'll remove you immediately.

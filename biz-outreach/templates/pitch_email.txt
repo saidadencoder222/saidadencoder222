@@ -1,0 +1,18 @@
+SUBJECT: A quick demo site for {business_name}
+
+Hi {business_name} team,
+
+I noticed you don't have a website live yet, so I put together a quick
+demo of what one could look like for a {category} business:
+
+{demo_url}
+
+If you like the direction, I'd love to hop on a short call to talk about
+building it out properly.
+
+Best,
+{sender_name}
+
+---
+Don't want to hear from me again? Reply with UNSUBSCRIBE in the subject
+line and I'll remove you immediately.

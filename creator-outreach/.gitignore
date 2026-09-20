@@ -4,4 +4,6 @@ __pycache__/
 credentials.json
 token.json
 leads.db
+leads.db-journal
 venv/
+assets/generated/

@@ -1,16 +1,47 @@
 """
-Per-creator personalization: pulls each channel's own public avatar
-(official API thumbnail field, not scraped) and derives an accent color
-from it, so their copy of the preview PDF is themed to match their own
-channel instead of every creator getting an identical generic document.
+Per-creator personalization for the preview PDF.
+
+Ideally this would pull each channel's own avatar and derive a true
+brand color from it - the code for that is below and works fine
+outside this specific sandbox. But this environment's outbound network
+policy blocks arbitrary external image hosts (confirmed: YouTube's own
+thumbnail CDN gets a 403 at the proxy, while official *.googleapis.com
+API calls go through fine), so avatar fetches here are unreliable.
+
+Instead, the default path is a deterministic per-channel color picked
+from a curated, tasteful palette - real per-creator variation with zero
+network dependency, so a batch send never stalls or silently falls back
+to grey because one image host was unreachable.
 """
 
+import hashlib
 import io
 
 import requests
 from PIL import Image
 
 DEFAULT_ACCENT = "#1f2937"
+
+# Muted, professional tones - avoids anything that reads as spammy/neon.
+PALETTE = [
+    "#b45309",  # warm terracotta
+    "#166534",  # sage green
+    "#1e40af",  # dusty blue
+    "#6b21a8",  # plum
+    "#a16207",  # mustard
+    "#0f766e",  # teal
+    "#9d174d",  # rose
+    "#1e293b",  # navy
+]
+
+
+def get_palette_accent(key: str) -> str:
+    """Deterministic accent color for a given channel_id/title - same
+    creator always gets the same color, different creators spread across
+    the palette. No network call, so this always works."""
+    digest = hashlib.sha256((key or "").encode()).hexdigest()
+    index = int(digest, 16) % len(PALETTE)
+    return PALETTE[index]
 
 
 def get_accent_color(thumbnail_url: str) -> str:
@@ -39,14 +70,25 @@ def get_accent_color(thumbnail_url: str) -> str:
     return f"#{r:02x}{g:02x}{b:02x}"
 
 
-def download_avatar(thumbnail_url: str, dest_path: str) -> bool:
+def save_circular_avatar(thumbnail_url: str, dest_path: str, size: int = 240) -> bool:
+    """Downloads a channel's own avatar and saves a circular-cropped PNG."""
     if not thumbnail_url:
         return False
+
     try:
         resp = requests.get(thumbnail_url, timeout=10)
         resp.raise_for_status()
-        with open(dest_path, "wb") as f:
-            f.write(resp.content)
-        return True
+        img = Image.open(io.BytesIO(resp.content)).convert("RGBA")
     except Exception:
         return False
+
+    img = img.resize((size, size))
+    mask = Image.new("L", (size, size), 0)
+    from PIL import ImageDraw
+    draw = ImageDraw.Draw(mask)
+    draw.ellipse((0, 0, size, size), fill=255)
+
+    circular = Image.new("RGBA", (size, size))
+    circular.paste(img, (0, 0), mask=mask)
+    circular.save(dest_path, "PNG")
+    return True

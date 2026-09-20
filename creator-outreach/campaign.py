@@ -6,14 +6,31 @@ a day via cron/systemd timer) rather than looped in-process, so a crash
 never means duplicate sends.
 """
 
+import os
+import random
+import time
 from datetime import datetime, timedelta, timezone
 
+import generate_preview
 from config import CONFIG
 from gmail_auth import get_gmail_service
 from gmail_sender import send_email
+from personalize import get_palette_accent
 from replies import process_unsubscribe_requests
 from storage import (connect, is_unsubscribed, last_sent_at, leads_with_email,
                       record_send, touches_sent)
+
+GENERATED_DIR = os.path.join("assets", "generated")
+
+
+def _personalized_pdf_path(lead) -> str:
+    """Builds (or reuses) a per-creator colored preview PDF for this lead."""
+    os.makedirs(GENERATED_DIR, exist_ok=True)
+    path = os.path.join(GENERATED_DIR, f"{lead['channel_id']}.pdf")
+    if not os.path.exists(path):
+        accent = get_palette_accent(lead["channel_id"])
+        generate_preview.build(path, channel_title=lead["title"], accent_color=accent)
+    return path
 
 TEMPLATES = {
     1: "templates/pitch_email.txt",
@@ -37,7 +54,6 @@ def _render(text: str, lead, sender_email: str) -> str:
         channel_title=lead["title"],
         niche=lead["niche"] or "your niche",
         product_name=CONFIG.product_name,
-        product_link=CONFIG.product_link,
         sender_name=CONFIG.sender_name,
     )
 
@@ -86,10 +102,11 @@ def run_campaign_batch(sender_email: str):
             message_id = send_email(
                 service,
                 to_addr=lead["email"],
-                from_name=CONFIG.sender_name,
+                from_name=f"{CONFIG.sender_name} <{sender_email}>",
                 subject=subject,
                 body=body,
                 reply_to=sender_email,
+                attachments=[_personalized_pdf_path(lead)],
             )
             record_send(
                 conn,
@@ -100,5 +117,8 @@ def run_campaign_batch(sender_email: str):
             )
             sent_this_run += 1
             print(f"Sent touch {touch} to {lead['title']} <{lead['email']}>")
+
+            if sent_this_run < CONFIG.daily_send_limit:
+                time.sleep(random.uniform(900, 1800))  # 15-30 min apart, spread across the night
 
     print(f"Done. Sent {sent_this_run} email(s) this run.")

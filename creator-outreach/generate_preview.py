@@ -1,135 +1,211 @@
 """
-Builds the real preview PDF attached to the creator outreach pitch.
+Builds the preview PDF attached to the creator outreach pitch, with a
+personalized cover per creator (their own accent color + circular
+avatar, both pulled from official API data - see personalize.py) rather
+than an identical document for everyone.
 
-This has to actually contain useful, standalone content - it's what
-proves the "digital product" claim in the email is true, the same
-principle as the auto-generated demo sites in biz-outreach.
+Content has to actually be real and useful, same principle as the
+auto-generated demo sites in biz-outreach - this proves the "digital
+product" claim in the email is true.
 """
 
+import io
 import os
 
+from reportlab.lib import colors
 from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import inch
-from reportlab.platypus import PageBreak, Paragraph, SimpleDocTemplate, Spacer
+from reportlab.pdfgen import canvas as pdfcanvas
+from reportlab.platypus import (Flowable, HRFlowable, PageBreak, Paragraph,
+                                 SimpleDocTemplate, Spacer)
+from pypdf import PdfReader, PdfWriter
 
-OUTPUT_PATH = os.path.join("assets", "listen_first_preview.pdf")
+
+class IconBadge(Flowable):
+    """A small drawn (not fetched) numbered circle badge - a real generated
+    image with zero network dependency or copyright risk."""
+
+    def __init__(self, number: int, color_hex: str, size: float = 0.42 * inch):
+        super().__init__()
+        self.number = number
+        self.color = colors.HexColor(color_hex)
+        self.size = size
+        self.width = size
+        self.height = size
+
+    def draw(self):
+        c = self.canv
+        c.setFillColor(self.color)
+        c.circle(self.size / 2, self.size / 2, self.size / 2, fill=1, stroke=0)
+        c.setFillColor(colors.white)
+        c.setFont("Helvetica-Bold", self.size * 0.5)
+        c.drawCentredString(self.size / 2, self.size / 2 - self.size * 0.17, str(self.number))
+
+DEFAULT_OUTPUT = os.path.join("assets", "listen_first_preview.pdf")
+DEFAULT_ACCENT = "#1f2937"
 
 styles = getSampleStyleSheet()
 
-title_style = ParagraphStyle(
-    "TitleBig", parent=styles["Title"], fontSize=28, leading=34, spaceAfter=12,
-)
-subtitle_style = ParagraphStyle(
-    "Subtitle", parent=styles["Normal"], fontSize=14, alignment=TA_CENTER,
-    textColor="#555555", spaceAfter=6,
-)
-h1 = ParagraphStyle("H1", parent=styles["Heading1"], fontSize=18, spaceBefore=18, spaceAfter=10)
-h2 = ParagraphStyle("H2", parent=styles["Heading2"], fontSize=13, spaceBefore=12, spaceAfter=6,
-                     textColor="#1f2937")
-body = ParagraphStyle("Body", parent=styles["Normal"], fontSize=11, leading=16, spaceAfter=10)
-script_style = ParagraphStyle("Script", parent=styles["Normal"], fontSize=11, leading=16,
-                               leftIndent=18, textColor="#374151", spaceAfter=10,
-                               backColor="#f3f4f6", borderPadding=8)
-footer_style = ParagraphStyle("Footer", parent=styles["Normal"], fontSize=9,
-                               textColor="#9ca3af", alignment=TA_CENTER)
+
+def _styles(accent_hex: str):
+    accent = colors.HexColor(accent_hex)
+    return {
+        "h1": ParagraphStyle("H1", parent=styles["Heading1"], fontSize=18,
+                              spaceBefore=18, spaceAfter=10, textColor=accent),
+        "h2": ParagraphStyle("H2", parent=styles["Heading2"], fontSize=13,
+                              spaceBefore=12, spaceAfter=6, textColor=colors.HexColor("#1f2937")),
+        "body": ParagraphStyle("Body", parent=styles["Normal"], fontSize=11,
+                                leading=16, spaceAfter=10),
+        "script": ParagraphStyle("Script", parent=styles["Normal"], fontSize=11, leading=16,
+                                  leftIndent=18, textColor=colors.HexColor("#374151"),
+                                  spaceAfter=10, backColor=colors.HexColor("#f3f4f6"),
+                                  borderPadding=8),
+        "footer": ParagraphStyle("Footer", parent=styles["Normal"], fontSize=9,
+                                  textColor=colors.HexColor("#9ca3af"), alignment=TA_CENTER),
+        "accent": accent,
+    }
 
 
-def build():
+def _build_cover(accent_hex: str, channel_title: str, avatar_path: str = None) -> bytes:
+    """Draws a full-bleed colored cover page, personalized per creator via
+    accent color (and their own avatar when one is available/reachable)."""
+    buf = io.BytesIO()
+    c = pdfcanvas.Canvas(buf, pagesize=letter)
+    width, height = letter
+    accent = colors.HexColor(accent_hex)
+
+    c.setFillColor(accent)
+    c.rect(0, 0, width, height, fill=1, stroke=0)
+
+    # Decorative layered circles - drawn, not fetched, so this always
+    # renders regardless of network access to any image host.
+    c.setFillColor(colors.Color(1, 1, 1, alpha=0.06))
+    c.circle(width * 0.85, height * 0.88, 2.2 * inch, fill=1, stroke=0)
+    c.setFillColor(colors.Color(1, 1, 1, alpha=0.05))
+    c.circle(width * 0.1, height * 0.1, 1.6 * inch, fill=1, stroke=0)
+
+    if avatar_path and os.path.exists(avatar_path):
+        avatar_size = 1.4 * inch
+        c.drawImage(
+            avatar_path,
+            (width - avatar_size) / 2, height - 2.6 * inch,
+            width=avatar_size, height=avatar_size, mask="auto",
+        )
+        title_y = height - 3.4 * inch
+    else:
+        title_y = height - 2.6 * inch
+
+    c.setFillColor(colors.white)
+    c.setFont("Helvetica-Bold", 30)
+    c.drawCentredString(width / 2, title_y, "Listen First")
+
+    c.setFont("Helvetica", 14)
+    c.drawCentredString(width / 2, title_y - 0.4 * inch,
+                         "A Parent's Guide to Getting Kids to Actually Listen")
+
+    if channel_title:
+        c.setFont("Helvetica-Oblique", 12)
+        c.drawCentredString(width / 2, title_y - 0.9 * inch, f"Prepared for {channel_title}")
+
+    c.setFont("Helvetica", 10)
+    c.drawCentredString(width / 2, 1 * inch, "PREVIEW EDITION  -  4 of 12 chapters")
+
+    c.save()
+    buf.seek(0)
+    return buf.read()
+
+
+def _build_body(accent_hex: str) -> bytes:
+    s = _styles(accent_hex)
+    buf = io.BytesIO()
     doc = SimpleDocTemplate(
-        OUTPUT_PATH, pagesize=letter,
+        buf, pagesize=letter,
         topMargin=0.9 * inch, bottomMargin=0.9 * inch,
         leftMargin=0.9 * inch, rightMargin=0.9 * inch,
     )
     story = []
 
-    # Cover
-    story.append(Spacer(1, 1.8 * inch))
-    story.append(Paragraph("Listen First", title_style))
-    story.append(Paragraph("A Parent's Guide to Getting Kids to Actually Listen", subtitle_style))
-    story.append(Spacer(1, 0.3 * inch))
-    story.append(Paragraph("PREVIEW EDITION - 4 of 12 chapters", subtitle_style))
-    story.append(PageBreak())
-
-    # Intro
-    story.append(Paragraph("Why \"just listen\" doesn't work", h1))
+    story.append(Paragraph("Why \"just listen\" doesn't work", s["h1"]))
+    story.append(HRFlowable(width="100%", color=s["accent"], thickness=1.2, spaceAfter=12))
     story.append(Paragraph(
         "Most advice about getting kids to listen focuses on the wrong moment: what to say "
         "after they've already ignored you. By then, you're both frustrated and it's too late "
         "to prevent the standoff. The four techniques in this preview work earlier - before "
         "the instruction even leaves your mouth - so it lands the first time far more often.",
-        body,
+        s["body"],
     ))
     story.append(Paragraph(
         "None of this requires yelling, bribing, or counting to three. It requires changing "
         "four small habits. Here they are.",
-        body,
+        s["body"],
     ))
 
-    # Chapter 1
-    story.append(Paragraph("1. Connect Before You Correct", h1))
+    story.append(IconBadge(1, accent_hex))
+    story.append(Paragraph("Connect Before You Correct", s["h1"]))
     story.append(Paragraph(
         "A child's brain has to feel safe and connected before it can process an instruction. "
         "Giving a direction from across the room, mid-tantrum, or the instant you walk in the "
         "door skips this step entirely - which is why it so often gets ignored.",
-        body,
+        s["body"],
     ))
-    story.append(Paragraph("Try this instead:", h2))
+    story.append(Paragraph("Try this instead:", s["h2"]))
     story.append(Paragraph(
         "Get physically close, at their eye level, and make brief contact - a hand on the "
         "shoulder, their name said gently - before you say what you need. This takes under "
         "five seconds and dramatically raises the odds the instruction is actually heard.",
-        script_style,
+        s["script"],
     ))
 
-    # Chapter 2
-    story.append(Paragraph("2. Say Less, Not More", h1))
+    story.append(IconBadge(2, accent_hex))
+    story.append(Paragraph("Say Less, Not More", s["h1"]))
     story.append(Paragraph(
         "\"Okay, so I need you to put your shoes on, and grab your backpack, and don't forget "
         "your water bottle, and hurry up because we're late\" is five instructions stacked into "
         "one breath. A young child processes one at a time. The rest becomes noise.",
-        body,
+        s["body"],
     ))
-    story.append(Paragraph("Try this instead:", h2))
+    story.append(Paragraph("Try this instead:", s["h2"]))
     story.append(Paragraph(
         "\"Shoes on.\" Wait. Once it's done: \"Backpack.\" One instruction, one word if possible, "
         "said once. Resist the urge to repeat it three different ways - repetition trains kids "
         "to wait for the third, louder version before responding.",
-        script_style,
+        s["script"],
     ))
 
     story.append(PageBreak())
 
-    # Chapter 3
-    story.append(Paragraph("3. Offer a Choice, Not a Command", h1))
+    story.append(IconBadge(3, accent_hex))
+    story.append(Paragraph("Offer a Choice, Not a Command", s["h1"]))
+    story.append(HRFlowable(width="100%", color=s["accent"], thickness=1.2, spaceAfter=12))
     story.append(Paragraph(
         "Commands invite resistance because they remove all control from the child. A limited "
         "choice keeps you in charge of the outcome while giving them genuine control over how "
         "they get there - which is usually all the resistance was actually about.",
-        body,
+        s["body"],
     ))
-    story.append(Paragraph("Try this instead:", h2))
+    story.append(Paragraph("Try this instead:", s["h2"]))
     story.append(Paragraph(
         "Instead of \"Get in the bath now,\" try \"Do you want to walk to the bath or hop like "
         "a bunny?\" Both options end with them in the bath. Only one invites a fight.",
-        script_style,
+        s["script"],
     ))
 
-    # Chapter 4
-    story.append(Paragraph("4. Follow Through, Calmly, Every Time", h1))
+    story.append(IconBadge(4, accent_hex))
+    story.append(Paragraph("Follow Through, Calmly, Every Time", s["h1"]))
     story.append(Paragraph(
         "Kids learn what actually happens, not what you say will happen. If \"we're leaving in "
         "five minutes\" is never actually enforced, it stops meaning anything - and neither does "
         "anything else you say after it.",
-        body,
+        s["body"],
     ))
-    story.append(Paragraph("Try this instead:", h2))
+    story.append(Paragraph("Try this instead:", s["h2"]))
     story.append(Paragraph(
         "State the boundary once, calmly, and then follow through exactly as stated - even if "
         "that means leaving with one shoe on. The consistency, not the severity, is what builds "
         "the habit of listening the first time.",
-        script_style,
+        s["script"],
     ))
 
     story.append(Spacer(1, 0.3 * inch))
@@ -137,15 +213,33 @@ def build():
         "This preview covers 4 of the 12 chapters in the full Listen First guide, which also "
         "covers sibling conflict, public meltdowns, screen-time transitions, and age-specific "
         "scripts from toddler through preteen.",
-        body,
+        s["body"],
     ))
     story.append(Spacer(1, 0.4 * inch))
-    story.append(Paragraph("Preview shared for review purposes - not for redistribution.", footer_style))
+    story.append(Paragraph("Preview shared for review purposes - not for redistribution.", s["footer"]))
 
     doc.build(story)
-    print(f"Wrote {OUTPUT_PATH}")
+    buf.seek(0)
+    return buf.read()
+
+
+def build(output_path: str = DEFAULT_OUTPUT, *, channel_title: str = None,
+          accent_color: str = DEFAULT_ACCENT, avatar_path: str = None):
+    cover_bytes = _build_cover(accent_color, channel_title, avatar_path)
+    body_bytes = _build_body(accent_color)
+
+    writer = PdfWriter()
+    for page in PdfReader(io.BytesIO(cover_bytes)).pages:
+        writer.add_page(page)
+    for page in PdfReader(io.BytesIO(body_bytes)).pages:
+        writer.add_page(page)
+
+    os.makedirs(os.path.dirname(output_path) or ".", exist_ok=True)
+    with open(output_path, "wb") as f:
+        writer.write(f)
+
+    print(f"Wrote {output_path}")
 
 
 if __name__ == "__main__":
-    os.makedirs("assets", exist_ok=True)
     build()

@@ -1,12 +1,17 @@
 """
 Builds the preview PDF attached to the creator outreach pitch, with a
-personalized cover per creator (their own accent color + circular
-avatar, both pulled from official API data - see personalize.py) rather
-than an identical document for everyone.
+personalized cover per creator (their own accent color, drawn/derived -
+see personalize.py - rather than an identical document for everyone).
 
 Content has to actually be real and useful, same principle as the
 auto-generated demo sites in biz-outreach - this proves the "digital
 product" claim in the email is true.
+
+Uses embedded serif/sans fonts (DejaVu Serif for headings, Liberation
+Sans for body) instead of the PDF built-in Helvetica default, and a
+thin accent-colored header bar on every body page for a more designed,
+less "default reportlab doc" look - all from fonts already on disk, no
+network dependency.
 """
 
 import io
@@ -17,17 +22,36 @@ from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import inch
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas as pdfcanvas
 from reportlab.platypus import (Flowable, HRFlowable, PageBreak, Paragraph,
                                  SimpleDocTemplate, Spacer)
 from pypdf import PdfReader, PdfWriter
+
+FONT_DIR_DEJAVU = "/usr/share/fonts/truetype/dejavu"
+FONT_DIR_LIBERATION = "/usr/share/fonts/truetype/liberation"
+
+_FONTS_REGISTERED = False
+
+
+def _register_fonts():
+    global _FONTS_REGISTERED
+    if _FONTS_REGISTERED:
+        return
+    pdfmetrics.registerFont(TTFont("Serif", os.path.join(FONT_DIR_DEJAVU, "DejaVuSerif.ttf")))
+    pdfmetrics.registerFont(TTFont("Serif-Bold", os.path.join(FONT_DIR_DEJAVU, "DejaVuSerif-Bold.ttf")))
+    pdfmetrics.registerFont(TTFont("Sans", os.path.join(FONT_DIR_LIBERATION, "LiberationSans-Regular.ttf")))
+    pdfmetrics.registerFont(TTFont("Sans-Bold", os.path.join(FONT_DIR_LIBERATION, "LiberationSans-Bold.ttf")))
+    pdfmetrics.registerFont(TTFont("Sans-Italic", os.path.join(FONT_DIR_LIBERATION, "LiberationSans-Italic.ttf")))
+    _FONTS_REGISTERED = True
 
 
 class IconBadge(Flowable):
     """A small drawn (not fetched) numbered circle badge - a real generated
     image with zero network dependency or copyright risk."""
 
-    def __init__(self, number: int, color_hex: str, size: float = 0.42 * inch):
+    def __init__(self, number: int, color_hex: str, size: float = 0.44 * inch):
         super().__init__()
         self.number = number
         self.color = colors.HexColor(color_hex)
@@ -40,8 +64,9 @@ class IconBadge(Flowable):
         c.setFillColor(self.color)
         c.circle(self.size / 2, self.size / 2, self.size / 2, fill=1, stroke=0)
         c.setFillColor(colors.white)
-        c.setFont("Helvetica-Bold", self.size * 0.5)
+        c.setFont("Serif-Bold", self.size * 0.5)
         c.drawCentredString(self.size / 2, self.size / 2 - self.size * 0.17, str(self.number))
+
 
 DEFAULT_OUTPUT = os.path.join("assets", "listen_first_preview.pdf")
 DEFAULT_ACCENT = "#1f2937"
@@ -52,18 +77,22 @@ styles = getSampleStyleSheet()
 def _styles(accent_hex: str):
     accent = colors.HexColor(accent_hex)
     return {
-        "h1": ParagraphStyle("H1", parent=styles["Heading1"], fontSize=18,
-                              spaceBefore=18, spaceAfter=10, textColor=accent),
-        "h2": ParagraphStyle("H2", parent=styles["Heading2"], fontSize=13,
-                              spaceBefore=12, spaceAfter=6, textColor=colors.HexColor("#1f2937")),
-        "body": ParagraphStyle("Body", parent=styles["Normal"], fontSize=11,
-                                leading=16, spaceAfter=10),
-        "script": ParagraphStyle("Script", parent=styles["Normal"], fontSize=11, leading=16,
-                                  leftIndent=18, textColor=colors.HexColor("#374151"),
-                                  spaceAfter=10, backColor=colors.HexColor("#f3f4f6"),
-                                  borderPadding=8),
-        "footer": ParagraphStyle("Footer", parent=styles["Normal"], fontSize=9,
-                                  textColor=colors.HexColor("#9ca3af"), alignment=TA_CENTER),
+        "h1": ParagraphStyle("H1", parent=styles["Heading1"], fontName="Serif-Bold",
+                              fontSize=19, leading=23, spaceBefore=18, spaceAfter=10,
+                              textColor=accent),
+        "h2": ParagraphStyle("H2", parent=styles["Heading2"], fontName="Sans-Bold",
+                              fontSize=12, spaceBefore=12, spaceAfter=6,
+                              textColor=colors.HexColor("#1f2937")),
+        "body": ParagraphStyle("Body", parent=styles["Normal"], fontName="Sans",
+                                fontSize=10.5, leading=16, spaceAfter=10,
+                                textColor=colors.HexColor("#27272a")),
+        "script": ParagraphStyle("Script", parent=styles["Normal"], fontName="Sans",
+                                  fontSize=10.5, leading=16, leftIndent=18,
+                                  textColor=colors.HexColor("#374151"), spaceAfter=10,
+                                  backColor=colors.HexColor("#f3f4f6"), borderPadding=10),
+        "footer": ParagraphStyle("Footer", parent=styles["Normal"], fontName="Sans-Italic",
+                                  fontSize=9, textColor=colors.HexColor("#9ca3af"),
+                                  alignment=TA_CENTER),
         "accent": accent,
     }
 
@@ -85,6 +114,8 @@ def _build_cover(accent_hex: str, channel_title: str, avatar_path: str = None) -
     c.circle(width * 0.85, height * 0.88, 2.2 * inch, fill=1, stroke=0)
     c.setFillColor(colors.Color(1, 1, 1, alpha=0.05))
     c.circle(width * 0.1, height * 0.1, 1.6 * inch, fill=1, stroke=0)
+    c.setFillColor(colors.Color(1, 1, 1, alpha=0.04))
+    c.circle(width * 0.5, height * 0.42, 3 * inch, fill=1, stroke=0)
 
     if avatar_path and os.path.exists(avatar_path):
         avatar_size = 1.4 * inch
@@ -95,26 +126,47 @@ def _build_cover(accent_hex: str, channel_title: str, avatar_path: str = None) -
         )
         title_y = height - 3.4 * inch
     else:
-        title_y = height - 2.6 * inch
+        title_y = height - 2.7 * inch
+
+    # Thin rule above the title, a common editorial/book-cover motif.
+    c.setStrokeColor(colors.white)
+    c.setLineWidth(1)
+    c.line(width / 2 - 0.6 * inch, title_y + 0.55 * inch, width / 2 + 0.6 * inch, title_y + 0.55 * inch)
 
     c.setFillColor(colors.white)
-    c.setFont("Helvetica-Bold", 30)
+    c.setFont("Serif-Bold", 32)
     c.drawCentredString(width / 2, title_y, "Listen First")
 
-    c.setFont("Helvetica", 14)
-    c.drawCentredString(width / 2, title_y - 0.4 * inch,
+    c.setFont("Sans", 13)
+    c.drawCentredString(width / 2, title_y - 0.42 * inch,
                          "A Parent's Guide to Getting Kids to Actually Listen")
 
     if channel_title:
-        c.setFont("Helvetica-Oblique", 12)
-        c.drawCentredString(width / 2, title_y - 0.9 * inch, f"Prepared for {channel_title}")
+        c.setFont("Sans-Italic", 11.5)
+        c.drawCentredString(width / 2, title_y - 0.92 * inch, f"Prepared for {channel_title}")
 
-    c.setFont("Helvetica", 10)
-    c.drawCentredString(width / 2, 1 * inch, "PREVIEW EDITION  -  4 of 12 chapters")
+    c.setFont("Sans", 9.5)
+    c.drawCentredString(width / 2, 1 * inch, "PREVIEW EDITION   |   4 of 12 chapters")
 
     c.save()
     buf.seek(0)
     return buf.read()
+
+
+def _header_footer(accent_hex: str):
+    accent = colors.HexColor(accent_hex)
+
+    def draw(canv, doc):
+        canv.saveState()
+        width, _ = letter
+        canv.setFillColor(accent)
+        canv.rect(0, letter[1] - 0.12 * inch, width, 0.12 * inch, fill=1, stroke=0)
+        canv.setFont("Sans", 8.5)
+        canv.setFillColor(colors.HexColor("#9ca3af"))
+        canv.drawRightString(width - 0.9 * inch, 0.55 * inch, f"Listen First - Preview - {doc.page}")
+        canv.restoreState()
+
+    return draw
 
 
 def _build_body(accent_hex: str) -> bytes:
@@ -122,12 +174,12 @@ def _build_body(accent_hex: str) -> bytes:
     buf = io.BytesIO()
     doc = SimpleDocTemplate(
         buf, pagesize=letter,
-        topMargin=0.9 * inch, bottomMargin=0.9 * inch,
+        topMargin=1.0 * inch, bottomMargin=0.9 * inch,
         leftMargin=0.9 * inch, rightMargin=0.9 * inch,
     )
     story = []
 
-    story.append(Paragraph("Why \"just listen\" doesn't work", s["h1"]))
+    story.append(Paragraph("Why “just listen” doesn't work", s["h1"]))
     story.append(HRFlowable(width="100%", color=s["accent"], thickness=1.2, spaceAfter=12))
     story.append(Paragraph(
         "Most advice about getting kids to listen focuses on the wrong moment: what to say "
@@ -218,13 +270,15 @@ def _build_body(accent_hex: str) -> bytes:
     story.append(Spacer(1, 0.4 * inch))
     story.append(Paragraph("Preview shared for review purposes - not for redistribution.", s["footer"]))
 
-    doc.build(story)
+    page_decorator = _header_footer(accent_hex)
+    doc.build(story, onFirstPage=page_decorator, onLaterPages=page_decorator)
     buf.seek(0)
     return buf.read()
 
 
 def build(output_path: str = DEFAULT_OUTPUT, *, channel_title: str = None,
           accent_color: str = DEFAULT_ACCENT, avatar_path: str = None):
+    _register_fonts()
     cover_bytes = _build_cover(accent_color, channel_title, avatar_path)
     body_bytes = _build_body(accent_color)
 

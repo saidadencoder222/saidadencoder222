@@ -60,6 +60,7 @@ def upsert_lead(conn, *, place_id, name, category, address, phone, email,
         """,
         (place_id, name, category, address, phone, email, email_source, demo_url, now()),
     )
+    conn.commit()
 
 
 def is_unsubscribed(conn, email: str) -> bool:
@@ -74,6 +75,7 @@ def add_unsubscribe(conn, email: str):
         "INSERT OR IGNORE INTO unsubscribes (email, unsubscribed_at) VALUES (?, ?)",
         (email, now()),
     )
+    conn.commit()
 
 
 def touches_sent(conn, place_id: str) -> int:
@@ -99,6 +101,10 @@ def record_send(conn, *, place_id, touch_number, subject, gmail_message_id):
         """,
         (place_id, touch_number, subject, gmail_message_id, now()),
     )
+    # Committed immediately, not just at the end of the batch's `with connect()`
+    # block - a kill/crash mid-batch must never lose the record of a send that
+    # actually went out (an email can't be un-sent, so this must survive).
+    conn.commit()
 
 
 def leads_with_email(conn):

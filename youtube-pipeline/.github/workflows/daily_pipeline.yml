@@ -1,0 +1,49 @@
+# Runs the pipeline 3x/day. Uses a SELF-HOSTED runner deliberately: the
+# clip_bank/ footage lives only on your machine (it's gitignored and must
+# never be pushed to GitHub — see clip_bank/README.md), so a GitHub-hosted
+# runner has no way to reach it. Set this machine up as a self-hosted
+# runner for this repo first: Settings -> Actions -> Runners -> New
+# self-hosted runner.
+#
+# Secrets required (Settings -> Secrets and variables -> Actions):
+#   ANTHROPIC_API_KEY, YOUTUBE_CLIENT_ID, YOUTUBE_CLIENT_SECRET,
+#   YOUTUBE_REFRESH_TOKEN (see scripts/get_youtube_refresh_token.py),
+#   and ELEVENLABS_API_KEY only if config.yaml's tts.provider is elevenlabs.
+
+name: Daily video pipeline
+
+on:
+  schedule:
+    - cron: "0 12 * * *"   # ~3 runs/day, spaced out; adjust to your timezone
+    - cron: "0 17 * * *"
+    - cron: "0 22 * * *"
+  workflow_dispatch: {}      # lets you trigger a run manually from the Actions tab
+
+jobs:
+  produce-and-upload:
+    runs-on: self-hosted
+    defaults:
+      run:
+        working-directory: youtube-pipeline
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install ffmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg fonts-dejavu-core
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run pipeline (one video)
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+        run: python main.py --count 1

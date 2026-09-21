@@ -1,0 +1,13 @@
+# Never commit copyrighted movie footage to this repo.
+clip_bank/**/*.mp4
+clip_bank/**/*.mov
+clip_bank/**/*.mkv
+clip_bank/**/*.webm
+
+# Local secrets and generated output.
+.env
+dry_run_output/
+data/state.json
+__pycache__/
+*.pyc
+.venv/

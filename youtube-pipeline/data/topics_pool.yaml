@@ -1,0 +1,38 @@
+# Seed pool of "Top 10 ... Moments" countdown topics — a proven long-form
+# YouTube format. `clip_tag` maps a topic to its folder under clip_bank/
+# (see clip_bank/README.md). A topic is only eligible to run once that
+# folder has clips in it; main.py/topics.py skip topics that aren't ready
+# rather than failing the whole run. When every topic here is used,
+# pipeline/topics.py asks Claude to brainstorm and append more.
+
+topics:
+  - title: "Top 10 Hulk Moments in the MCU"
+    clip_tag: "hulk"
+  - title: "Top 10 Iron Man Suit-Up Scenes"
+    clip_tag: "iron-man"
+  - title: "Top 10 Thor Moments in the MCU"
+    clip_tag: "thor"
+  - title: "Top 10 Spider-Man Fight Scenes"
+    clip_tag: "spider-man"
+  - title: "Top 10 Batman Fight Scenes"
+    clip_tag: "batman"
+  - title: "Top 10 Joker Moments in Movie History"
+    clip_tag: "joker"
+  - title: "Top 10 John Wick Fight Scenes"
+    clip_tag: "john-wick"
+  - title: "Top 10 Lord of the Rings Battle Moments"
+    clip_tag: "lotr"
+  - title: "Top 10 Star Wars Lightsaber Duels"
+    clip_tag: "star-wars"
+  - title: "Top 10 Fast & Furious Car Chase Moments"
+    clip_tag: "fast-and-furious"
+  - title: "Top 10 Avengers Team-Up Moments"
+    clip_tag: "avengers"
+  - title: "Top 10 Terminator Moments in Movie History"
+    clip_tag: "terminator"
+  - title: "Top 10 James Bond Action Scenes"
+    clip_tag: "james-bond"
+  - title: "Top 10 Rocky Training Montages and Fights"
+    clip_tag: "rocky"
+  - title: "Top 10 Harry Potter Duel Scenes"
+    clip_tag: "harry-potter"

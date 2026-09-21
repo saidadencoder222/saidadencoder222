@@ -1,0 +1,39 @@
+# Pipeline configuration. Secrets (API keys, OAuth tokens) come from
+# environment variables / GitHub Actions secrets, never from this file.
+
+niche:
+  category: "Movies — countdown / best-moments compilations"
+  topic_pool_file: "data/topics_pool.yaml"
+  state_file: "data/state.json"
+
+video:
+  words_per_minute: 150        # used to size each moment's narration
+  resolution: [1920, 1080]
+  fps: 30
+  caption_words_per_group: 7   # words per on-screen caption chunk
+
+llm:
+  provider: "anthropic"
+  model: "claude-sonnet-5"
+  max_tokens: 8000
+
+tts:
+  provider: "edge"                # "edge" (free, default) or "elevenlabs"
+  edge_voice: "en-US-GuyNeural"
+  elevenlabs_voice_id: ""         # required only if provider = elevenlabs
+
+clip_bank:
+  dir: "clip_bank"
+  max_moments: 10                 # clips used per video (a "Top 10")
+
+thumbnail:
+  size: [1280, 720]
+
+youtube:
+  privacy_status: "public"        # public | unlisted | private
+  category_id: "1"                # Film & Animation. 24 = Entertainment
+  made_for_kids: false
+
+run:
+  videos_per_invocation: 1        # main.py generates this many videos per run;
+                                   # "3 vids daily" = 3 scheduled cron triggers, see workflow

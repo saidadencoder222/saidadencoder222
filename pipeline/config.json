@@ -1,0 +1,16 @@
+{
+  "niche": "helping creators monetize their audiences",
+  "platforms": ["tiktok", "instagram_reels", "youtube_shorts"],
+  "audienceQuery": "Culture/Region: US/Western, English-speaking; Global: true; Demographics: creators and aspiring creators, 18-35, building an audience and looking to monetize through sponsorships, digital products, affiliate offers, or coaching;",
+  "seedQueries": [
+    { "query": "how creators make money from their audience", "embeddingType": "concept" },
+    { "query": "creator monetization hook", "embeddingType": "hook" },
+    { "query": "turn followers into income format", "embeddingType": "format" }
+  ],
+  "resultsPerPlatform": 5,
+  "creditBudget": {
+    "maxPerRun": 15,
+    "reserveFloor": 5
+  },
+  "scriptLengthMinutes": 1
+}

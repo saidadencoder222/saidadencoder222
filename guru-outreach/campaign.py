@@ -34,7 +34,7 @@ def _personalized_pdf_path(lead) -> str:
     path = os.path.join(GENERATED_DIR, f"{lead['channel_id']}.pdf")
     if not os.path.exists(path):
         accent = get_palette_accent(lead["channel_id"])
-        generate_audit.build(path, lead=lead, accent_color=accent)
+        generate_audit.build(path, lead=dict(lead), accent_color=accent)
     return path
 
 

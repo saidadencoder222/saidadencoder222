@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Growth Proposal for {{ channel.title }}</title>
+<style>
+  :root {
+    --bg: #0b0d12; --panel: #12151c; --text: #e8eaf0; --muted: #9aa1b2;
+    --accent: #6ee7b7; --high: #f87171; --medium: #fbbf24; --low: #60a5fa;
+    --border: #232735;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.55;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 48px 20px 96px; }
+  header { text-align: center; margin-bottom: 40px; }
+  header .eyebrow { color: var(--accent); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; font-weight: 600; }
+  header h1 { font-size: 28px; margin: 8px 0 4px; }
+  header p { color: var(--muted); margin: 0; }
+  .stats { display: flex; gap: 12px; justify-content: center; margin: 28px 0; flex-wrap: wrap; }
+  .stat { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 14px 20px; text-align: center; min-width: 120px; }
+  .stat .num { font-size: 20px; font-weight: 700; }
+  .stat .label { font-size: 12px; color: var(--muted); }
+  section { margin-top: 44px; }
+  section h2 { font-size: 18px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+  .finding { background: var(--panel); border: 1px solid var(--border); border-left: 3px solid var(--medium); border-radius: 10px; padding: 16px 18px; margin-bottom: 14px; }
+  .finding.high { border-left-color: var(--high); }
+  .finding.medium { border-left-color: var(--medium); }
+  .finding.low { border-left-color: var(--low); }
+  .finding .title { font-weight: 600; margin-bottom: 4px; }
+  .finding .detail { color: var(--muted); font-size: 14px; margin-bottom: 8px; }
+  .finding .suggestion { font-size: 14px; }
+  .finding .suggestion::before { content: "Fix → "; color: var(--accent); font-weight: 600; }
+  .proof { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; margin-bottom: 12px; }
+  .proof .result { font-weight: 600; color: var(--accent); }
+  .cta { text-align: center; margin-top: 56px; padding: 32px; background: var(--panel); border: 1px solid var(--border); border-radius: 16px; }
+  .cta a { display: inline-block; margin-top: 16px; background: var(--accent); color: #06251a; font-weight: 700; padding: 14px 28px; border-radius: 999px; text-decoration: none; }
+  footer { text-align: center; color: var(--muted); font-size: 12px; margin-top: 40px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Custom growth teardown</div>
+    <h1>{{ channel.title }}</h1>
+    <p>Prepared by {{ sender_name }} — a few things standing between where the channel is and where the monetization ceiling actually is.</p>
+  </header>
+
+  <div class="stats">
+    <div class="stat"><div class="num">{{ "{:,}".format(channel.subscriber_count) }}</div><div class="label">Subscribers</div></div>
+    <div class="stat"><div class="num">{{ "{:,}".format(channel.view_count) }}</div><div class="label">Total views</div></div>
+    <div class="stat"><div class="num">{{ channel.video_count }}</div><div class="label">Videos</div></div>
+  </div>
+
+  <section>
+    <h2>What's leaving money on the table</h2>
+    {% for f in findings %}
+    <div class="finding {{ f.severity }}">
+      <div class="title">{{ f.title }}</div>
+      <div class="detail">{{ f.detail }}</div>
+      <div class="suggestion">{{ f.suggestion }}</div>
+    </div>
+    {% endfor %}
+  </section>
+
+  <section>
+    <h2>Results for people in the same position</h2>
+    {% for p in social_proof %}
+    <div class="proof">
+      <div class="result">{{ p.result }}</div>
+      <div>{{ p.context }}</div>
+    </div>
+    {% endfor %}
+  </section>
+
+  <div class="cta">
+    <div>Want the full monetization roadmap built around these gaps — offer stack, funnel, and rollout plan?</div>
+    <a href="{{ booking_link }}">{{ cta_text }}</a>
+  </div>
+
+  <footer>
+    Sent to you because we researched {{ channel.title }} directly — no lists, no spam.
+    {% if unsubscribe_link %}<br><a href="{{ unsubscribe_link }}" style="color: var(--muted);">Opt out of future outreach</a>{% endif %}
+  </footer>
+</div>
+</body>
+</html>

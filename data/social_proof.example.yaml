@@ -1,0 +1,6 @@
+# Copy to social_proof.yaml and fill in with your own real results.
+# Never fabricate numbers here — these are your actual case studies.
+- result: "+42% email signups in 30 days"
+  context: "Added a single CTA link across a 90-video back catalog for a finance educator."
+- result: "3 new monetization streams launched"
+  context: "Built an offer ladder (freebie -> low-ticket -> cohort) for a course creator stuck on one product."

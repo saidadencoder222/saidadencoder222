@@ -9,12 +9,17 @@ safe. CC-BY/CC-BY-SA images require attribution, so we track it here and
 metadata.py appends it to the video description.
 """
 import os
+import time
 from dataclasses import dataclass
 
 import requests
 
 API_URL = "https://commons.wikimedia.org/w/api.php"
 HEADERS = {"User-Agent": "history-doc-pipeline/1.0 (educational documentary project)"}
+# Wikimedia rate-limits anonymous API clients; firing ~30 searches back-to-back
+# (one per visual cue) reliably triggers 429s without pacing/backoff.
+REQUEST_DELAY_S = 1.0
+MAX_RETRIES = 4
 
 
 @dataclass
@@ -35,22 +40,30 @@ class SourcedImage:
 
 
 def _search_commons_image(query: str, allowed_licenses: set[str]) -> dict | None:
-    resp = requests.get(
-        API_URL,
-        headers=HEADERS,
-        params={
-            "action": "query",
-            "format": "json",
-            "generator": "search",
-            "gsrsearch": f"{query} filetype:bitmap",
-            "gsrnamespace": 6,  # File: namespace
-            "gsrlimit": 8,
-            "prop": "imageinfo",
-            "iiprop": "url|extmetadata",
-            "iiurlwidth": 1600,
-        },
-        timeout=30,
-    )
+    backoff = 2.0
+    resp = None
+    for attempt in range(MAX_RETRIES):
+        resp = requests.get(
+            API_URL,
+            headers=HEADERS,
+            params={
+                "action": "query",
+                "format": "json",
+                "generator": "search",
+                "gsrsearch": f"{query} filetype:bitmap",
+                "gsrnamespace": 6,  # File: namespace
+                "gsrlimit": 8,
+                "prop": "imageinfo",
+                "iiprop": "url|extmetadata",
+                "iiurlwidth": 1600,
+            },
+            timeout=30,
+        )
+        if resp.status_code == 429 and attempt < MAX_RETRIES - 1:
+            time.sleep(backoff)
+            backoff *= 2
+            continue
+        break
     resp.raise_for_status()
     pages = resp.json().get("query", {}).get("pages", {})
 
@@ -86,6 +99,8 @@ def fetch_images(cfg: dict, keywords: list[str], out_dir: str, count_override: i
 
     results: list[SourcedImage] = []
     for i, keyword in enumerate(keywords[:max_images]):
+        if i > 0:
+            time.sleep(REQUEST_DELAY_S)  # pace requests, Commons rate-limits bursts
         found = _search_commons_image(keyword, allowed)
         if not found:
             continue

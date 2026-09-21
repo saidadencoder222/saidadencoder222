@@ -60,6 +60,12 @@ def generate_voiceover(cfg: dict, narration: str, audio_path: str, elevenlabs_ap
     if provider == "edge":
         timings = asyncio.run(_synthesize_edge(narration, cfg["tts"]["edge_voice"], audio_path))
         duration = (timings[-1].start_s + timings[-1].duration_s) if timings else 0.0
+        if duration <= 0:
+            raise RuntimeError(
+                "edge-tts returned no audio (0 seconds) — this usually means the connection "
+                "to Microsoft's speech service failed or was interrupted silently. Check your "
+                "internet connection and try again."
+            )
         return Voiceover(audio_path=audio_path, word_timings=timings, duration_s=duration)
 
     if provider == "elevenlabs":

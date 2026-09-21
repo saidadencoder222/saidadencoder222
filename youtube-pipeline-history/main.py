@@ -144,7 +144,10 @@ def run_once(
             print(f"[dry-run] output saved to {out_dir}/")
 
         state.record_upload(cfg["niche"]["state_file"], topic=topic, video_id=video_id, title=meta.title)
-    finally:
+    except Exception:
+        print(f"[error] run failed; temp files left at {workdir} for debugging")
+        raise
+    else:
         shutil.rmtree(workdir, ignore_errors=True)
 
 

@@ -8,3 +8,4 @@ leads.db-journal
 venv/
 assets/generated/
 proposal_page.html
+overnight_run.log

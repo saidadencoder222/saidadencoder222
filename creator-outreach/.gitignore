@@ -7,3 +7,4 @@ leads.db
 leads.db-journal
 venv/
 assets/generated/
+overnight_run.log

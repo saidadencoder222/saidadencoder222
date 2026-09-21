@@ -1,17 +1,13 @@
-SUBJECT: Re: A free audit of {channel_title}'s channel
+SUBJECT: Re: A complimentary audit of {channel_title}'s channel
 
-Hi again,
+Dear {channel_title} team,
 
-Following up in case this got buried - here's the audit page again for
-{channel_title}: {proposal_url}
+I am writing to follow up in case my previous email was overlooked. The audit page for {channel_title} remains available here: {proposal_url}
 
-Happy to jump on a call if any of it's useful. No upfront fees.
+I would welcome a conversation if any of it proves useful. This is the last time I will write regarding this matter.
 
-This is the last time I'll reach out about this.
-
-Best,
+Kind regards,
 {sender_name}
 
 ---
-Don't want to hear from me again? Reply with UNSUBSCRIBE in the subject
-line and I'll remove you immediately.
+If you would prefer not to hear from me again, please reply with UNSUBSCRIBE in the subject line and I will remove you immediately.

@@ -1,26 +1,17 @@
-SUBJECT: {product_name} - thought of {channel_title}
+SUBJECT: {product_name} - a potential fit for {channel_title}
 
-Hi there,
+Dear {channel_title} team,
 
-I'm {sender_name}, and I wrote {product_name} - a practical guide for
-getting kids to listen the first time, without the yelling or bribery
-cycle most advice defaults to. Your "{niche}" content came to mind, so
-rather than pitch it cold, I've attached a real preview to judge for
-yourself.
+I am {sender_name}, and I have written {product_name}, a practical guide to helping children listen the first time, without the shouting-and-bribery cycle most advice defaults to. Your "{niche}" content came to mind, so rather than pitch it cold, I have attached a genuine preview for you to judge for yourself.
 
-Worth flagging upfront: this preview is text-only for now - the full
-guide will include illustrations throughout, this draft doesn't, so
-it's best read as an example of the writing rather than the polished
-final version.
+Please note the preview is text-only at present. The completed guide will include illustrations throughout.
 
-If it's a fit, I'd love to talk about partnering to share it with your
-audience - happy to work around whatever format suits your channel.
+If it is a fit, I would welcome the opportunity to discuss a partnership to share it with your audience, structured however best suits your channel.
 
-Totally fine either way - no pressure, just wanted it in front of you.
+If it is not the right fit, no response is required.
 
-Best,
+Kind regards,
 {sender_name}
 
 ---
-Don't want to hear from me again? Reply with UNSUBSCRIBE in the subject
-line and I'll remove you immediately.
+If you would prefer not to hear from me again, please reply with UNSUBSCRIBE in the subject line and I will remove you immediately.

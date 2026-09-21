@@ -1,27 +1,17 @@
-SUBJECT: A free audit of {channel_title}'s channel
+SUBJECT: A complimentary audit of {channel_title}'s channel
 
-Hi {channel_title} team,
+Dear {channel_title} team,
 
-I'm {sender_name}. I ran a quick audit of your channel using publicly
-available YouTube data - upload timing, recent view counts, and your
-bio setup - and put together a page on it: what I noticed, plus a
-rundown of monetization angles that tend to fit a channel at your
-stage.
+My name is {sender_name}. I conducted a short audit of your channel using publicly available YouTube data - upload timing, recent view counts, and your channel description - and have set out the findings on a page, along with monetization approaches that tend to suit a channel at your stage.
 
 {proposal_url}
 
-Worth being upfront: this is built from YouTube data only, not a full
-audit of your other platforms or funnel - just what's actually visible
-publicly right now.
+For transparency, this audit is built from YouTube data alone. It does not account for your other platforms or funnel.
 
-If any of it's useful, happy to talk through it properly on a call.
-No upfront fees either way - we'd only agree terms after that.
+Should any of it be useful, I would welcome a conversation. There is no charge to begin - terms would only be agreed after that discussion.
 
-No pressure either way.
-
-Best,
+Kind regards,
 {sender_name}
 
 ---
-Don't want to hear from me again? Reply with UNSUBSCRIBE in the subject
-line and I'll remove you immediately.
+If you would prefer not to hear from me again, please reply with UNSUBSCRIBE in the subject line and I will remove you immediately.

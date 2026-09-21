@@ -1,24 +1,17 @@
-SUBJECT: {channel_title} - a quick channel audit
+SUBJECT: {channel_title} - a channel audit for your review
 
-Hi there,
+Dear {channel_title} team,
 
-I'm {sender_name}. I went through {channel_title}'s public YouTube data
-- posting cadence, recent views, bio setup - and put together a short
-audit plus a monetization rundown on a page, so you can judge it
-directly rather than take my word for it.
+My name is {sender_name}. I have reviewed {channel_title}'s public YouTube data - posting cadence, recent views, and channel description - and prepared a short audit along with a monetization overview, set out on a page so you may judge it directly.
 
 {proposal_url}
 
-Being straight about scope: this is YouTube-data-only, not a look at
-your other platforms or business internals.
+To be clear on scope, this reflects YouTube data only, not your other platforms or business operations.
 
-If it's useful, I'd like to talk it through - no upfront fees, terms
-only get agreed after that call. If it's not a fit, all good, no hard
-feelings either way.
+If it is of interest, I would welcome a conversation. There is no charge to begin; terms would only be agreed following that discussion.
 
-Best,
+Kind regards,
 {sender_name}
 
 ---
-Don't want to hear from me again? Reply with UNSUBSCRIBE in the subject
-line and I'll remove you immediately.
+If you would prefer not to hear from me again, please reply with UNSUBSCRIBE in the subject line and I will remove you immediately.

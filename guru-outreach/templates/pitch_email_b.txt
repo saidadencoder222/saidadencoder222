@@ -1,25 +1,17 @@
-SUBJECT: Noticed something on {channel_title}'s channel
+SUBJECT: An observation on {channel_title}'s channel
 
-Hey {channel_title},
+Dear {channel_title} team,
 
-Said here. I put together a short growth/monetization audit on your
-channel - pulled from your public upload history and bio, nothing
-behind the scenes - and put it on a page rather than just pitching you
-cold. It covers what I noticed plus a few monetization avenues worth
-layering in.
+My name is {sender_name}. I have prepared a short growth and monetization audit of your channel, drawn from your public upload history and channel description, and set it out on a page rather than pitching you without context. It covers what I noticed, along with monetization approaches worth considering.
 
 {proposal_url}
 
-Quick caveat: this only reflects what's visible on YouTube itself, not
-your other platforms or anything private about the business.
+Please note this reflects only what is visible on YouTube itself, not your other platforms or any internal business detail.
 
-Open to a call if any of it's useful - no upfront fees, we'd only
-agree terms after that conversation. If not, no worries, hope the
-audit's still a helpful read either way.
+I would welcome a conversation if any of it proves useful. There is no charge to begin; terms would only be agreed after we speak.
 
-Best,
+Kind regards,
 {sender_name}
 
 ---
-Don't want to hear from me again? Reply with UNSUBSCRIBE in the subject
-line and I'll remove you immediately.
+If you would prefer not to hear from me again, please reply with UNSUBSCRIBE in the subject line and I will remove you immediately.

@@ -1,25 +1,19 @@
-SUBJECT: A quick idea for {channel_title}
+SUBJECT: A resource that may suit {channel_title}
 
-Hey {channel_title},
+Dear {channel_title} team,
 
-Said here - I write {product_name}, a guide on getting kids to actually
-listen (no yelling, no bribing, no counting to three). Given your
-"{niche}" content, I thought it might be worth a look, so I've attached
-a real preview instead of just describing it.
+I am {sender_name}, author of {product_name}, a guide on helping children listen without shouting, bribery, or counting to three. Given the focus of your "{niche}" content, I thought it worth sharing directly.
 
-One honest caveat: this preview is just the text - the finished guide
-will have illustrations woven through it, this early version doesn't,
-so read it as a sample of the content rather than the final product.
+I have attached a genuine preview rather than a sales page, so you can evaluate the material itself.
 
-If it resonates, I'd genuinely like to explore a partnership around
-sharing it with your audience - open to whatever format works best for
-your channel.
+For transparency: this preview is text-only for now. The completed guide will include illustrations throughout.
 
-If it's not a fit, no worries at all, feel free to just enjoy the read.
+Should it be of interest, I would be glad to discuss a partnership around sharing it with your audience, in a format that fits your channel.
 
-Best,
+If it is not a fit, no response is necessary.
+
+Best regards,
 {sender_name}
 
 ---
-Don't want to hear from me again? Reply with UNSUBSCRIBE in the subject
-line and I'll remove you immediately.
+If you would prefer not to hear from me again, please reply with UNSUBSCRIBE in the subject line and I will remove you immediately.

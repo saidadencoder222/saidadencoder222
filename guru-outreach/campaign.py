@@ -17,7 +17,7 @@ from replies import process_unsubscribe_requests
 from storage import (connect, is_unsubscribed, last_sent_at, leads_with_email,
                       record_send, touches_sent)
 
-PROPOSAL_PAGE_URL = "https://claude.ai/artifact/NKDkQDP4T2viGdbiW7Rucn"
+PROPOSAL_PAGE_URL = "https://saidadencoder222.github.io/saidadencoder222/guru-outreach/pages/proposal.html"
 
 PITCH_VARIANTS = [
     "templates/pitch_email_a.txt",

@@ -1,0 +1,24 @@
+SUBJECT: A free audit of {channel_title}'s channel
+
+Hi {channel_title} team,
+
+I'm {sender_name}. I ran a quick audit of your channel using publicly
+available YouTube data - upload timing, recent view counts, and your
+bio setup - and found a couple of things worth a look, plus a rundown
+of monetization angles that tend to fit a channel at your stage.
+Attached, not just described.
+
+Worth being upfront: this is built from YouTube data only, not a full
+audit of your other platforms or funnel - just what's actually visible
+publicly right now.
+
+If any of it's useful, happy to talk through it properly on a call.
+
+No pressure either way.
+
+Best,
+{sender_name}
+
+---
+Don't want to hear from me again? Reply with UNSUBSCRIBE in the subject
+line and I'll remove you immediately.

@@ -1,0 +1,22 @@
+SUBJECT: Noticed something on {channel_title}'s channel
+
+Hey {channel_title},
+
+Said here. I put together a short growth/monetization audit on your
+channel - pulled from your public upload history and bio, nothing
+behind the scenes - and attached it rather than just pitching you cold.
+It covers what I noticed plus a few monetization avenues worth
+layering in.
+
+Quick caveat: this only reflects what's visible on YouTube itself, not
+your other platforms or anything private about the business.
+
+Open to a call if any of it's useful - if not, no worries, hope the
+audit's still a helpful read either way.
+
+Best,
+{sender_name}
+
+---
+Don't want to hear from me again? Reply with UNSUBSCRIBE in the subject
+line and I'll remove you immediately.

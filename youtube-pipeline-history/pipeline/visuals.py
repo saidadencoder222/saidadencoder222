@@ -1,0 +1,113 @@
+"""Sources real historical imagery from Wikimedia Commons — a genuinely
+public-domain / Creative-Commons-licensed archive, searchable via a free,
+keyless API. No scraping of copyrighted material, no manual asset prep:
+this is the piece that makes the pipeline actually zero-manual-work.
+
+Every image's license is checked against config.yaml's allowed_licenses
+before use; anything unlicensed or unclear is skipped rather than assumed
+safe. CC-BY/CC-BY-SA images require attribution, so we track it here and
+metadata.py appends it to the video description.
+"""
+import os
+from dataclasses import dataclass
+
+import requests
+
+API_URL = "https://commons.wikimedia.org/w/api.php"
+HEADERS = {"User-Agent": "history-doc-pipeline/1.0 (educational documentary project)"}
+
+
+@dataclass
+class SourcedImage:
+    path: str
+    title: str
+    author: str
+    license_short_name: str
+    source_url: str
+
+    @property
+    def needs_attribution(self) -> bool:
+        return not self.license_short_name.lower().startswith(("public domain", "pd-", "cc0"))
+
+    @property
+    def attribution_line(self) -> str:
+        return f'"{self.title}" by {self.author}, {self.license_short_name} (via Wikimedia Commons) — {self.source_url}'
+
+
+def _search_commons_image(query: str, allowed_licenses: set[str]) -> dict | None:
+    resp = requests.get(
+        API_URL,
+        headers=HEADERS,
+        params={
+            "action": "query",
+            "format": "json",
+            "generator": "search",
+            "gsrsearch": f"{query} filetype:bitmap",
+            "gsrnamespace": 6,  # File: namespace
+            "gsrlimit": 8,
+            "prop": "imageinfo",
+            "iiprop": "url|extmetadata",
+            "iiurlwidth": 1600,
+        },
+        timeout=30,
+    )
+    resp.raise_for_status()
+    pages = resp.json().get("query", {}).get("pages", {})
+
+    for page in pages.values():
+        infos = page.get("imageinfo")
+        if not infos:
+            continue
+        info = infos[0]
+        meta = info.get("extmetadata", {})
+        license_short = meta.get("LicenseShortName", {}).get("value", "")
+        if license_short not in allowed_licenses:
+            continue
+        return {
+            "title": page.get("title", "").removeprefix("File:"),
+            "author": _strip_html(meta.get("Artist", {}).get("value", "Unknown")),
+            "license_short_name": license_short,
+            "url": info.get("thumburl") or info.get("url"),
+            "source_url": info.get("descriptionurl", ""),
+        }
+    return None
+
+
+def _strip_html(text: str) -> str:
+    import re
+
+    return re.sub(r"<[^>]+>", "", text).strip() or "Unknown"
+
+
+def fetch_images(cfg: dict, keywords: list[str], out_dir: str, count_override: int | None = None) -> list[SourcedImage]:
+    os.makedirs(out_dir, exist_ok=True)
+    allowed = set(cfg["visuals"]["allowed_licenses"])
+    max_images = count_override if count_override is not None else cfg["visuals"]["pool_size"]
+
+    results: list[SourcedImage] = []
+    for i, keyword in enumerate(keywords[:max_images]):
+        found = _search_commons_image(keyword, allowed)
+        if not found:
+            continue
+        path = os.path.join(out_dir, f"img_{i:03d}.jpg")
+        with requests.get(found["url"], headers=HEADERS, stream=True, timeout=60) as r:
+            r.raise_for_status()
+            with open(path, "wb") as f:
+                for chunk in r.iter_content(chunk_size=1 << 20):
+                    f.write(chunk)
+        results.append(
+            SourcedImage(
+                path=path,
+                title=found["title"],
+                author=found["author"],
+                license_short_name=found["license_short_name"],
+                source_url=found["source_url"],
+            )
+        )
+
+    if not results:
+        raise RuntimeError(
+            "No properly-licensed images found on Wikimedia Commons for any of the "
+            f"visual cues: {keywords}. Try a topic with more archival coverage."
+        )
+    return results

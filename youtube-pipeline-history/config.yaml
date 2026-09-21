@@ -1,0 +1,61 @@
+# Pipeline configuration. Secrets (API keys, OAuth tokens) come from
+# environment variables / GitHub Actions secrets, never from this file.
+
+niche:
+  category: "History documentary"
+  topic_pool_file: "data/topics_pool.yaml"
+  state_file: "data/state.json"
+
+video:
+  target_minutes: 9                  # aim for the 7-11 min long-form range
+  words_per_minute: 145
+  resolution: [1920, 1080]
+  fps: 30
+  caption_words_per_group: 7
+  scene_seconds: 3.0                 # cut to a new scene roughly this often
+  ken_burns_zoom_range: 0.12         # 12% zoom over a still image's on-screen time
+  image_oversize_factor: 1.2         # image rendered larger than frame so zoom has room
+
+llm:
+  provider: "anthropic"
+  model: "claude-sonnet-5"
+  max_tokens: 8000
+
+tts:
+  provider: "edge"
+  edge_voice: "en-US-GuyNeural"
+  elevenlabs_voice_id: ""
+
+visuals:
+  pool_size: 40                      # unique visuals fetched per video, then
+                                      # cycled at scene_seconds cadence to fill runtime
+  try_archive_video_first: true      # try a real public-domain clip before falling back to a still
+  # Only images whose Commons license metadata matches one of these are used.
+  # Anything unlicensed/unclear is skipped rather than guessed about.
+  allowed_licenses:
+    - "Public domain"
+    - "PD-old"
+    - "PD-US"
+    - "PD-Art"
+    - "CC0"
+    - "CC BY 2.0"
+    - "CC BY 3.0"
+    - "CC BY 4.0"
+    - "CC BY-SA 3.0"
+    - "CC BY-SA 4.0"
+  # Optional: animate a share of the still images into short AI-generated
+  # clips via Stability AI's image-to-video API instead of a static Ken
+  # Burns zoom, for extra visual variety. Off by default — requires
+  # STABILITY_API_KEY and has NOT been live-tested (see pipeline/ai_clips.py).
+  ai_animate_fraction: 0.0
+
+thumbnail:
+  size: [1280, 720]
+
+youtube:
+  privacy_status: "public"
+  category_id: "27"     # Education
+  made_for_kids: false
+
+run:
+  videos_per_invocation: 1   # "3 vids daily" = 3 scheduled cron triggers, see workflow

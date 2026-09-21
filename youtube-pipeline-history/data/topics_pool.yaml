@@ -1,0 +1,26 @@
+# Seed pool of evergreen long-form history documentary topics. Images are
+# sourced live from Wikimedia Commons at run time (see pipeline/visuals.py)
+# so nothing here needs any manual asset prep — just pick topics with good
+# photographic/archival coverage on Commons.
+
+topics:
+  - "How the Titanic Actually Sank: The Full Story"
+  - "The Real Story Behind the Fall of the Roman Empire"
+  - "How the Wright Brothers Actually Invented Flight"
+  - "The True Story of the Chernobyl Disaster"
+  - "How Ancient Egypt Built the Pyramids"
+  - "The Real History of the Berlin Wall"
+  - "How the Black Death Changed the World Forever"
+  - "The True Story of the Apollo 11 Moon Landing"
+  - "How the Great Fire of London Reshaped a City"
+  - "The Real History of the Silk Road"
+  - "How the Wall Street Crash of 1929 Happened"
+  - "The True Story of the Trojan War's Historical Roots"
+  - "How the Panama Canal Was Actually Built"
+  - "The Real History of the Vikings"
+  - "How the Printing Press Changed Human History"
+  - "The True Story of the Hindenburg Disaster"
+  - "How Ancient Rome Actually Built Its Roads and Aqueducts"
+  - "The Real History of the Ottoman Empire's Rise"
+  - "How the Suez Canal Changed World Trade"
+  - "The True Story of Pompeii's Final Hours"

@@ -1,0 +1,6 @@
+.env
+dry_run_output/
+data/state.json
+__pycache__/
+*.pyc
+.venv/

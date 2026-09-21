@@ -43,11 +43,32 @@ def _maybe_animate_pool(cfg: dict, pool: list[scene_pool.Scene], workdir: str, s
             scene.path = out_path
 
 
-def run_once(cfg: dict, anthropic_client, elevenlabs_key: str | None, stability_key: str | None, dry_run: bool) -> None:
-    topic = topics_mod.next_topic(cfg, anthropic_client)
+def run_once(
+    cfg: dict,
+    anthropic_client,
+    elevenlabs_key: str | None,
+    stability_key: str | None,
+    dry_run: bool,
+    topic_override: str | None = None,
+    script_file: str | None = None,
+    metadata_file: str | None = None,
+) -> None:
+    if topic_override:
+        topic = topic_override
+    else:
+        topic = topics_mod.next_topic(cfg, anthropic_client)
     print(f"[topic] {topic}")
 
-    script = script_writer.generate_script(cfg, anthropic_client, topic)
+    if script_file:
+        script = script_writer.load_script_from_file(script_file, topic)
+        print(f"[script] loaded from {script_file}")
+    else:
+        if anthropic_client is None:
+            raise RuntimeError(
+                "No ANTHROPIC_API_KEY set and no --script-file given — nothing to write the "
+                "script with. Either set the key, or pass --script-file (and --topic)."
+            )
+        script = script_writer.generate_script(cfg, anthropic_client, topic)
     print(f"[script] {len(script.narration.split())} words, {len(script.visual_cues)} visual cues")
 
     workdir = tempfile.mkdtemp(prefix="ytpipeline_")
@@ -70,7 +91,16 @@ def run_once(cfg: dict, anthropic_client, elevenlabs_key: str | None, stability_
         print(f"[video] built {video_path}")
 
         used_images = [s.attribution for s in pool if s.kind == "image" and s.attribution]
-        meta = metadata_mod.generate_metadata(cfg, anthropic_client, topic, script.narration, used_images)
+        if metadata_file:
+            meta = metadata_mod.load_metadata_from_file(metadata_file, used_images)
+            print(f"[metadata] loaded from {metadata_file}")
+        else:
+            if anthropic_client is None:
+                raise RuntimeError(
+                    "No ANTHROPIC_API_KEY set and no --metadata-file given — nothing to write "
+                    "the title/description with. Either set the key, or pass --metadata-file."
+                )
+            meta = metadata_mod.generate_metadata(cfg, anthropic_client, topic, script.narration, used_images)
         print(f"[metadata] title: {meta.title}")
 
         thumb_bg = next((s.path for s in pool if s.kind == "image"), None)
@@ -122,18 +152,40 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--count", type=int, default=None, help="Videos to produce this run")
     parser.add_argument("--dry-run", action="store_true", help="Skip the YouTube upload step")
+    parser.add_argument(
+        "--topic", default=None,
+        help="Use this exact topic instead of picking one from data/topics_pool.yaml",
+    )
+    parser.add_argument(
+        "--script-file", default=None,
+        help="Use a pre-written script (e.g. pasted from a Claude chat) instead of calling "
+             "the Anthropic API. Requires --topic. Same [VISUAL: ...] cue format as the "
+             "auto-generated scripts.",
+    )
+    parser.add_argument(
+        "--metadata-file", default=None,
+        help='Use pre-written title/description/tags instead of calling the API. JSON: '
+             '{"title": "...", "description": "...", "tags": [...]}',
+    )
     args = parser.parse_args()
+
+    if args.script_file and not args.topic:
+        parser.error("--script-file requires --topic")
 
     cfg = load_config()
     count = args.count or cfg["run"]["videos_per_invocation"]
 
-    anthropic_client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+    api_key = os.environ.get("ANTHROPIC_API_KEY")
+    anthropic_client = anthropic.Anthropic(api_key=api_key) if api_key else None
     elevenlabs_key = os.environ.get("ELEVENLABS_API_KEY")
     stability_key = os.environ.get("STABILITY_API_KEY")
 
     for i in range(count):
         print(f"=== video {i + 1}/{count} ===")
-        run_once(cfg, anthropic_client, elevenlabs_key, stability_key, args.dry_run)
+        run_once(
+            cfg, anthropic_client, elevenlabs_key, stability_key, args.dry_run,
+            topic_override=args.topic, script_file=args.script_file, metadata_file=args.metadata_file,
+        )
 
 
 if __name__ == "__main__":

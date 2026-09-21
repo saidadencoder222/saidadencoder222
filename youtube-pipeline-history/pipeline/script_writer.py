@@ -57,3 +57,19 @@ def generate_script(cfg: dict, anthropic_client, topic: str) -> Script:
         visual_cues = [topic]
 
     return Script(title_seed=topic, narration=narration, visual_cues=visual_cues)
+
+
+def load_script_from_file(path: str, topic: str) -> Script:
+    """Loads a script someone else wrote (e.g. pasted from a Claude chat)
+    instead of calling the API. Same [VISUAL: ...] cue format as above."""
+    with open(path, "r", encoding="utf-8") as f:
+        raw = f.read()
+
+    visual_cues = VISUAL_CUE_RE.findall(raw)
+    narration = VISUAL_CUE_RE.sub("", raw)
+    narration = re.sub(r"\n{2,}", "\n\n", narration).strip()
+
+    if not visual_cues:
+        visual_cues = [topic]
+
+    return Script(title_seed=topic, narration=narration, visual_cues=visual_cues)

@@ -40,7 +40,19 @@ def generate_metadata(cfg: dict, anthropic_client, topic: str, narration: str, i
     if not match:
         raise RuntimeError(f"Metadata generation did not return JSON: {raw[:300]}")
     data = json.loads(match.group(0))
+    return _to_metadata(data, images)
 
+
+def load_metadata_from_file(path: str, images: list[SourcedImage]) -> Metadata:
+    """Loads title/description/tags someone else wrote (e.g. pasted from a
+    Claude chat) instead of calling the API. Expects a JSON file:
+    {"title": "...", "description": "...", "tags": ["...", ...]}"""
+    with open(path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    return _to_metadata(data, images)
+
+
+def _to_metadata(data: dict, images: list[SourcedImage]) -> Metadata:
     description = data["description"].strip()
     attributions = [img.attribution_line for img in images if img.needs_attribution]
     if attributions:

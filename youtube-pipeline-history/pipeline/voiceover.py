@@ -25,7 +25,9 @@ class Voiceover:
 
 
 async def _synthesize_edge(text: str, voice: str, audio_path: str) -> list[WordTiming]:
-    communicate = edge_tts.Communicate(text, voice)
+    # edge-tts >=7 defaults to boundary="SentenceBoundary"; we need word-level
+    # timing for caption sync, so request it explicitly.
+    communicate = edge_tts.Communicate(text, voice, boundary="WordBoundary")
     timings: list[WordTiming] = []
     with open(audio_path, "wb") as f:
         async for chunk in communicate.stream():

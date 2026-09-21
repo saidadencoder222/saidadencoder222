@@ -67,8 +67,15 @@ def find_businesses_without_website(api_key: str, query: str, *, max_results: in
         if resp.status_code != 200:
             raise RuntimeError(f"Places API error: {resp.status_code} {resp.text}")
         data = resp.json()
+        places_on_page = data.get("places", [])
 
-        for place in data.get("places", []):
+        # The API can keep returning a nextPageToken even once results are
+        # actually exhausted (an empty page with a token pointing nowhere) -
+        # an empty page is the reliable signal to stop, not just a missing token.
+        if not places_on_page:
+            break
+
+        for place in places_on_page:
             if len(leads) >= max_results:
                 break
 

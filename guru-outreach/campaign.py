@@ -85,6 +85,54 @@ def _irregular_gap_seconds(remaining_sends: int, seconds_left: float) -> float:
     return max(90, min(gap, 2700))  # clamp: 1.5 min - 45 min
 
 
+def send_one_pending(sender_email: str):
+    """Sends exactly one due lead's email and returns info about it, or
+    None if nothing is currently due. Meant to be called once per
+    scheduled wake-up rather than looping/sleeping in-process, since a
+    long-lived sleeping process isn't guaranteed to survive between turns
+    in this environment."""
+    service = get_gmail_service()
+
+    unsub_count = process_unsubscribe_requests(service, CONFIG.db_path)
+    if unsub_count:
+        print(f"Recorded {unsub_count} unsubscribe(s).")
+
+    with connect(CONFIG.db_path) as conn:
+        for lead in leads_with_email(conn):
+            if is_unsubscribed(conn, lead["email"]):
+                continue
+            touch = _due_for_next_touch(conn, lead)
+            if touch is None:
+                continue
+
+            subject_tpl, body_tpl = _load_template(touch, lead["channel_id"])
+            if subject_tpl is None:
+                continue
+
+            subject = _render(subject_tpl, lead, sender_email)
+            body = _render(body_tpl, lead, sender_email)
+
+            message_id = send_email(
+                service,
+                to_addr=lead["email"],
+                from_name=f"{CONFIG.sender_name} <{sender_email}>",
+                subject=subject,
+                body=body,
+                reply_to=sender_email,
+            )
+            record_send(
+                conn,
+                channel_id=lead["channel_id"],
+                touch_number=touch,
+                subject=subject,
+                gmail_message_id=message_id,
+            )
+            print(f"[{datetime.now(timezone.utc).isoformat()}] Sent touch {touch} to {lead['title']} <{lead['email']}>")
+            return {"title": lead["title"], "email": lead["email"], "touch": touch}
+
+    return None
+
+
 def run_campaign_batch(sender_email: str, count: int = None, window_end: datetime = None):
     """count overrides CONFIG.daily_send_limit for this run (e.g. a one-off
     overnight batch); window_end, if given, is a tz-aware UTC datetime the

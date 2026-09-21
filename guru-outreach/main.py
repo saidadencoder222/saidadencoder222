@@ -53,6 +53,13 @@ def cmd_send_campaign(args):
     run_campaign_batch(sender_email=args.sender_email)
 
 
+def cmd_send_one(args):
+    from campaign import send_one_pending
+    result = send_one_pending(sender_email=args.sender_email)
+    if result is None:
+        print("Nothing due to send.")
+
+
 def cmd_send_tonight(args):
     import time
     from datetime import datetime, timezone
@@ -104,6 +111,10 @@ def build_parser():
     p_send = sub.add_parser("send-campaign", help="Send one batch of pitches/follow-ups")
     p_send.add_argument("--sender-email", required=True)
     p_send.set_defaults(func=cmd_send_campaign)
+
+    p_one = sub.add_parser("send-one", help="Send exactly one due lead's email and exit")
+    p_one.add_argument("--sender-email", required=True)
+    p_one.set_defaults(func=cmd_send_one)
 
     p_tonight = sub.add_parser("send-tonight", help="One-off overnight batch with irregular pacing across a window")
     p_tonight.add_argument("--sender-email", required=True)

@@ -267,6 +267,12 @@ def _build_body(accent_hex: str) -> bytes:
         "scripts from toddler through preteen.",
         s["body"],
     ))
+    story.append(Paragraph(
+        "Note: this preview is text-only. The finished guide includes illustrations throughout - "
+        "this early copy doesn't, so treat it as an example of the writing and content rather "
+        "than the final polished layout.",
+        s["footer"],
+    ))
     story.append(Spacer(1, 0.4 * inch))
     story.append(Paragraph("Preview shared for review purposes - not for redistribution.", s["footer"]))
 

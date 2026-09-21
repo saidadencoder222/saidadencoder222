@@ -1,0 +1,26 @@
+SUBJECT: {product_name} - thought of {channel_title}
+
+Hi there,
+
+I'm {sender_name}, and I wrote {product_name} - a practical guide for
+getting kids to listen the first time, without the yelling or bribery
+cycle most advice defaults to. Your "{niche}" content came to mind, so
+rather than pitch it cold, I've attached a real preview to judge for
+yourself.
+
+Worth flagging upfront: this preview is text-only for now - the full
+guide will include illustrations throughout, this draft doesn't, so
+it's best read as an example of the writing rather than the polished
+final version.
+
+If it's a fit, I'd love to talk about partnering to share it with your
+audience - happy to work around whatever format suits your channel.
+
+Totally fine either way - no pressure, just wanted it in front of you.
+
+Best,
+{sender_name}
+
+---
+Don't want to hear from me again? Reply with UNSUBSCRIBE in the subject
+line and I'll remove you immediately.

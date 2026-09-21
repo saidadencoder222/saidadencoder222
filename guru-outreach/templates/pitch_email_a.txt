@@ -1,14 +1,14 @@
-SUBJECT: A complimentary audit of {channel_title}'s channel
+SUBJECT: {channel_title} - three things holding your channel back
 
 Dear {channel_title} team,
 
-My name is {sender_name}. I conducted a short audit of your channel using publicly available YouTube data - upload timing, recent view counts, and your channel description - and have set out the findings on a page, along with monetization approaches that tend to suit a channel at your stage.
+I pulled your public YouTube data - upload cadence, recent view counts, channel description - and found a few specific, fixable gaps most channels at your stage don't notice themselves. I've written them up on a page along with the monetization paths that tend to fit a channel your size:
 
 {proposal_url}
 
-For transparency, this audit is built from YouTube data alone. It does not account for your other platforms or funnel.
+To be clear on scope: this is built from YouTube data alone, not your other platforms or funnel.
 
-Should any of it be useful, I would welcome a conversation. There is no charge to begin - terms would only be agreed after that discussion.
+If any of it's useful, I'd welcome a conversation. There's no charge to start - terms only get discussed once we've actually talked.
 
 Kind regards,
 {sender_name}

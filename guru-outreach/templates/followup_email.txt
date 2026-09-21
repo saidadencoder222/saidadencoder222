@@ -1,10 +1,12 @@
-SUBJECT: Re: A complimentary audit of {channel_title}'s channel
+SUBJECT: Re: A free audit of {channel_title}'s channel
 
 Dear {channel_title} team,
 
-I am writing to follow up in case my previous email was overlooked. The audit page for {channel_title} remains available here: {proposal_url}
+Following up in case this got buried. The audit page for {channel_title} is still up here:
 
-I would welcome a conversation if any of it proves useful. This is the last time I will write regarding this matter.
+{proposal_url}
+
+Happy to talk if any of it's useful. This is the last time I'll write about it.
 
 Kind regards,
 {sender_name}

@@ -1,14 +1,14 @@
-SUBJECT: {channel_title} - a channel audit for your review
+SUBJECT: {channel_title} - a free audit, no catch
 
 Dear {channel_title} team,
 
-My name is {sender_name}. I have reviewed {channel_title}'s public YouTube data - posting cadence, recent views, and channel description - and prepared a short audit along with a monetization overview, set out on a page so you may judge it directly.
+I'm {sender_name}. I audited {channel_title} using your public upload history, recent views, and channel description, and laid out what I found on a page - specific gaps, not generic advice, plus monetization paths worth considering at your stage:
 
 {proposal_url}
 
-To be clear on scope, this reflects YouTube data only, not your other platforms or business operations.
+For transparency: this reflects YouTube data only, nothing about your other platforms or business.
 
-If it is of interest, I would welcome a conversation. There is no charge to begin; terms would only be agreed following that discussion.
+If it's useful, I'd welcome a conversation. No charge to begin - terms would only be agreed after that discussion.
 
 Kind regards,
 {sender_name}

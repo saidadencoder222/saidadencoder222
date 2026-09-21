@@ -1,14 +1,16 @@
-SUBJECT: {product_name} - a potential fit for {channel_title}
+SUBJECT: {product_name} - built for a "{niche}" audience
 
 Dear {channel_title} team,
 
-I am {sender_name}, and I have written {product_name}, a practical guide to helping children listen the first time, without the shouting-and-bribery cycle most advice defaults to. Your "{niche}" content came to mind, so rather than pitch it cold, I have attached a genuine preview for you to judge for yourself.
+I'm {sender_name}. I wrote {product_name}, a parenting guide built around one problem: getting kids to listen the first time, without the shouting-and-bribery loop most advice quietly assumes you'll fall back into.
 
-Please note the preview is text-only at present. The completed guide will include illustrations throughout.
+Your "{niche}" content is exactly the kind of place this belongs, so instead of a cold pitch, here's a real preview to judge for yourself:
 
-If it is a fit, I would welcome the opportunity to discuss a partnership to share it with your audience, structured however best suits your channel.
+{proposal_url}
 
-If it is not the right fit, no response is required.
+No cost, no commitment. If it's a fit, I'd welcome a conversation about a partnership structured however suits your channel best - a mention, a review, an affiliate arrangement.
+
+If it's not the right fit, no response is required.
 
 Kind regards,
 {sender_name}

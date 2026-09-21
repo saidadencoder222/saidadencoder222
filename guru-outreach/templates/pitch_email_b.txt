@@ -1,14 +1,14 @@
-SUBJECT: An observation on {channel_title}'s channel
+SUBJECT: An honest read on {channel_title}
 
 Dear {channel_title} team,
 
-My name is {sender_name}. I have prepared a short growth and monetization audit of your channel, drawn from your public upload history and channel description, and set it out on a page rather than pitching you without context. It covers what I noticed, along with monetization approaches worth considering.
+Most "grow your channel" pitches are generic enough to send to anyone. This isn't that - I looked at your actual upload history and channel description and wrote up what I found, plus the monetization moves that fit where your channel is right now:
 
 {proposal_url}
 
-Please note this reflects only what is visible on YouTube itself, not your other platforms or any internal business detail.
+Worth saying plainly: this only reflects what's visible on YouTube itself, not your other platforms or anything internal to your business.
 
-I would welcome a conversation if any of it proves useful. There is no charge to begin; terms would only be agreed after we speak.
+If any of it lands, I'd welcome a conversation. Nothing to pay to start - terms would only come up after we speak.
 
 Kind regards,
 {sender_name}

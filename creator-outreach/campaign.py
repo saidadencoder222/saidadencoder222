@@ -4,24 +4,26 @@ past `followup_after_days` with no reply get a single follow-up, capped at
 `max_touches` total per lead. Meant to be invoked periodically (e.g. once
 a day via cron/systemd timer) rather than looped in-process, so a crash
 never means duplicate sends.
+
+Each pitch links to a hosted, personalized proposal page (built by
+build_proposal_page.py) rather than a PDF attachment - the page loads the
+creator's real thumbnail client-side, which a server-generated PDF can't
+do in this sandbox.
 """
 
 import hashlib
-import os
 import random
 import time
 from datetime import datetime, timedelta, timezone
 
-import generate_preview
 from config import CONFIG
 from gmail_auth import get_gmail_service
 from gmail_sender import send_email
-from personalize import get_palette_accent
 from replies import process_unsubscribe_requests
 from storage import (connect, is_unsubscribed, last_sent_at, leads_with_email,
                       record_send, touches_sent)
 
-GENERATED_DIR = os.path.join("assets", "generated")
+PROPOSAL_PAGE_URL = "https://saidadencoder222.github.io/saidadencoder222/creator-outreach/pages/proposal.html"
 
 PITCH_VARIANTS = [
     "templates/pitch_email_a.txt",
@@ -30,14 +32,8 @@ PITCH_VARIANTS = [
 ]
 
 
-def _personalized_pdf_path(lead) -> str:
-    """Builds (or reuses) a per-creator colored preview PDF for this lead."""
-    os.makedirs(GENERATED_DIR, exist_ok=True)
-    path = os.path.join(GENERATED_DIR, f"{lead['channel_id']}.pdf")
-    if not os.path.exists(path):
-        accent = get_palette_accent(lead["channel_id"])
-        generate_preview.build(path, channel_title=lead["title"], accent_color=accent)
-    return path
+def _proposal_url(channel_id: str) -> str:
+    return f"{PROPOSAL_PAGE_URL}?id={channel_id}"
 
 
 def _pitch_template_for(channel_id: str) -> str:
@@ -68,6 +64,7 @@ def _render(text: str, lead, sender_email: str) -> str:
         niche=lead["niche"] or "your niche",
         product_name=CONFIG.product_name,
         sender_name=CONFIG.sender_name,
+        proposal_url=_proposal_url(lead["channel_id"]),
     )
 
 
@@ -86,21 +83,40 @@ def _due_for_next_touch(conn, lead) -> int:
     return sent + 1
 
 
-def run_campaign_batch(sender_email: str):
+def _irregular_gap_seconds(remaining_sends: int, seconds_left: float) -> float:
+    """Irregular pacing: mixes short and long gaps (rather than a narrow
+    uniform range) while still adapting to however much time and how many
+    sends are actually left, so the batch still spans the intended window."""
+    if remaining_sends <= 1 or seconds_left <= 0:
+        return 0
+    avg = seconds_left / remaining_sends
+    if random.random() < 0.4:
+        gap = random.uniform(0.08, 0.3) * avg   # a short gap, e.g. ~2 min
+    else:
+        gap = random.uniform(0.6, 2.1) * avg    # a longer gap, e.g. ~8-20 min
+    return max(90, min(gap, 2700))  # clamp: 1.5 min - 45 min
+
+
+def run_campaign_batch(sender_email: str, count: int = None, window_end: datetime = None):
+    """count overrides CONFIG.daily_send_limit for this run (e.g. a one-off
+    overnight batch); window_end, if given, is a tz-aware UTC datetime the
+    irregular pacing paces sends against instead of a fixed per-send delay."""
     service = get_gmail_service()
 
     unsub_count = process_unsubscribe_requests(service, CONFIG.db_path)
     if unsub_count:
         print(f"Recorded {unsub_count} unsubscribe(s).")
 
+    limit = count if count is not None else CONFIG.daily_send_limit
+
     sent_this_run = 0
     with connect(CONFIG.db_path) as conn:
-        for lead in leads_with_email(conn):
-            if sent_this_run >= CONFIG.daily_send_limit:
-                break
-            if is_unsubscribed(conn, lead["email"]):
-                continue
+        pending = [
+            lead for lead in leads_with_email(conn)
+            if not is_unsubscribed(conn, lead["email"]) and _due_for_next_touch(conn, lead) is not None
+        ][:limit]
 
+        for i, lead in enumerate(pending):
             touch = _due_for_next_touch(conn, lead)
             if touch is None:
                 continue
@@ -119,7 +135,6 @@ def run_campaign_batch(sender_email: str):
                 subject=subject,
                 body=body,
                 reply_to=sender_email,
-                attachments=[_personalized_pdf_path(lead)],
             )
             record_send(
                 conn,
@@ -129,9 +144,15 @@ def run_campaign_batch(sender_email: str):
                 gmail_message_id=message_id,
             )
             sent_this_run += 1
-            print(f"Sent touch {touch} to {lead['title']} <{lead['email']}>")
+            print(f"[{datetime.now(timezone.utc).isoformat()}] Sent touch {touch} to {lead['title']} <{lead['email']}>")
 
-            if sent_this_run < CONFIG.daily_send_limit:
-                time.sleep(random.uniform(300, 600))  # 5-10 min apart, ~40 over ~5 hours
+            remaining = len(pending) - (i + 1)
+            if remaining > 0:
+                if window_end is not None:
+                    seconds_left = (window_end - datetime.now(timezone.utc)).total_seconds()
+                    gap = _irregular_gap_seconds(remaining, seconds_left)
+                else:
+                    gap = random.uniform(300, 600)  # fallback: 5-10 min apart
+                time.sleep(gap)
 
     print(f"Done. Sent {sent_this_run} email(s) this run.")

@@ -1,16 +1,16 @@
-SUBJECT: A resource that may suit {channel_title}
+SUBJECT: A resource for {channel_title}'s audience
 
 Dear {channel_title} team,
 
-I am {sender_name}, author of {product_name}, a guide on helping children listen without shouting, bribery, or counting to three. Given the focus of your "{niche}" content, I thought it worth sharing directly.
+Most parenting advice fails for the same reason: it's generic. "Stay calm" and "be consistent" aren't wrong, they're just useless in the actual moment a child is ignoring you. {product_name} is built the other way round - specific scripts and techniques for getting a child to listen the first time, without shouting or bribing.
 
-I have attached a genuine preview rather than a sales page, so you can evaluate the material itself.
+Your "{niche}" content told me this would land with your audience, so I've put together a real preview rather than a sales pitch:
 
-For transparency: this preview is text-only for now. The completed guide will include illustrations throughout.
+{proposal_url}
 
-Should it be of interest, I would be glad to discuss a partnership around sharing it with your audience, in a format that fits your channel.
+It costs nothing to look, and there's nothing to commit to upfront. If it's a fit, we can discuss a partnership shaped around however you work with your audience.
 
-If it is not a fit, no response is necessary.
+If it's not right for your channel, that's completely fine - no reply needed.
 
 Best regards,
 {sender_name}

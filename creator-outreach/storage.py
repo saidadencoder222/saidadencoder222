@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS leads (
     niche TEXT,
     subscriber_count INTEGER,
     channel_url TEXT,
+    thumbnail_url TEXT,
     found_at TEXT NOT NULL
 );
 
@@ -38,6 +39,11 @@ def connect(db_path: str):
     conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
     conn.executescript(SCHEMA)
+    # SCHEMA only creates the table if missing - existing DBs from before
+    # thumbnail_url existed need it added explicitly.
+    existing_cols = {row["name"] for row in conn.execute("PRAGMA table_info(leads)")}
+    if "thumbnail_url" not in existing_cols:
+        conn.execute("ALTER TABLE leads ADD COLUMN thumbnail_url TEXT")
     try:
         yield conn
         conn.commit()
@@ -45,16 +51,17 @@ def connect(db_path: str):
         conn.close()
 
 
-def upsert_lead(conn, *, channel_id, title, email, niche, subscriber_count, channel_url):
+def upsert_lead(conn, *, channel_id, title, email, niche, subscriber_count, channel_url, thumbnail_url=None):
     conn.execute(
         """
-        INSERT INTO leads (channel_id, title, email, niche, subscriber_count, channel_url, found_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO leads (channel_id, title, email, niche, subscriber_count, channel_url, thumbnail_url, found_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         ON CONFLICT(channel_id) DO UPDATE SET
             email=COALESCE(excluded.email, leads.email),
-            subscriber_count=excluded.subscriber_count
+            subscriber_count=excluded.subscriber_count,
+            thumbnail_url=COALESCE(excluded.thumbnail_url, leads.thumbnail_url)
         """,
-        (channel_id, title, email, niche, subscriber_count, channel_url, now()),
+        (channel_id, title, email, niche, subscriber_count, channel_url, thumbnail_url, now()),
     )
     conn.commit()
 

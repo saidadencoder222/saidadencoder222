@@ -1,10 +1,12 @@
-SUBJECT: Re: Partnership opportunity for {channel_title}
+SUBJECT: Re: {product_name} for {channel_title}
 
 Dear {channel_title} team,
 
-I am following up in case my previous email was overlooked. I have re-attached the {product_name} preview for your convenience, and would still welcome a conversation about a partnership if it is of interest.
+Following up in case my last email got buried. The preview is still up here:
 
-This is the last time I will write regarding this matter.
+{proposal_url}
+
+I'd still welcome a conversation if any of it's useful for your audience. This is the last time I'll write about it.
 
 Kind regards,
 {sender_name}

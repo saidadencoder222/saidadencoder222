@@ -53,6 +53,22 @@ def cmd_send_campaign(args):
     run_campaign_batch(sender_email=args.sender_email)
 
 
+def cmd_send_tonight(args):
+    import time
+    from datetime import datetime, timezone
+    from campaign import run_campaign_batch
+
+    start = datetime.fromisoformat(args.start)
+    end = datetime.fromisoformat(args.end)
+    now = datetime.now(timezone.utc)
+    if now < start:
+        wait = (start - now).total_seconds()
+        print(f"Waiting {wait/60:.1f} min until window start ({args.start})...")
+        time.sleep(wait)
+
+    run_campaign_batch(sender_email=args.sender_email, count=args.count, window_end=end)
+
+
 def cmd_list_leads(args):
     with connect(CONFIG.db_path) as conn:
         rows = conn.execute(
@@ -88,6 +104,13 @@ def build_parser():
     p_send = sub.add_parser("send-campaign", help="Send one batch of pitches/follow-ups")
     p_send.add_argument("--sender-email", required=True)
     p_send.set_defaults(func=cmd_send_campaign)
+
+    p_tonight = sub.add_parser("send-tonight", help="One-off overnight batch with irregular pacing across a window")
+    p_tonight.add_argument("--sender-email", required=True)
+    p_tonight.add_argument("--count", type=int, required=True, help="Max number of sends this run")
+    p_tonight.add_argument("--start", required=True, help="ISO UTC datetime to start at, e.g. 2026-09-21T19:00:00+00:00")
+    p_tonight.add_argument("--end", required=True, help="ISO UTC datetime to finish by")
+    p_tonight.set_defaults(func=cmd_send_tonight)
 
     p_unsub = sub.add_parser("unsubscribe", help="Manually mark an email as opted out")
     p_unsub.add_argument("--email", required=True)

@@ -1,16 +1,16 @@
-SUBJECT: Partnership opportunity for {channel_title}
+SUBJECT: The "put your shoes on" problem - {channel_title}
 
 Hello {channel_title} team,
 
-My name is {sender_name}. I have written {product_name}, a parenting guide focused on helping children listen without resorting to shouting or bribery, and it struck me as a strong fit for your "{niche}" content.
+Every parent knows the moment: you ask once, ask again, ask a third time louder, and nothing happens until you're shouting or bribing just to get shoes on. I wrote {product_name} because that cycle is fixable - not with more patience, but with four specific techniques that change how a request lands the first time.
 
-Rather than describe it, I have attached a preview containing several complete chapters so you can judge the content directly.
+Given your "{niche}" content, I think your audience would genuinely use this. I've put together a short preview page rather than a cold pitch, so you can see exactly what's inside before anything else:
 
-One note on the preview: it is text-only at this stage. The finished guide will include illustrations throughout.
+{proposal_url}
 
-If it resonates, I would welcome a conversation about a partnership to share it with your audience, in whichever format suits your channel best.
+There's no cost and nothing to commit to. If it's a fit, we can talk about a format that suits your channel - review, mention, affiliate link, whatever works for how you reach your audience.
 
-If it is not the right fit, no response is needed.
+If it's not for you, no response needed.
 
 Kind regards,
 {sender_name}

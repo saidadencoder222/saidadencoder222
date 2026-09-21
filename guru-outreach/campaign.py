@@ -71,21 +71,40 @@ def _due_for_next_touch(conn, lead) -> int:
     return sent + 1
 
 
-def run_campaign_batch(sender_email: str):
+def _irregular_gap_seconds(remaining_sends: int, seconds_left: float) -> float:
+    """Irregular pacing: mixes short and long gaps (rather than a narrow
+    uniform range) while still adapting to however much time and how many
+    sends are actually left, so the batch still spans the intended window."""
+    if remaining_sends <= 1 or seconds_left <= 0:
+        return 0
+    avg = seconds_left / remaining_sends
+    if random.random() < 0.4:
+        gap = random.uniform(0.08, 0.3) * avg   # a short gap, e.g. ~2 min
+    else:
+        gap = random.uniform(0.6, 2.1) * avg    # a longer gap, e.g. ~8-20 min
+    return max(90, min(gap, 2700))  # clamp: 1.5 min - 45 min
+
+
+def run_campaign_batch(sender_email: str, count: int = None, window_end: datetime = None):
+    """count overrides CONFIG.daily_send_limit for this run (e.g. a one-off
+    overnight batch); window_end, if given, is a tz-aware UTC datetime the
+    irregular pacing paces sends against instead of a fixed per-send delay."""
     service = get_gmail_service()
 
     unsub_count = process_unsubscribe_requests(service, CONFIG.db_path)
     if unsub_count:
         print(f"Recorded {unsub_count} unsubscribe(s).")
 
+    limit = count if count is not None else CONFIG.daily_send_limit
+
     sent_this_run = 0
     with connect(CONFIG.db_path) as conn:
-        for lead in leads_with_email(conn):
-            if sent_this_run >= CONFIG.daily_send_limit:
-                break
-            if is_unsubscribed(conn, lead["email"]):
-                continue
+        pending = [
+            lead for lead in leads_with_email(conn)
+            if not is_unsubscribed(conn, lead["email"]) and _due_for_next_touch(conn, lead) is not None
+        ][:limit]
 
+        for i, lead in enumerate(pending):
             touch = _due_for_next_touch(conn, lead)
             if touch is None:
                 continue
@@ -113,9 +132,15 @@ def run_campaign_batch(sender_email: str):
                 gmail_message_id=message_id,
             )
             sent_this_run += 1
-            print(f"Sent touch {touch} to {lead['title']} <{lead['email']}>")
+            print(f"[{datetime.now(timezone.utc).isoformat()}] Sent touch {touch} to {lead['title']} <{lead['email']}>")
 
-            if sent_this_run < CONFIG.daily_send_limit:
-                time.sleep(random.uniform(600, 1200))  # 10-20 min apart, ~10 over a few hours
+            remaining = len(pending) - (i + 1)
+            if remaining > 0:
+                if window_end is not None:
+                    seconds_left = (window_end - datetime.now(timezone.utc)).total_seconds()
+                    gap = _irregular_gap_seconds(remaining, seconds_left)
+                else:
+                    gap = random.uniform(600, 1200)  # fallback: 10-20 min apart
+                time.sleep(gap)
 
     print(f"Done. Sent {sent_this_run} email(s) this run.")

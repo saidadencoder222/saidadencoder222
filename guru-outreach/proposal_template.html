@@ -1,0 +1,338 @@
+<title>Channel Audit</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  :root {
+    --bg: #121214;
+    --bg-raised: #1a1a1d;
+    --text: #f2f0ea;
+    --text-muted: #a39d92;
+    --border: #2b2a2c;
+    --accent: #c9a227;
+    --accent-text: #1a1608;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Work Sans", -apple-system, "Segoe UI", sans-serif;
+    padding-inline: 0;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+  .display {
+    font-family: "Bebas Neue", "Arial Narrow", sans-serif;
+    letter-spacing: 0.01em;
+    text-wrap: balance;
+    line-height: 0.95;
+  }
+  .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+  .eyebrow {
+    font-family: "Work Sans", sans-serif;
+    font-weight: 700;
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  header.hero {
+    padding-block: 56px 40px;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-top { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; }
+  .avatar {
+    width: 64px; height: 64px; border-radius: 50%;
+    object-fit: cover; border: 2px solid var(--accent);
+    background: var(--bg-raised); flex-shrink: 0;
+  }
+  .avatar-fallback {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: var(--accent); color: var(--accent-text);
+    display: flex; align-items: center; justify-content: center;
+    font-family: "Bebas Neue", sans-serif; font-size: 1.6rem;
+    flex-shrink: 0;
+  }
+  .channel-name { font-size: 1.05rem; font-weight: 600; }
+  .channel-sub { color: var(--text-muted); font-size: 0.9rem; }
+
+  h1.headline { font-size: clamp(2.6rem, 7vw, 4.4rem); margin: 0 0 18px; color: var(--text); }
+  .dek { font-size: 1.1rem; line-height: 1.55; color: var(--text-muted); max-width: 58ch; margin: 0; }
+
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 36px;
+  }
+  .stat-tile { background: var(--bg); padding: 18px 16px; }
+  .stat-value { font-size: 1.5rem; font-weight: 600; }
+  .stat-label {
+    font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text-muted); margin-top: 4px;
+  }
+
+  section { padding-block: 48px; border-bottom: 1px solid var(--border); }
+  section:last-of-type { border-bottom: none; }
+  h2.section-title {
+    font-size: clamp(1.8rem, 4.5vw, 2.6rem);
+    margin: 6px 0 28px;
+  }
+  section > .eyebrow { display: block; margin-bottom: 4px; }
+
+  .finding {
+    padding: 22px 0;
+    border-top: 1px solid var(--border);
+  }
+  .finding:first-child { border-top: none; }
+  .finding h3 { font-size: 1.05rem; margin: 0 0 8px; }
+  .finding p { margin: 0; color: var(--text-muted); line-height: 1.6; max-width: 62ch; }
+
+  .avenue-grid { display: grid; gap: 16px; grid-template-columns: 1fr; }
+  .avenue {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    padding: 18px 20px;
+    border-radius: 4px;
+  }
+  .avenue h3 { margin: 0 0 6px; font-size: 1rem; }
+  .avenue p { margin: 0; color: var(--text-muted); font-size: 0.94rem; line-height: 1.55; }
+
+  .bio-row { display: flex; gap: 28px; flex-wrap: wrap; align-items: flex-start; }
+  .bio-text { flex: 1 1 320px; color: var(--text-muted); line-height: 1.65; font-size: 1.02rem; }
+  .bio-text strong { color: var(--text); font-weight: 600; }
+  .proof-stats { display: flex; flex-direction: column; gap: 14px; flex: 0 0 200px; }
+  .proof-stat .mono { font-size: 1.7rem; color: var(--accent); font-weight: 600; }
+  .proof-stat div:last-child { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
+
+  .agreement-box {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 28px 26px;
+  }
+  .agreement-box p { line-height: 1.65; color: var(--text-muted); margin: 0 0 14px; }
+  .agreement-box p:last-child { margin-bottom: 0; }
+  .agreement-box strong { color: var(--text); }
+
+  footer.cta {
+    padding-block: 56px 64px;
+    text-align: center;
+  }
+  .cta-line { font-size: 1.3rem; line-height: 1.5; max-width: 44ch; margin: 0 auto 24px; }
+  .cta-button {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--accent-text);
+    font-weight: 700;
+    padding: 14px 32px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.95rem;
+  }
+  .example-note {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    text-align: center;
+    padding: 10px;
+    background: var(--bg-raised);
+  }
+
+  @media (max-width: 560px) {
+    .stat-row { grid-template-columns: 1fr; }
+    .bio-row { flex-direction: column; }
+    .proof-stats { flex-direction: row; flex-wrap: wrap; }
+  }
+</style>
+
+<div id="example-banner" class="example-note" hidden>Showing example data - open this link with your own ?id= to see a real audit.</div>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="hero-top">
+      <img id="avatar-img" class="avatar" alt="" hidden>
+      <div id="avatar-fallback" class="avatar-fallback" hidden></div>
+      <div>
+        <div class="channel-name" id="channel-name"></div>
+        <div class="channel-sub">Growth &amp; monetization audit</div>
+      </div>
+    </div>
+    <div class="eyebrow">Prepared by Said</div>
+    <h1 class="headline display">Here's what's<br>holding you back.</h1>
+    <p class="dek">A real audit of your channel's public data - not a template, not a guess. Built from what your own numbers already show.</p>
+
+    <div class="stat-row">
+      <div class="stat-tile">
+        <div class="stat-value mono" id="stat-subs">-</div>
+        <div class="stat-label">Subscribers</div>
+      </div>
+      <div class="stat-tile">
+        <div class="stat-value mono" id="stat-views">-</div>
+        <div class="stat-label">Avg. recent views</div>
+      </div>
+      <div class="stat-tile">
+        <div class="stat-value mono" id="stat-gap">-</div>
+        <div class="stat-label">Days between uploads</div>
+      </div>
+    </div>
+  </header>
+
+  <section id="findings-section">
+    <span class="eyebrow">The audit</span>
+    <h2 class="section-title display">Where you're<br>losing ground.</h2>
+    <div id="findings-list"></div>
+  </section>
+
+  <section>
+    <span class="eyebrow">The plan</span>
+    <h2 class="section-title display">What I can<br>bring in.</h2>
+    <div class="avenue-grid">
+      <div class="avenue">
+        <h3>Digital course or cohort</h3>
+        <p>The highest-leverage option once watch time is consistent - packages what you already teach for free into a paid, structured version.</p>
+      </div>
+      <div class="avenue">
+        <h3>1:1 or small-group coaching</h3>
+        <p>Fastest to launch, no product build required - directly monetizes the trust you've already built on camera.</p>
+      </div>
+      <div class="avenue">
+        <h3>Paid community or membership</h3>
+        <p>Recurring revenue from the audience that wants more than the free content, without a full course build.</p>
+      </div>
+      <div class="avenue">
+        <h3>Affiliate &amp; referral partnerships</h3>
+        <p>Lowest effort - monetizes tools or platforms you already recommend on camera anyway.</p>
+      </div>
+      <div class="avenue">
+        <h3>Sponsored content</h3>
+        <p>Works once view counts are consistent enough for brands to plan a campaign around.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">About Said</span>
+    <h2 class="section-title display">Why listen<br>to me.</h2>
+    <div class="bio-row">
+      <p class="bio-text">
+        I work with creators on growth and monetization strategy - finding what's actually
+        stopping a channel from converting its audience into revenue, then fixing it.
+        <strong>This audit is the same process I use with paying clients</strong>, run against
+        your channel's public numbers before we've even spoken.
+      </p>
+      <div class="proof-stats">
+        <div class="proof-stat">
+          <div class="mono">111</div>
+          <div>new leads generated for one client</div>
+        </div>
+        <div class="proof-stat">
+          <div class="mono">2.2M</div>
+          <div>average views across creators I've worked with</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">The agreement</span>
+    <h2 class="section-title display">No upfront<br>fees.</h2>
+    <div class="agreement-box">
+      <p><strong>You don't pay anything to start.</strong> We get on a call, I walk you through the audit in more depth, and if it's a fit, we agree terms together before anything is billed.</p>
+      <p>If it's not a fit after that call, that's fine too - the audit above is yours either way, free to use with or without me.</p>
+    </div>
+  </section>
+
+  <footer class="cta">
+    <p class="cta-line display" style="font-size: clamp(1.6rem, 4vw, 2.2rem);">Worth a 20-minute call?</p>
+    <a class="cta-button" href="#" id="cta-reply">Reply to the email</a>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var DATA = __PROPOSAL_DATA__;
+  var params = new URLSearchParams(location.search);
+  var id = params.get('id');
+  var entry = (id && DATA[id]) || null;
+
+  var EXAMPLE = {
+    title: "Example Channel",
+    thumbnailUrl: null,
+    subscriberCount: 42000,
+    avgRecentViews: 3100,
+    uploadGapDaysAvg: 18.4,
+    hasLinkInBio: false,
+    accent: "#c9a227",
+    findings: [
+      { heading: "Inconsistent upload cadence", text: "Recent uploads vary widely in spacing - a predictable schedule tends to get rewarded by the algorithm and builds viewer habit faster." },
+      { heading: "No link in the channel bio", text: "The channel description has no link - a free, always-visible placement sitting empty." }
+    ]
+  };
+
+  var showingExample = !entry;
+  var data = entry || EXAMPLE;
+
+  document.getElementById('example-banner').hidden = !showingExample;
+
+  function contrastTextFor(hex) {
+    var h = hex.replace('#', '');
+    var r = parseInt(h.substring(0, 2), 16);
+    var g = parseInt(h.substring(2, 4), 16);
+    var b = parseInt(h.substring(4, 6), 16);
+    var luminance = 0.299 * r + 0.587 * g + 0.114 * b;
+    return luminance > 140 ? '#1a1608' : '#f2f0ea';
+  }
+
+  document.documentElement.style.setProperty('--accent', data.accent);
+  document.documentElement.style.setProperty('--accent-text', contrastTextFor(data.accent));
+
+  document.getElementById('channel-name').textContent = data.title;
+
+  var avatarImg = document.getElementById('avatar-img');
+  var avatarFallback = document.getElementById('avatar-fallback');
+  if (data.thumbnailUrl) {
+    avatarImg.src = data.thumbnailUrl;
+    avatarImg.alt = data.title;
+    avatarImg.hidden = false;
+    avatarImg.onerror = function () {
+      avatarImg.hidden = true;
+      avatarFallback.hidden = false;
+      avatarFallback.textContent = (data.title || '?').charAt(0).toUpperCase();
+    };
+  } else {
+    avatarFallback.hidden = false;
+    avatarFallback.textContent = (data.title || '?').charAt(0).toUpperCase();
+  }
+
+  function fmt(n) {
+    if (n === null || n === undefined) return '-';
+    return n.toLocaleString('en-US');
+  }
+
+  document.getElementById('stat-subs').textContent = fmt(data.subscriberCount);
+  document.getElementById('stat-views').textContent = fmt(data.avgRecentViews);
+  document.getElementById('stat-gap').textContent = data.uploadGapDaysAvg != null ? data.uploadGapDaysAvg.toFixed(1) : '-';
+
+  var findingsList = document.getElementById('findings-list');
+  var findings = data.findings && data.findings.length ? data.findings : [
+    { heading: "Looking solid", text: "No obvious gaps found in the public fundamentals - posting cadence and bio setup both check out. The bigger opportunity is likely in monetization structure rather than the marketing basics." }
+  ];
+  findings.forEach(function (f) {
+    var div = document.createElement('div');
+    div.className = 'finding';
+    var h3 = document.createElement('h3');
+    h3.textContent = f.heading;
+    var p = document.createElement('p');
+    p.textContent = f.text;
+    div.appendChild(h3);
+    div.appendChild(p);
+    findingsList.appendChild(div);
+  });
+
+  var mailto = 'mailto:said@vantagemedia.ink?subject=' + encodeURIComponent('Re: audit for ' + data.title);
+  document.getElementById('cta-reply').href = mailto;
+})();
+</script>

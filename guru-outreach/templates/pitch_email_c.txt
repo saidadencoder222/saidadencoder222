@@ -4,14 +4,17 @@ Hi there,
 
 I'm {sender_name}. I went through {channel_title}'s public YouTube data
 - posting cadence, recent views, bio setup - and put together a short
-audit plus a monetization rundown, attached so you can judge it
+audit plus a monetization rundown on a page, so you can judge it
 directly rather than take my word for it.
+
+{proposal_url}
 
 Being straight about scope: this is YouTube-data-only, not a look at
 your other platforms or business internals.
 
-If it's useful, I'd like to talk it through - if it's not a fit, all
-good, no hard feelings either way.
+If it's useful, I'd like to talk it through - no upfront fees, terms
+only get agreed after that call. If it's not a fit, all good, no hard
+feelings either way.
 
 Best,
 {sender_name}

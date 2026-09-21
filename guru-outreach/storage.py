@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS leads (
     niche TEXT,
     subscriber_count INTEGER,
     channel_url TEXT,
+    thumbnail_url TEXT,
     avg_recent_views INTEGER,
     upload_gap_days_avg REAL,
     upload_gap_days_stdev REAL,
@@ -43,6 +44,11 @@ def connect(db_path: str):
     conn.row_factory = sqlite3.Row
     conn.executescript(SCHEMA)
     try:
+        conn.execute("ALTER TABLE leads ADD COLUMN thumbnail_url TEXT")
+        conn.commit()
+    except sqlite3.OperationalError:
+        pass  # column already exists on a pre-existing db file
+    try:
         yield conn
         conn.commit()
     finally:
@@ -50,22 +56,24 @@ def connect(db_path: str):
 
 
 def upsert_lead(conn, *, channel_id, title, email, niche, subscriber_count, channel_url,
-                 avg_recent_views, upload_gap_days_avg, upload_gap_days_stdev, has_link_in_bio):
+                 thumbnail_url, avg_recent_views, upload_gap_days_avg, upload_gap_days_stdev,
+                 has_link_in_bio):
     conn.execute(
         """
         INSERT INTO leads (channel_id, title, email, niche, subscriber_count, channel_url,
-                            avg_recent_views, upload_gap_days_avg, upload_gap_days_stdev,
-                            has_link_in_bio, found_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                            thumbnail_url, avg_recent_views, upload_gap_days_avg,
+                            upload_gap_days_stdev, has_link_in_bio, found_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ON CONFLICT(channel_id) DO UPDATE SET
             email=COALESCE(excluded.email, leads.email),
             subscriber_count=excluded.subscriber_count,
+            thumbnail_url=excluded.thumbnail_url,
             avg_recent_views=excluded.avg_recent_views,
             upload_gap_days_avg=excluded.upload_gap_days_avg,
             upload_gap_days_stdev=excluded.upload_gap_days_stdev,
             has_link_in_bio=excluded.has_link_in_bio
         """,
-        (channel_id, title, email, niche, subscriber_count, channel_url,
+        (channel_id, title, email, niche, subscriber_count, channel_url, thumbnail_url,
          avg_recent_views, upload_gap_days_avg, upload_gap_days_stdev,
          has_link_in_bio, now()),
     )

@@ -6,21 +6,18 @@ immediately (see storage.py), never just at the end of a batch.
 """
 
 import hashlib
-import os
-import random
 import time
+import random
 from datetime import datetime, timedelta, timezone
 
-import generate_audit
 from config import CONFIG
 from gmail_auth import get_gmail_service
 from gmail_sender import send_email
-from personalize import get_palette_accent
 from replies import process_unsubscribe_requests
 from storage import (connect, is_unsubscribed, last_sent_at, leads_with_email,
                       record_send, touches_sent)
 
-GENERATED_DIR = os.path.join("assets", "generated")
+PROPOSAL_PAGE_URL = "https://claude.ai/artifact/NKDkQDP4T2viGdbiW7Rucn"
 
 PITCH_VARIANTS = [
     "templates/pitch_email_a.txt",
@@ -29,13 +26,8 @@ PITCH_VARIANTS = [
 ]
 
 
-def _personalized_pdf_path(lead) -> str:
-    os.makedirs(GENERATED_DIR, exist_ok=True)
-    path = os.path.join(GENERATED_DIR, f"{lead['channel_id']}.pdf")
-    if not os.path.exists(path):
-        accent = get_palette_accent(lead["channel_id"])
-        generate_audit.build(path, lead=dict(lead), accent_color=accent)
-    return path
+def _proposal_url(channel_id: str) -> str:
+    return f"{PROPOSAL_PAGE_URL}?id={channel_id}"
 
 
 def _pitch_template_for(channel_id: str) -> str:
@@ -61,6 +53,7 @@ def _render(text: str, lead, sender_email: str) -> str:
     return text.format(
         channel_title=lead["title"],
         sender_name=CONFIG.sender_name,
+        proposal_url=_proposal_url(lead["channel_id"]),
     )
 
 
@@ -111,7 +104,6 @@ def run_campaign_batch(sender_email: str):
                 subject=subject,
                 body=body,
                 reply_to=sender_email,
-                attachments=[_personalized_pdf_path(lead)],
             )
             record_send(
                 conn,

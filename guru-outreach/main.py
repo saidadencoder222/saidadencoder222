@@ -36,6 +36,7 @@ def cmd_find_leads(args):
                 niche=args.query,
                 subscriber_count=lead["subscriber_count"],
                 channel_url=lead["channel_url"],
+                thumbnail_url=lead["thumbnail_url"],
                 avg_recent_views=lead["avg_recent_views"],
                 upload_gap_days_avg=lead["upload_gap_days_avg"],
                 upload_gap_days_stdev=lead["upload_gap_days_stdev"],

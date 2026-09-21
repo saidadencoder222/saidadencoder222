@@ -4,15 +4,18 @@ Hi {channel_title} team,
 
 I'm {sender_name}. I ran a quick audit of your channel using publicly
 available YouTube data - upload timing, recent view counts, and your
-bio setup - and found a couple of things worth a look, plus a rundown
-of monetization angles that tend to fit a channel at your stage.
-Attached, not just described.
+bio setup - and put together a page on it: what I noticed, plus a
+rundown of monetization angles that tend to fit a channel at your
+stage.
+
+{proposal_url}
 
 Worth being upfront: this is built from YouTube data only, not a full
 audit of your other platforms or funnel - just what's actually visible
 publicly right now.
 
 If any of it's useful, happy to talk through it properly on a call.
+No upfront fees either way - we'd only agree terms after that.
 
 No pressure either way.
 

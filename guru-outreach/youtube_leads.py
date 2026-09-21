@@ -123,6 +123,8 @@ def find_gurus(api_key: str, query: str, *, max_results: int = 25,
                 "email": _extract_email(snippet.get("description", "")),
                 "subscriber_count": subs,
                 "channel_url": f"https://www.youtube.com/channel/{item['id']}",
+                "thumbnail_url": snippet.get("thumbnails", {}).get("high", {}).get("url")
+                    or snippet.get("thumbnails", {}).get("default", {}).get("url"),
                 "avg_recent_views": avg_views,
                 "upload_gap_days_avg": gap_avg,
                 "upload_gap_days_stdev": gap_stdev,

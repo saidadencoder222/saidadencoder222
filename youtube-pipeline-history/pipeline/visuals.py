@@ -17,9 +17,10 @@ import requests
 API_URL = "https://commons.wikimedia.org/w/api.php"
 HEADERS = {"User-Agent": "history-doc-pipeline/1.0 (educational documentary project)"}
 # Wikimedia rate-limits anonymous API clients; firing ~30 searches back-to-back
-# (one per visual cue) reliably triggers 429s without pacing/backoff.
-REQUEST_DELAY_S = 1.0
-MAX_RETRIES = 4
+# (one per visual cue) reliably triggers 429s without pacing/backoff, and once
+# triggered the cooldown can outlast a few quick retries.
+REQUEST_DELAY_S = 3.0
+MAX_RETRIES = 6
 
 
 @dataclass
@@ -40,31 +41,49 @@ class SourcedImage:
 
 
 def _search_commons_image(query: str, allowed_licenses: set[str]) -> dict | None:
-    backoff = 2.0
+    """Returns None (rather than raising) if Commons can't be reached after
+    retries, so one rate-limited/flaky keyword doesn't kill the whole run —
+    the caller just moves on to the next cue."""
+    backoff = 3.0
     resp = None
     for attempt in range(MAX_RETRIES):
-        resp = requests.get(
-            API_URL,
-            headers=HEADERS,
-            params={
-                "action": "query",
-                "format": "json",
-                "generator": "search",
-                "gsrsearch": f"{query} filetype:bitmap",
-                "gsrnamespace": 6,  # File: namespace
-                "gsrlimit": 8,
-                "prop": "imageinfo",
-                "iiprop": "url|extmetadata",
-                "iiurlwidth": 1600,
-            },
-            timeout=30,
-        )
-        if resp.status_code == 429 and attempt < MAX_RETRIES - 1:
-            time.sleep(backoff)
-            backoff *= 2
-            continue
+        try:
+            resp = requests.get(
+                API_URL,
+                headers=HEADERS,
+                params={
+                    "action": "query",
+                    "format": "json",
+                    "generator": "search",
+                    "gsrsearch": f"{query} filetype:bitmap",
+                    "gsrnamespace": 6,  # File: namespace
+                    "gsrlimit": 8,
+                    "prop": "imageinfo",
+                    "iiprop": "url|extmetadata",
+                    "iiurlwidth": 1600,
+                },
+                timeout=30,
+            )
+        except requests.RequestException as e:
+            print(f"    [visuals] request error for '{query}': {e}")
+            return None
+
+        if resp.status_code == 429:
+            wait = float(resp.headers.get("Retry-After", backoff))
+            if attempt < MAX_RETRIES - 1:
+                print(f"    [visuals] rate-limited on '{query}', waiting {wait:.0f}s "
+                      f"(attempt {attempt + 1}/{MAX_RETRIES})")
+                time.sleep(wait)
+                backoff *= 2
+                continue
+            print(f"    [visuals] still rate-limited on '{query}' after {MAX_RETRIES} attempts, skipping")
+            return None
         break
-    resp.raise_for_status()
+
+    if not resp.ok:
+        print(f"    [visuals] HTTP {resp.status_code} for '{query}', skipping")
+        return None
+
     pages = resp.json().get("query", {}).get("pages", {})
 
     for page in pages.values():
@@ -105,11 +124,15 @@ def fetch_images(cfg: dict, keywords: list[str], out_dir: str, count_override: i
         if not found:
             continue
         path = os.path.join(out_dir, f"img_{i:03d}.jpg")
-        with requests.get(found["url"], headers=HEADERS, stream=True, timeout=60) as r:
-            r.raise_for_status()
-            with open(path, "wb") as f:
-                for chunk in r.iter_content(chunk_size=1 << 20):
-                    f.write(chunk)
+        try:
+            with requests.get(found["url"], headers=HEADERS, stream=True, timeout=60) as r:
+                r.raise_for_status()
+                with open(path, "wb") as f:
+                    for chunk in r.iter_content(chunk_size=1 << 20):
+                        f.write(chunk)
+        except requests.RequestException as e:
+            print(f"    [visuals] download failed for '{keyword}': {e}, skipping")
+            continue
         results.append(
             SourcedImage(
                 path=path,

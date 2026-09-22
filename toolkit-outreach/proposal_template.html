@@ -568,6 +568,74 @@
       }
     },
 
+    service_match: {
+      title: "Your Perfect Treatment Match.",
+      dek: "Four quick questions and get a personalized treatment or package recommendation — the kind of thing that turns a site visitor into a booked appointment.",
+      blurb: 'Given your "' + (data.niche || 'wellness') + '" business, most visitors leave without booking because they don\'t know which service fits them. This gives them a specific, personal answer and a reason to book today.',
+      steps: [
+        { key: "goal", q: "What are they mainly looking for?", type: "choice", options: [
+          { v: "relax", label: "Stress relief / relaxation", emoji: "🧘" },
+          { v: "pain", label: "Pain or tension relief", emoji: "💆" },
+          { v: "recovery", label: "Recovery / mobility", emoji: "🦵" },
+          { v: "results", label: "Visible results / aesthetics", emoji: "✨" }
+        ]},
+        { key: "frequency", q: "How often do they deal with this?", type: "choice", options: [
+          { v: "first", label: "First time trying it", emoji: "🌱" },
+          { v: "occasional", label: "Every few months", emoji: "📅" },
+          { v: "regular", label: "It's an ongoing issue", emoji: "🔁" }
+        ]},
+        { key: "intensity", q: "What pressure/intensity do they prefer?", type: "choice", options: [
+          { v: "light", label: "Light & gentle", emoji: "🪶" },
+          { v: "medium", label: "Firm, balanced", emoji: "⚖️" },
+          { v: "deep", label: "Deep / intense", emoji: "🔥" }
+        ]},
+        { key: "time", q: "How much time can they set aside?", type: "choice", options: [
+          { v: "short", label: "30 minutes", emoji: "⏱️" },
+          { v: "medium", label: "60 minutes", emoji: "🕐" },
+          { v: "long", label: "90+ minutes", emoji: "🕓" }
+        ]}
+      ],
+      compute: function (a) {
+        var packages = {
+          "relax-light": "Signature Relaxation Session",
+          "relax-medium": "Aromatherapy Balance Package",
+          "relax-deep": "Deep Calm Ritual",
+          "pain-light": "Gentle Tension Release",
+          "pain-medium": "Targeted Therapeutic Session",
+          "pain-deep": "Deep Tissue Relief Package",
+          "recovery-light": "Light Mobility Session",
+          "recovery-medium": "Recovery & Mobility Package",
+          "recovery-deep": "Advanced Recovery Protocol",
+          "results-light": "Introductory Glow Treatment",
+          "results-medium": "Signature Results Package",
+          "results-deep": "Intensive Transformation Package"
+        };
+        var key = a.goal + "-" + a.intensity;
+        var pkg = packages[key] || "Signature Session";
+        var durationLabel = { short: "30-min", medium: "60-min", long: "90-min" }[a.time];
+        var cadenceNote = {
+          first: "As a first session, expect some adjustment — most people feel the full benefit by their second visit.",
+          occasional: "At this frequency, a maintenance rhythm every 4-6 weeks keeps the results consistent.",
+          regular: "For an ongoing issue, a short series of sessions close together works better than one-offs."
+        }[a.frequency];
+        return {
+          badge: durationLabel,
+          headline: pkg,
+          body: "Based on what they're looking for and how they like to feel afterward, " + pkg.toLowerCase() + " at " + durationLabel + " is the best starting match. " + cadenceNote,
+          stats: [
+            { value: durationLabel, label: "Session length" },
+            { value: a.intensity.charAt(0).toUpperCase() + a.intensity.slice(1), label: "Intensity" },
+            { value: a.goal.charAt(0).toUpperCase() + a.goal.slice(1), label: "Focus" }
+          ],
+          list: [
+            "This match is based on their goal, intensity preference and available time — not a generic default package.",
+            cadenceNote,
+            "Booking sooner rather than later matters most for the 'ongoing issue' answer — consistency drives the result."
+          ]
+        };
+      }
+    },
+
     offer_clarity: {
       title: "Offer Clarity Score.",
       dek: "Four questions on what you sell and where it's stuck — get a specific diagnosis instead of generic business advice.",

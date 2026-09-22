@@ -20,6 +20,9 @@ TOOL_TYPE_RULES = [
       "email marketing", "digital marketing", "youtube automation",
       "content strategy", "personal branding"), "content_plan"),
     (("real estate",), "deal_analyzer"),
+    (("massage", "spa", "med spa", "medspa", "chiropractor", "chiropractic",
+      "aesthetics", "aesthetic clinic", "wellness studio", "salon", "esthetician",
+      "physical therapy", "physiotherapy"), "service_match"),
 ]
 DEFAULT_TOOL_TYPE = "offer_clarity"
 

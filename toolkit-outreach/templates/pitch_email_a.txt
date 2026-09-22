@@ -1,4 +1,4 @@
-SUBJECT: I built {channel_title} a tool - it's already live
+SUBJECT: A free preview I built for {channel_title}
 
 Hi {channel_title} team,
 

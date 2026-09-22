@@ -1,4 +1,4 @@
-SUBJECT: {channel_title} - try this before you read the rest of this email
+SUBJECT: {channel_title} - a quick preview before you read the rest
 
 Dear {channel_title} team,
 

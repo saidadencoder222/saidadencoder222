@@ -1,4 +1,4 @@
-SUBJECT: A working tool for {channel_title}'s site, not a pitch
+SUBJECT: A preview for {channel_title}'s site, not a pitch
 
 Dear {channel_title} team,
 

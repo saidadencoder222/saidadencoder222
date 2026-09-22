@@ -8,5 +8,4 @@ leads.db-journal
 venv/
 tool_page.html
 overnight_run.log
-search1.log
-search2.log
+search*.log

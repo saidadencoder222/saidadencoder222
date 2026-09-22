@@ -60,9 +60,12 @@ def _pricing_line(lead) -> str:
         "What you just tried is a live preview. The real version gets fully rebranded "
         "to match your site, colors and domain."
         + booking_sentence
-        + " Getting your own branded, embedded version live starts at $297 one-time "
-        "(optional $39/mo for hosting and tweaks) - just reply and I'll send next steps."
+        + " Worth a quick call to see if it's a fit for your site?"
     )
+
+
+def _greeting_name(title: str) -> str:
+    return title.split(" / ", 1)[0].strip() if " / " in title else title
 
 
 def _render(text: str, lead, sender_email: str) -> str:
@@ -70,6 +73,7 @@ def _render(text: str, lead, sender_email: str) -> str:
     hook_line = f"One thing I noticed on your site: {hook}. " if hook else ""
     return text.format(
         channel_title=lead["title"],
+        greeting_name=_greeting_name(lead["title"]),
         niche=lead["niche"] or "your niche",
         sender_name=CONFIG.sender_name,
         proposal_url=_proposal_url(lead["channel_id"]),

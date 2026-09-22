@@ -1,8 +1,8 @@
 SUBJECT: A free preview I built for {channel_title}
 
-Hi {channel_title} team,
+Hi {greeting_name},
 
-{hook_line}I didn't want to pitch you on an idea, so I skipped that step and just built a live preview: an interactive tool for your "{niche}" audience, no signup needed to try it.
+{hook_line}I didn't want to pitch you on an idea, so I skipped that step and just built a live preview: an interactive tool for your {niche} audience, no signup needed to try it.
 
 {proposal_url}
 

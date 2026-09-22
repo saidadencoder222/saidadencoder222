@@ -1,6 +1,6 @@
 SUBJECT: Re: the tool I built for {channel_title}
 
-Dear {channel_title} team,
+Dear {greeting_name},
 
 Following up in case my last email got buried. The live preview is still up here:
 

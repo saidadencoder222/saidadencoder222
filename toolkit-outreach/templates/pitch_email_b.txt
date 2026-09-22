@@ -1,8 +1,8 @@
 SUBJECT: A preview for {channel_title}'s site, not a pitch
 
-Dear {channel_title} team,
+Dear {greeting_name},
 
-{hook_line}Most emails like this ask for a call before showing you anything. I'd rather just show you: here's a live preview of an interactive tool for your "{niche}" audience.
+{hook_line}Most emails like this ask for a call before showing you anything. I'd rather just show you: here's a live preview of an interactive tool for your {niche} audience.
 
 {proposal_url}
 

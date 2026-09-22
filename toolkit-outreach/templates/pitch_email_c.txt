@@ -1,8 +1,8 @@
 SUBJECT: {channel_title} - a quick preview before you read the rest
 
-Dear {channel_title} team,
+Dear {greeting_name},
 
-{hook_line}Before any explanation - here's a live preview of an interactive tool built specifically for a "{niche}" audience like yours:
+{hook_line}Before any explanation - here's a live preview of an interactive tool built specifically for a {niche} audience like yours:
 
 {proposal_url}
 

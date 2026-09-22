@@ -2,11 +2,11 @@ SUBJECT: Re: the tool I built for {channel_title}
 
 Dear {channel_title} team,
 
-Following up in case my last email got buried. The tool is still live here:
+Following up in case my last email got buried. The live preview is still up here:
 
 {proposal_url}
 
-Happy to send the embed code if it's useful. This is the last time I'll write about it.
+{pricing_line} This is the last time I'll write about it.
 
 Kind regards,
 {sender_name}

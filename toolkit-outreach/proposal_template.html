@@ -209,16 +209,16 @@
 
   <section class="pitch">
     <span class="eyebrow">Why I built this</span>
-    <h2 class="section-title display">Add it to your site,<br>watch what happens.</h2>
+    <h2 class="section-title display">This is a preview.<br>Yours can be live on your site.</h2>
     <p style="color: var(--text-muted); line-height: 1.65; font-size: 0.98rem;" id="niche-blurb"></p>
     <div class="agreement-box">
-      <p><strong>There's nothing to pay and nothing to commit to.</strong> Embed this exact tool on your site (I'll send the snippet) and your visitors get a real, personalized answer before they ever talk to you — which means the people who reach out are already qualified.</p>
-      <p>If it's useful, happy to build variations or tune it further. If it's not for you, no reply needed — it's yours either way.</p>
+      <p><strong>What you just tried is a live preview.</strong> <span id="pricing-blurb"></span></p>
+      <p>Try it as many times as you want — it's yours to try free. Reply and I'll send next steps, or if it's not for you, no response needed.</p>
     </div>
   </section>
 
   <footer class="cta">
-    <p class="cta-line display" style="font-size: clamp(1.4rem, 4vw, 1.9rem);">Want the embed code?</p>
+    <p class="cta-line display" style="font-size: clamp(1.4rem, 4vw, 1.9rem);" id="cta-line">Want this live on your site?</p>
     <a class="cta-button" href="#" id="cta-reply">Reply to the email</a>
   </footer>
 </div>
@@ -273,6 +273,14 @@
 
   var mailto = 'mailto:said@vantagemedia.ink?subject=' + encodeURIComponent('Re: the tool you built for ' + data.title);
   document.getElementById('cta-reply').href = mailto;
+
+  var isServiceBiz = data.toolType === 'service_match';
+  var bookingNote = isServiceBiz
+    ? ' For a business like yours, it can also plug straight into your booking calendar, so a completed quiz turns into a scheduled appointment automatically.'
+    : '';
+  document.getElementById('pricing-blurb').textContent =
+    'The real version gets fully rebranded to match your site, colors and domain.' + bookingNote +
+    ' Getting your own branded, embedded version live starts at $297 one-time (optional $39/mo for hosting and tweaks).';
 
   // ---------------------------------------------------------------
   // Quiz engine

@@ -2,13 +2,13 @@ SUBJECT: I built {channel_title} a tool - it's already live
 
 Hi {channel_title} team,
 
-{hook_line}I didn't want to pitch you on an idea, so I skipped that step and just built the thing: a free, interactive tool for your "{niche}" audience, already working, no signup needed to try it.
+{hook_line}I didn't want to pitch you on an idea, so I skipped that step and just built a live preview: an interactive tool for your "{niche}" audience, no signup needed to try it.
 
 {proposal_url}
 
 The idea is simple - your visitors answer a few quick questions and get a real, personal answer instantly, instead of another generic lead magnet. That's the kind of thing that turns a browser into someone worth following up with.
 
-It's yours to embed on your site if you want it - I'll send the snippet. No cost, no catch.
+{pricing_line}
 
 If it's not useful, no reply needed.
 

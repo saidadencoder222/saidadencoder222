@@ -49,6 +49,22 @@ def _load_template(touch_number: int, channel_id: str = None):
     return subject, body
 
 
+def _pricing_line(lead) -> str:
+    is_service = lead["tool_type"] == "service_match"
+    booking_sentence = (
+        " For a business like yours, it can also plug straight into your booking "
+        "calendar, so a completed quiz turns into a scheduled appointment automatically."
+        if is_service else ""
+    )
+    return (
+        "What you just tried is a live preview. The real version gets fully rebranded "
+        "to match your site, colors and domain."
+        + booking_sentence
+        + " Getting your own branded, embedded version live starts at $297 one-time "
+        "(optional $39/mo for hosting and tweaks) - just reply and I'll send next steps."
+    )
+
+
 def _render(text: str, lead, sender_email: str) -> str:
     hook = lead["hook"] if "hook" in lead.keys() else None
     hook_line = f"One thing I noticed on your site: {hook}. " if hook else ""
@@ -58,6 +74,7 @@ def _render(text: str, lead, sender_email: str) -> str:
         sender_name=CONFIG.sender_name,
         proposal_url=_proposal_url(lead["channel_id"]),
         hook_line=hook_line,
+        pricing_line=_pricing_line(lead),
     )
 
 

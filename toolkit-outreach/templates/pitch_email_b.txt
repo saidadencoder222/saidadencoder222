@@ -2,13 +2,13 @@ SUBJECT: A working tool for {channel_title}'s site, not a pitch
 
 Dear {channel_title} team,
 
-{hook_line}Most emails like this ask for a call before showing you anything. I'd rather just show you: I built a short, interactive tool for your "{niche}" audience and it's already live.
+{hook_line}Most emails like this ask for a call before showing you anything. I'd rather just show you: here's a live preview of an interactive tool for your "{niche}" audience.
 
 {proposal_url}
 
 It takes someone through a few quick questions and gives them a real, personalized result on the spot - the sort of immediate value that gets people to actually stick around and follow up, rather than bounce.
 
-Add it to your site if it's useful - no cost, nothing to sign, I'll send the embed code.
+{pricing_line}
 
 If it's not for you, that's completely fine - no response needed.
 

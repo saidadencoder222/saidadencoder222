@@ -1,0 +1,15 @@
+SUBJECT: Re: the tool I built for {channel_title}
+
+Dear {channel_title} team,
+
+Following up in case my last email got buried. The tool is still live here:
+
+{proposal_url}
+
+Happy to send the embed code if it's useful. This is the last time I'll write about it.
+
+Kind regards,
+{sender_name}
+
+---
+If you would prefer not to hear from me again, please reply with UNSUBSCRIBE in the subject line and I will remove you immediately.

@@ -1,0 +1,19 @@
+SUBJECT: {channel_title} - try this before you read the rest of this email
+
+Dear {channel_title} team,
+
+Before any explanation - here's an interactive tool I built specifically for a "{niche}" audience like yours. Try it, it's live:
+
+{proposal_url}
+
+The logic: your visitors get a specific, personal answer in under a minute instead of a generic freebie, which means whoever reaches out afterward already knows what they need - easier to convert, less time wasted on the wrong fit.
+
+It's free to embed on your site, no strings attached - just reply and I'll send the code.
+
+If it's not the right fit, no need to respond.
+
+Kind regards,
+{sender_name}
+
+---
+If you would prefer not to hear from me again, please reply with UNSUBSCRIBE in the subject line and I will remove you immediately.

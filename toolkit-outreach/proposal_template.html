@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free interactive tool</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  :root {
+    --bg: #121214;
+    --bg-raised: #1a1a1d;
+    --bg-card: #202024;
+    --text: #f2f0ea;
+    --text-muted: #a39d92;
+    --border: #2b2a2c;
+    --accent: #c9a227;
+    --accent-text: #1a1608;
+    --good: #4ade80;
+    --warn: #fbbf24;
+    --bad: #f87171;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Work Sans", -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 0 20px 80px; }
+  .display {
+    font-family: "Bebas Neue", "Arial Narrow", sans-serif;
+    letter-spacing: 0.01em;
+    text-wrap: balance;
+    line-height: 0.98;
+  }
+  .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+  .eyebrow {
+    font-family: "Work Sans", sans-serif;
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  header.hero { padding-block: 44px 28px; }
+  .hero-top { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; }
+  .avatar, .avatar-fallback {
+    width: 52px; height: 52px; border-radius: 50%;
+    object-fit: cover; border: 2px solid var(--accent);
+    background: var(--bg-raised); flex-shrink: 0;
+  }
+  .avatar-fallback {
+    color: var(--accent-text); background: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-family: "Bebas Neue", sans-serif; font-size: 1.3rem;
+  }
+  .channel-name { font-size: 0.98rem; font-weight: 600; }
+  .channel-sub { color: var(--text-muted); font-size: 0.85rem; }
+
+  h1.headline { font-size: clamp(2.1rem, 8vw, 3.2rem); margin: 0 0 12px; color: var(--text); }
+  .dek { font-size: 1.02rem; line-height: 1.55; color: var(--text-muted); max-width: 56ch; margin: 0; }
+
+  .example-note {
+    font-size: 0.76rem; color: var(--text-muted); text-align: center;
+    padding: 9px; background: var(--bg-raised); border-radius: 6px; margin-bottom: 18px;
+  }
+
+  /* --- quiz card --- */
+  .quiz-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .progress-track {
+    height: 5px; background: var(--bg-raised); border-radius: 4px;
+    overflow: hidden; margin-bottom: 24px;
+  }
+  .progress-fill {
+    height: 100%; background: var(--accent); border-radius: 4px;
+    transition: width 0.35s ease;
+  }
+  .step-count { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 6px; }
+  .step-question {
+    font-size: 1.25rem; font-weight: 600; margin: 0 0 18px; line-height: 1.35;
+  }
+  .step-panel { animation: fadeSlide 0.32s ease; }
+  @keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .option-grid { display: grid; gap: 10px; }
+  .option-card {
+    display: flex; align-items: center; gap: 12px;
+    background: var(--bg-raised); border: 1.5px solid var(--border);
+    border-radius: 10px; padding: 14px 16px; cursor: pointer;
+    font-size: 0.96rem; font-weight: 500; color: var(--text);
+    transition: border-color 0.15s, background 0.15s, transform 0.1s;
+    text-align: left; width: 100%;
+  }
+  .option-card:hover { border-color: var(--accent); transform: translateY(-1px); }
+  .option-card.selected {
+    border-color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, var(--bg-raised));
+  }
+  .option-emoji { font-size: 1.3rem; flex-shrink: 0; }
+
+  .num-input, .text-input {
+    width: 100%; background: var(--bg-raised); border: 1.5px solid var(--border);
+    border-radius: 10px; padding: 14px 16px; font-size: 1.05rem; color: var(--text);
+    font-family: "IBM Plex Mono", monospace;
+  }
+  .num-input:focus, .text-input:focus { outline: none; border-color: var(--accent); }
+  .input-suffix { font-size: 0.82rem; color: var(--text-muted); margin-top: 8px; }
+
+  .nav-row { display: flex; justify-content: space-between; margin-top: 26px; gap: 12px; }
+  .btn {
+    font-family: "Work Sans", sans-serif; font-weight: 700; font-size: 0.92rem;
+    border: none; border-radius: 8px; padding: 12px 22px; cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .btn:disabled { opacity: 0.35; cursor: not-allowed; }
+  .btn-primary { background: var(--accent); color: var(--accent-text); margin-left: auto; }
+  .btn-primary:not(:disabled):hover { opacity: 0.88; }
+  .btn-ghost { background: transparent; color: var(--text-muted); }
+  .btn-ghost:not(:disabled):hover { color: var(--text); }
+
+  /* --- result screen --- */
+  .result-badge {
+    display: inline-block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; padding: 5px 11px; border-radius: 20px; margin-bottom: 14px;
+  }
+  .result-headline { font-size: clamp(1.6rem, 6vw, 2.1rem); margin: 0 0 10px; }
+  .result-body { color: var(--text-muted); line-height: 1.6; font-size: 0.98rem; margin: 0 0 20px; }
+  .result-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px,1fr)); gap: 10px; margin-bottom: 20px; }
+  .stat-tile {
+    background: var(--bg-raised); border: 1px solid var(--border); border-radius: 10px;
+    padding: 14px; text-align: center;
+  }
+  .stat-value { font-family: "IBM Plex Mono", monospace; font-size: 1.35rem; font-weight: 600; color: var(--accent); }
+  .stat-label { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px; }
+  .result-list { margin: 0 0 22px; padding: 0; list-style: none; }
+  .result-list li {
+    padding: 11px 0; border-top: 1px solid var(--border); font-size: 0.94rem; line-height: 1.5;
+    display: flex; gap: 10px;
+  }
+  .result-list li:first-child { border-top: none; }
+  .result-list .dot { color: var(--accent); flex-shrink: 0; }
+  .result-cta {
+    display: block; text-align: center; background: var(--accent); color: var(--accent-text);
+    font-weight: 700; padding: 15px; border-radius: 10px; text-decoration: none; font-size: 0.98rem;
+  }
+  .restart-link {
+    display: block; text-align: center; margin-top: 14px; font-size: 0.85rem;
+    color: var(--text-muted); cursor: pointer; background: none; border: none; width: 100%;
+  }
+  .restart-link:hover { color: var(--text); }
+
+  /* --- pitch footer --- */
+  section.pitch { padding-block: 44px; border-top: 1px solid var(--border); margin-top: 40px; }
+  section.pitch .eyebrow { display: block; margin-bottom: 4px; }
+  h2.section-title { font-size: clamp(1.5rem, 4vw, 2rem); margin: 6px 0 16px; }
+  .agreement-box {
+    background: var(--bg-raised); border: 1px solid var(--border); border-radius: 10px;
+    padding: 22px 20px; margin-top: 18px;
+  }
+  .agreement-box p { line-height: 1.6; color: var(--text-muted); margin: 0 0 12px; font-size: 0.94rem; }
+  .agreement-box p:last-child { margin-bottom: 0; }
+  .agreement-box strong { color: var(--text); }
+  footer.cta { padding-block: 40px 56px; text-align: center; }
+  .cta-line { font-size: 1.25rem; margin: 0 auto 20px; max-width: 40ch; }
+  .cta-button {
+    display: inline-block; background: var(--accent); color: var(--accent-text);
+    font-weight: 700; padding: 13px 30px; border-radius: 4px; text-decoration: none; font-size: 0.92rem;
+  }
+
+  @media (max-width: 480px) {
+    .nav-row { flex-direction: column-reverse; }
+    .btn-primary { margin-left: 0; width: 100%; }
+    .btn-ghost { width: 100%; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div id="example-banner" class="example-note" hidden>Showing example data — open this link with your own ?id= to see a version built around a real channel.</div>
+
+  <header class="hero">
+    <div class="hero-top">
+      <img id="avatar-img" class="avatar" alt="" hidden>
+      <div id="avatar-fallback" class="avatar-fallback" hidden></div>
+      <div>
+        <div class="channel-name" id="channel-name"></div>
+        <div class="channel-sub">Built for your audience</div>
+      </div>
+    </div>
+    <div class="eyebrow">A free tool, live in 60 seconds</div>
+    <h1 class="headline display" id="tool-title">Loading.</h1>
+    <p class="dek" id="tool-dek"></p>
+  </header>
+
+  <div class="quiz-card" id="quiz-card"></div>
+
+  <section class="pitch">
+    <span class="eyebrow">Why I built this</span>
+    <h2 class="section-title display">Add it to your site,<br>watch what happens.</h2>
+    <p style="color: var(--text-muted); line-height: 1.65; font-size: 0.98rem;" id="niche-blurb"></p>
+    <div class="agreement-box">
+      <p><strong>There's nothing to pay and nothing to commit to.</strong> Embed this exact tool on your site (I'll send the snippet) and your visitors get a real, personalized answer before they ever talk to you — which means the people who reach out are already qualified.</p>
+      <p>If it's useful, happy to build variations or tune it further. If it's not for you, no reply needed — it's yours either way.</p>
+    </div>
+  </section>
+
+  <footer class="cta">
+    <p class="cta-line display" style="font-size: clamp(1.4rem, 4vw, 1.9rem);">Want the embed code?</p>
+    <a class="cta-button" href="#" id="cta-reply">Reply to the email</a>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var DATA = __PROPOSAL_DATA__;
+  var params = new URLSearchParams(location.search);
+  var id = params.get('id');
+  var entry = (id && DATA[id]) || null;
+
+  var EXAMPLE = {
+    title: "Example Channel",
+    thumbnailUrl: null,
+    niche: "fitness coaching",
+    toolType: "meal_plan",
+    accent: "#c9a227"
+  };
+
+  var showingExample = !entry;
+  var data = entry || EXAMPLE;
+  document.getElementById('example-banner').hidden = !showingExample;
+
+  function contrastTextFor(hex) {
+    var h = hex.replace('#', '');
+    var r = parseInt(h.substring(0, 2), 16);
+    var g = parseInt(h.substring(2, 4), 16);
+    var b = parseInt(h.substring(4, 6), 16);
+    var luminance = 0.299 * r + 0.587 * g + 0.114 * b;
+    return luminance > 140 ? '#1a1608' : '#f2f0ea';
+  }
+
+  document.documentElement.style.setProperty('--accent', data.accent);
+  document.documentElement.style.setProperty('--accent-text', contrastTextFor(data.accent));
+
+  document.getElementById('channel-name').textContent = data.title;
+  var avatarImg = document.getElementById('avatar-img');
+  var avatarFallback = document.getElementById('avatar-fallback');
+  if (data.thumbnailUrl) {
+    avatarImg.src = data.thumbnailUrl;
+    avatarImg.alt = data.title;
+    avatarImg.hidden = false;
+    avatarImg.onerror = function () {
+      avatarImg.hidden = true;
+      avatarFallback.hidden = false;
+      avatarFallback.textContent = (data.title || '?').charAt(0).toUpperCase();
+    };
+  } else {
+    avatarFallback.hidden = false;
+    avatarFallback.textContent = (data.title || '?').charAt(0).toUpperCase();
+  }
+
+  var mailto = 'mailto:said@vantagemedia.ink?subject=' + encodeURIComponent('Re: the tool you built for ' + data.title);
+  document.getElementById('cta-reply').href = mailto;
+
+  // ---------------------------------------------------------------
+  // Quiz engine
+  // ---------------------------------------------------------------
+
+  var QUIZZES = {
+
+    meal_plan: {
+      title: "Your Macro Blueprint.",
+      dek: "Answer four quick questions and get a personalized macro split and meal starting point — the kind of thing that turns a browser into a lead.",
+      blurb: 'Given your "' + (data.niche || 'fitness') + '" content, your audience is already asking "what should I actually eat." This gives them a real, personal answer instead of a generic PDF.',
+      steps: [
+        { key: "goal", q: "What's the main goal?", type: "choice", options: [
+          { v: "lose", label: "Lose fat", emoji: "🔥" },
+          { v: "build", label: "Build muscle", emoji: "💪" },
+          { v: "maintain", label: "Maintain & feel good", emoji: "⚖️" }
+        ]},
+        { key: "activity", q: "How active is a typical week?", type: "choice", options: [
+          { v: "low", label: "Mostly sedentary", emoji: "🪑" },
+          { v: "moderate", label: "3–4 workouts/week", emoji: "🚶" },
+          { v: "high", label: "5+ workouts/week", emoji: "🏃" }
+        ]},
+        { key: "diet", q: "Any diet preference?", type: "choice", options: [
+          { v: "balanced", label: "Balanced, no restrictions", emoji: "🍽️" },
+          { v: "highprotein", label: "High protein", emoji: "🥩" },
+          { v: "lowcarb", label: "Low carb / keto-leaning", emoji: "🥑" },
+          { v: "veg", label: "Vegetarian", emoji: "🥗" }
+        ]},
+        { key: "weight", q: "Roughly what's their bodyweight? (lbs)", type: "number", placeholder: "e.g. 165", suffix: "Used only to estimate a calorie range — nothing is stored." }
+      ],
+      compute: function (a) {
+        var w = parseFloat(a.weight) || 165;
+        var activityMult = { low: 12, moderate: 14.5, high: 17 }[a.activity] || 14;
+        var goalAdj = { lose: -350, build: 300, maintain: 0 }[a.goal] || 0;
+        var calories = Math.round(w * activityMult + goalAdj);
+        var splits = {
+          balanced:   { p: 30, c: 40, f: 30 },
+          highprotein:{ p: 40, c: 30, f: 30 },
+          lowcarb:    { p: 35, c: 20, f: 45 },
+          veg:        { p: 25, c: 45, f: 30 }
+        };
+        var s = splits[a.diet] || splits.balanced;
+        var proteinG = Math.round((calories * s.p / 100) / 4);
+        var carbG = Math.round((calories * s.c / 100) / 4);
+        var fatG = Math.round((calories * s.f / 100) / 9);
+        var goalLabel = { lose: "Fat Loss", build: "Muscle Gain", maintain: "Maintenance" }[a.goal];
+        var mealIdeas = {
+          lose: "grilled chicken, big veg portion, small serving of rice",
+          build: "steak or salmon, potatoes, greens, a protein shake post-workout",
+          maintain: "a balanced bowl — lean protein, whole grain, veg, healthy fat"
+        };
+        return {
+          badge: goalLabel,
+          headline: calories + " cal/day, roughly",
+          body: "That splits out to about " + proteinG + "g protein, " + carbG + "g carbs and " + fatG + "g fat a day — a starting point to adjust from, not a prescription.",
+          stats: [
+            { value: proteinG + "g", label: "Protein" },
+            { value: carbG + "g", label: "Carbs" },
+            { value: fatG + "g", label: "Fat" }
+          ],
+          list: [
+            "A typical meal at this split: " + mealIdeas[a.goal],
+            "Split across " + (a.activity === "high" ? "4" : "3") + " meals a day keeps energy steadier than 1–2 big ones.",
+            "Re-check this every 2–3 weeks as bodyweight changes — the split should move with it."
+          ]
+        };
+      }
+    },
+
+    risk_profile: {
+      title: "Your Trading Profile.",
+      dek: "Four questions, one honest read on the trading style that actually fits how much time and risk tolerance someone really has.",
+      blurb: 'Given your "' + (data.niche || 'trading') + '" content, most of your audience has never had their style matched to their actual constraints — this does that in under a minute.',
+      steps: [
+        { key: "experience", q: "How much trading experience?", type: "choice", options: [
+          { v: "beginner", label: "New — under 1 year", emoji: "🌱" },
+          { v: "intermediate", label: "1–3 years", emoji: "📈" },
+          { v: "advanced", label: "3+ years", emoji: "🏆" }
+        ]},
+        { key: "risk", q: "How do you feel about drawdowns?", type: "choice", options: [
+          { v: "conservative", label: "Losses stress me out — keep it small", emoji: "🛡️" },
+          { v: "balanced", label: "I can handle normal swings", emoji: "⚖️" },
+          { v: "aggressive", label: "I'm fine with big swings for big upside", emoji: "🎯" }
+        ]},
+        { key: "time", q: "How much time can you give this daily?", type: "choice", options: [
+          { v: "low", label: "A few minutes", emoji: "⏱️" },
+          { v: "medium", label: "An hour or two", emoji: "🕑" },
+          { v: "high", label: "Most of the day", emoji: "🖥️" }
+        ]},
+        { key: "market", q: "What market interests you most?", type: "choice", options: [
+          { v: "stocks", label: "Stocks", emoji: "📊" },
+          { v: "forex", label: "Forex", emoji: "💱" },
+          { v: "crypto", label: "Crypto", emoji: "🪙" },
+          { v: "options", label: "Options", emoji: "🎛️" }
+        ]}
+      ],
+      compute: function (a) {
+        var personas = {
+          "beginner-conservative": "The Cautious Learner",
+          "beginner-balanced": "The Curious Starter",
+          "beginner-aggressive": "The Eager Beginner",
+          "intermediate-conservative": "The Steady Swinger",
+          "intermediate-balanced": "The Balanced Swing Trader",
+          "intermediate-aggressive": "The Momentum Chaser",
+          "advanced-conservative": "The Disciplined Risk Manager",
+          "advanced-balanced": "The Systematic Trader",
+          "advanced-aggressive": "The High-Conviction Trader"
+        };
+        var key = a.experience + "-" + a.risk;
+        var persona = personas[key] || "The Developing Trader";
+        var timeStyle = { low: "swing or position trades that don't need watching all day", medium: "swing trading with a couple of check-ins", high: "day trading or active intraday management" }[a.time];
+        return {
+          badge: a.market.toUpperCase(),
+          headline: persona,
+          body: "Based on your time and risk answers, " + timeStyle + " fits your actual life better than what most people default to.",
+          stats: [
+            { value: a.experience.charAt(0).toUpperCase() + a.experience.slice(1), label: "Level" },
+            { value: a.risk.charAt(0).toUpperCase() + a.risk.slice(1), label: "Risk style" },
+            { value: a.market.charAt(0).toUpperCase() + a.market.slice(1), label: "Market" }
+          ],
+          list: [
+            "Position size around 1-2% of account per trade fits a " + a.risk + " risk profile.",
+            "With " + (a.time === "high" ? "a full day" : "limited time") + " available, " + timeStyle + ".",
+            "Track every trade for 30 days before changing size — the data tells you more than the feeling does."
+          ]
+        };
+      }
+    },
+
+    product_finder: {
+      title: "Winning Product Score.",
+      dek: "Drop in a product idea and get a quick opportunity read — the kind of gut-check people screenshot and send to a friend.",
+      blurb: 'Given your "' + (data.niche || 'ecommerce') + '" content, this turns "just tell me if this product is worth trying" into something they can do themselves, instantly.',
+      steps: [
+        { key: "product", q: "What's the product idea?", type: "text", placeholder: "e.g. collapsible water bottle" },
+        { key: "category", q: "What category is it in?", type: "choice", options: [
+          { v: "home", label: "Home & kitchen", emoji: "🏠" },
+          { v: "beauty", label: "Beauty & personal care", emoji: "💄" },
+          { v: "fitness", label: "Fitness & outdoors", emoji: "🏋️" },
+          { v: "pet", label: "Pet products", emoji: "🐾" },
+          { v: "tech", label: "Tech & gadgets", emoji: "🔌" }
+        ]},
+        { key: "price", q: "Roughly what price point?", type: "choice", options: [
+          { v: "low", label: "Under $20", emoji: "💵" },
+          { v: "mid", label: "$20–$50", emoji: "💰" },
+          { v: "high", label: "$50+", emoji: "💎" }
+        ]},
+        { key: "platform", q: "Where would you sell it first?", type: "choice", options: [
+          { v: "tiktok", label: "TikTok Shop", emoji: "🎵" },
+          { v: "instagram", label: "Instagram / Meta ads", emoji: "📸" },
+          { v: "amazon", label: "Amazon", emoji: "📦" }
+        ]}
+      ],
+      compute: function (a) {
+        function hashScore(str) {
+          var h = 0;
+          for (var i = 0; i < str.length; i++) { h = (h * 31 + str.charCodeAt(i)) >>> 0; }
+          return h;
+        }
+        var base = 45 + (hashScore((a.product || "product") + a.category) % 40);
+        var priceBonus = { low: 8, mid: 4, high: -4 }[a.price] || 0;
+        var platformFit = {
+          tiktok: { home: 10, beauty: 12, fitness: 6, pet: 8, tech: 4 },
+          instagram: { home: 6, beauty: 10, fitness: 8, pet: 10, tech: 6 },
+          amazon: { home: 8, beauty: 4, fitness: 8, pet: 6, tech: 10 }
+        };
+        var fitBonus = (platformFit[a.platform] && platformFit[a.platform][a.category]) || 5;
+        var score = Math.max(10, Math.min(96, base + priceBonus + fitBonus));
+        var verdict = score >= 75 ? "Strong opportunity" : score >= 55 ? "Worth testing" : "Needs a sharper angle";
+        var color = score >= 75 ? "var(--good)" : score >= 55 ? "var(--warn)" : "var(--bad)";
+        return {
+          badge: verdict,
+          badgeColor: color,
+          headline: score + " / 100",
+          body: '"' + (a.product || "Your product") + '" scores as a ' + verdict.toLowerCase() + " for " + a.platform + ", based on category fit and price point. This is a directional read, not a guarantee — validate with real ad spend before committing inventory.",
+          stats: [
+            { value: (a.price === "low" ? "Low" : a.price === "mid" ? "Mid" : "High"), label: "Price tier" },
+            { value: a.platform.charAt(0).toUpperCase() + a.platform.slice(1), label: "Best channel" },
+            { value: score + "%", label: "Opportunity" }
+          ],
+          list: [
+            score >= 55 ? "The price point and platform combination checks out — focus your first budget here." : "Consider a lower price tier or a different first platform before scaling spend.",
+            "Order a sample before running paid traffic — video quality will make or break this on " + a.platform + ".",
+            "Track your break-even ROAS before you scale past a $50/day test budget."
+          ]
+        };
+      }
+    },
+
+    content_plan: {
+      title: "Your Content Blueprint.",
+      dek: "Tell it your topic and goal, get three ready-to-film content ideas plus a posting cadence built around it.",
+      blurb: 'Given your "' + (data.niche || 'content') + '" content, "what should I post" is the question your audience asks most — this gives them a specific, personal answer instead of a generic content calendar template.',
+      steps: [
+        { key: "topic", q: "What's the core topic or niche?", type: "text", placeholder: "e.g. budgeting for freelancers" },
+        { key: "goal", q: "What's the main goal right now?", type: "choice", options: [
+          { v: "grow", label: "Grow the audience", emoji: "📈" },
+          { v: "sell", label: "Sell a product/service", emoji: "💰" },
+          { v: "authority", label: "Build authority/trust", emoji: "🏛️" }
+        ]},
+        { key: "platform", q: "Main platform?", type: "choice", options: [
+          { v: "youtube", label: "YouTube", emoji: "▶️" },
+          { v: "instagram", label: "Instagram", emoji: "📸" },
+          { v: "tiktok", label: "TikTok", emoji: "🎵" },
+          { v: "newsletter", label: "Newsletter", emoji: "✉️" }
+        ]},
+        { key: "frequency", q: "How often can you realistically post?", type: "choice", options: [
+          { v: "daily", label: "Daily", emoji: "🔥" },
+          { v: "weekly", label: "A few times a week", emoji: "📅" },
+          { v: "occasional", label: "Once a week or less", emoji: "🐢" }
+        ]}
+      ],
+      compute: function (a) {
+        var topic = a.topic || "your topic";
+        var templatesByGoal = {
+          grow: [
+            "\"The #1 mistake beginners make with " + topic + "\" — a myth-bust hook pulls new viewers fast.",
+            "\"I tried " + topic + " for 30 days — here's what happened\" — a personal experiment format built for shares.",
+            "\"" + topic + " explained in under 60 seconds\" — a short, dense clip built for the algorithm."
+          ],
+          sell: [
+            "\"Here's exactly how I use " + topic + " to get results\" — show the process, tease the offer at the end.",
+            "A case study: \"How [client] solved their " + topic + " problem\" — social proof that leads into your CTA.",
+            "\"3 things I wish I knew before starting with " + topic + "\" — builds trust before the pitch."
+          ],
+          authority: [
+            "A deep-dive breakdown of one specific " + topic + " concept most creators skip.",
+            "\"My honest opinion on [a common belief] about " + topic + "\" — a contrarian take builds authority fast.",
+            "Behind-the-scenes of how you personally approach " + topic + " — process content builds trust."
+          ]
+        };
+        var cadenceNote = {
+          daily: "Daily is aggressive — batch-film a week's worth in one sitting or it won't last.",
+          weekly: "A few times a week is the sustainable sweet spot for most creators at your stage.",
+          occasional: "Once a week is fine if every post is genuinely high-effort — consistency beats frequency here."
+        }[a.frequency];
+        return {
+          badge: a.platform.toUpperCase(),
+          headline: "3 ideas for \"" + topic + "\"",
+          body: cadenceNote,
+          stats: [
+            { value: a.platform.charAt(0).toUpperCase() + a.platform.slice(1), label: "Platform" },
+            { value: a.goal.charAt(0).toUpperCase() + a.goal.slice(1), label: "Goal" },
+            { value: a.frequency.charAt(0).toUpperCase() + a.frequency.slice(1), label: "Cadence" }
+          ],
+          list: templatesByGoal[a.goal] || templatesByGoal.grow
+        };
+      }
+    },
+
+    deal_analyzer: {
+      title: "Deal Analyzer.",
+      dek: "Drop in the numbers on a property and get an instant read on cap rate, cash flow and whether the deal actually holds up.",
+      blurb: 'Given your "' + (data.niche || 'real estate') + '" content, running the numbers on a deal is the single most-requested thing your audience wants help with — this does it for them in seconds.',
+      steps: [
+        { key: "price", q: "Purchase price?", type: "number", placeholder: "e.g. 250000", suffix: "In dollars" },
+        { key: "rent", q: "Expected monthly rent?", type: "number", placeholder: "e.g. 2200", suffix: "In dollars" },
+        { key: "expenses", q: "Monthly expenses (tax, insurance, mgmt, maintenance)?", type: "number", placeholder: "e.g. 600", suffix: "In dollars" },
+        { key: "down", q: "Down payment percentage?", type: "choice", options: [
+          { v: "20", label: "20%", emoji: "🏦" },
+          { v: "25", label: "25%", emoji: "🏦" },
+          { v: "100", label: "All cash", emoji: "💵" }
+        ]}
+      ],
+      compute: function (a) {
+        var price = parseFloat(a.price) || 250000;
+        var rent = parseFloat(a.rent) || 2200;
+        var expenses = parseFloat(a.expenses) || 600;
+        var downPct = parseFloat(a.down) / 100;
+        var noi = (rent - expenses) * 12;
+        var capRate = (noi / price) * 100;
+        var downPayment = price * downPct;
+        var cashOnCash = downPayment > 0 ? (noi / downPayment) * 100 : capRate;
+        var monthlyCashFlow = rent - expenses - (downPct < 1 ? (price * 0.94 * 0.006) : 0);
+        var verdict = capRate >= 7 ? "Strong deal" : capRate >= 4.5 ? "Middle of the road" : "Needs work";
+        var color = capRate >= 7 ? "var(--good)" : capRate >= 4.5 ? "var(--warn)" : "var(--bad)";
+        return {
+          badge: verdict,
+          badgeColor: color,
+          headline: capRate.toFixed(1) + "% cap rate",
+          body: "On a $" + price.toLocaleString() + " purchase, this deal nets roughly $" + Math.round(noi).toLocaleString() + "/year — a rough-cut number, not a substitute for full underwriting with real financing terms.",
+          stats: [
+            { value: capRate.toFixed(1) + "%", label: "Cap rate" },
+            { value: cashOnCash.toFixed(1) + "%", label: "Cash-on-cash" },
+            { value: "$" + Math.round(monthlyCashFlow).toLocaleString(), label: "Monthly flow (est.)" }
+          ],
+          list: [
+            capRate >= 7 ? "This clears a strong cap rate bar — worth digging into the actual numbers." : "This is below a strong cap rate threshold — worth negotiating price or rent before moving forward.",
+            "This estimate ignores vacancy and financing rate — model both before you commit capital.",
+            "Cash-on-cash return matters more than cap rate once financing enters the picture."
+          ]
+        };
+      }
+    },
+
+    offer_clarity: {
+      title: "Offer Clarity Score.",
+      dek: "Four questions on what you sell and where it's stuck — get a specific diagnosis instead of generic business advice.",
+      blurb: 'Given your "' + (data.niche || 'coaching') + '" content, this replaces "it depends" with a specific answer your audience can actually act on.',
+      steps: [
+        { key: "product", q: "What do you sell?", type: "choice", options: [
+          { v: "course", label: "A course", emoji: "🎓" },
+          { v: "coaching", label: "1:1 coaching", emoji: "🧑‍🏫" },
+          { v: "community", label: "A community/membership", emoji: "👥" },
+          { v: "service", label: "A service", emoji: "🛠️" }
+        ]},
+        { key: "price", q: "What's the price point?", type: "choice", options: [
+          { v: "low", label: "Under $100", emoji: "💵" },
+          { v: "mid", label: "$100–$1,000", emoji: "💰" },
+          { v: "high", label: "$1,000+", emoji: "💎" }
+        ]},
+        { key: "challenge", q: "What's the biggest bottleneck right now?", type: "choice", options: [
+          { v: "leads", label: "Not enough leads", emoji: "📉" },
+          { v: "converting", label: "Leads don't convert", emoji: "🤝" },
+          { v: "retention", label: "People don't stick around", emoji: "🔁" },
+          { v: "pricing", label: "Not sure about pricing", emoji: "🏷️" }
+        ]},
+        { key: "audience", q: "Roughly how big is the audience?", type: "choice", options: [
+          { v: "small", label: "Under 5k", emoji: "🌱" },
+          { v: "medium", label: "5k–50k", emoji: "🌿" },
+          { v: "large", label: "50k+", emoji: "🌳" }
+        ]}
+      ],
+      compute: function (a) {
+        var diagnoses = {
+          leads: "The offer is probably fine — the visibility isn't. Fix the top of funnel before touching the pitch.",
+          converting: "Traffic exists but the pitch doesn't close the gap between interest and buying — usually a proof or urgency problem.",
+          retention: "The sale is working; the delivery experience isn't holding people. Look at onboarding and the first 7 days.",
+          pricing: "Uncertainty about price usually means the value isn't stated in outcomes yet — anchor it to a result, not a feature."
+        };
+        var scoreBase = { leads: 62, converting: 48, retention: 55, pricing: 58 }[a.challenge] || 55;
+        var audienceAdj = { small: -5, medium: 0, large: 6 }[a.audience] || 0;
+        var score = Math.max(20, Math.min(92, scoreBase + audienceAdj));
+        var verdict = score >= 65 ? "Close to solid" : score >= 45 ? "Fixable gap" : "Needs a rebuild";
+        var color = score >= 65 ? "var(--good)" : score >= 45 ? "var(--warn)" : "var(--bad)";
+        return {
+          badge: verdict,
+          badgeColor: color,
+          headline: score + " / 100",
+          body: diagnoses[a.challenge],
+          stats: [
+            { value: a.product.charAt(0).toUpperCase() + a.product.slice(1), label: "Offer type" },
+            { value: (a.price === "low" ? "<$100" : a.price === "mid" ? "$100-1k" : "$1k+"), label: "Price tier" },
+            { value: score, label: "Clarity score" }
+          ],
+          list: [
+            diagnoses[a.challenge],
+            a.price === "low" ? "At this price point, volume matters more than deep personalization." : "At this price point, the buying decision needs real trust-building before the pitch.",
+            "Re-run this after one real change — the bottleneck usually moves, not disappears."
+          ]
+        };
+      }
+    }
+
+  };
+
+  var quiz = QUIZZES[data.toolType] || QUIZZES.offer_clarity;
+  document.getElementById('tool-title').textContent = quiz.title;
+  document.getElementById('tool-dek').textContent = quiz.dek;
+  document.getElementById('niche-blurb').textContent = quiz.blurb;
+
+  var state = { step: 0, answers: {} };
+  var card = document.getElementById('quiz-card');
+
+  function render() {
+    if (state.step >= quiz.steps.length) {
+      renderResult();
+      return;
+    }
+    var step = quiz.steps[state.step];
+    var pct = Math.round((state.step / quiz.steps.length) * 100);
+    var html = '<div class="progress-track"><div class="progress-fill" style="width:' + pct + '%"></div></div>';
+    html += '<div class="step-count mono">STEP ' + (state.step + 1) + ' OF ' + quiz.steps.length + '</div>';
+    html += '<div class="step-panel">';
+    html += '<p class="step-question">' + step.q + '</p>';
+
+    if (step.type === 'choice') {
+      html += '<div class="option-grid">';
+      step.options.forEach(function (opt) {
+        var sel = state.answers[step.key] === opt.v ? ' selected' : '';
+        html += '<button class="option-card' + sel + '" data-key="' + step.key + '" data-val="' + opt.v + '">' +
+          '<span class="option-emoji">' + opt.emoji + '</span><span>' + opt.label + '</span></button>';
+      });
+      html += '</div>';
+    } else if (step.type === 'number') {
+      var val = state.answers[step.key] || '';
+      html += '<input class="num-input" type="number" inputmode="decimal" id="field-input" placeholder="' + (step.placeholder || '') + '" value="' + val + '">';
+      if (step.suffix) html += '<div class="input-suffix">' + step.suffix + '</div>';
+    } else if (step.type === 'text') {
+      var tval = state.answers[step.key] || '';
+      html += '<input class="text-input" type="text" id="field-input" placeholder="' + (step.placeholder || '') + '" value="' + tval + '">';
+    }
+
+    html += '</div>';
+    html += '<div class="nav-row">';
+    html += '<button class="btn btn-ghost" id="btn-back"' + (state.step === 0 ? ' disabled' : '') + '>Back</button>';
+    html += '<button class="btn btn-primary" id="btn-next" disabled>Next</button>';
+    html += '</div>';
+
+    card.innerHTML = html;
+    wireStep(step);
+  }
+
+  function currentAnswerValid(step) {
+    var v = state.answers[step.key];
+    if (step.type === 'choice') return !!v;
+    if (step.type === 'number') return v !== undefined && v !== '' && !isNaN(parseFloat(v));
+    if (step.type === 'text') return !!(v && v.trim().length > 1);
+    return false;
+  }
+
+  function wireStep(step) {
+    var nextBtn = document.getElementById('btn-next');
+    var backBtn = document.getElementById('btn-back');
+    nextBtn.disabled = !currentAnswerValid(step);
+
+    card.querySelectorAll('.option-card').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        state.answers[step.key] = btn.getAttribute('data-val');
+        card.querySelectorAll('.option-card').forEach(function (b) { b.classList.remove('selected'); });
+        btn.classList.add('selected');
+        nextBtn.disabled = false;
+      });
+    });
+
+    var input = document.getElementById('field-input');
+    if (input) {
+      input.addEventListener('input', function () {
+        state.answers[step.key] = input.value;
+        nextBtn.disabled = !currentAnswerValid(step);
+      });
+      input.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' && !nextBtn.disabled) { state.step++; render(); }
+      });
+    }
+
+    nextBtn.addEventListener('click', function () { state.step++; render(); });
+    backBtn.addEventListener('click', function () { state.step--; render(); });
+  }
+
+  function renderResult() {
+    var r = quiz.compute(state.answers);
+    var badgeColor = r.badgeColor || 'var(--accent)';
+    var html = '<div class="step-panel">';
+    html += '<span class="result-badge" style="background:' + badgeColor + ';color:var(--bg);">' + r.badge + '</span>';
+    html += '<h3 class="result-headline display">' + r.headline + '</h3>';
+    html += '<p class="result-body">' + r.body + '</p>';
+    if (r.stats && r.stats.length) {
+      html += '<div class="result-stats">';
+      r.stats.forEach(function (s) {
+        html += '<div class="stat-tile"><div class="stat-value mono">' + s.value + '</div><div class="stat-label">' + s.label + '</div></div>';
+      });
+      html += '</div>';
+    }
+    if (r.list && r.list.length) {
+      html += '<ul class="result-list">';
+      r.list.forEach(function (item) {
+        html += '<li><span class="dot">→</span><span>' + item + '</span></li>';
+      });
+      html += '</ul>';
+    }
+    html += '<a class="result-cta" href="' + (data.channelUrl || '#') + '" target="_blank" rel="noopener">See more from ' + data.title + '</a>';
+    html += '<button class="restart-link" id="btn-restart">Try it again</button>';
+    html += '</div>';
+    card.innerHTML = html;
+    document.getElementById('btn-restart').addEventListener('click', function () {
+      state = { step: 0, answers: {} };
+      render();
+    });
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>

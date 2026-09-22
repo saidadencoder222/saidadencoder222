@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS leads (
     subscriber_count INTEGER,
     channel_url TEXT,
     thumbnail_url TEXT,
+    hook TEXT,
     found_at TEXT NOT NULL
 );
 
@@ -40,6 +41,9 @@ def connect(db_path: str):
     conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
     conn.executescript(SCHEMA)
+    existing_cols = {row["name"] for row in conn.execute("PRAGMA table_info(leads)")}
+    if "hook" not in existing_cols:
+        conn.execute("ALTER TABLE leads ADD COLUMN hook TEXT")
     try:
         yield conn
         conn.commit()
@@ -48,19 +52,20 @@ def connect(db_path: str):
 
 
 def upsert_lead(conn, *, channel_id, title, email, niche, tool_type, subscriber_count,
-                 channel_url, thumbnail_url=None):
+                 channel_url, thumbnail_url=None, hook=None):
     conn.execute(
         """
         INSERT INTO leads (channel_id, title, email, niche, tool_type, subscriber_count,
-                            channel_url, thumbnail_url, found_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                            channel_url, thumbnail_url, hook, found_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ON CONFLICT(channel_id) DO UPDATE SET
             email=COALESCE(excluded.email, leads.email),
             subscriber_count=excluded.subscriber_count,
-            thumbnail_url=COALESCE(excluded.thumbnail_url, leads.thumbnail_url)
+            thumbnail_url=COALESCE(excluded.thumbnail_url, leads.thumbnail_url),
+            hook=COALESCE(excluded.hook, leads.hook)
         """,
         (channel_id, title, email, niche, tool_type, subscriber_count, channel_url,
-         thumbnail_url, now()),
+         thumbnail_url, hook, now()),
     )
     conn.commit()
 

@@ -1,4 +1,6 @@
 import argparse
+import csv
+import hashlib
 
 from config import CONFIG
 from storage import connect, upsert_lead
@@ -63,6 +65,43 @@ def cmd_find_leads(args):
     print(f"Found {len(candidates)} channel(s) [{tool_type}], {with_email} with a public contact email.")
 
 
+def cmd_import_leads(args):
+    added = 0
+    skipped = 0
+    with connect(CONFIG.db_path) as conn:
+        existing = {
+            row["email"].lower()
+            for row in conn.execute("SELECT email FROM leads WHERE email IS NOT NULL")
+        }
+        with open(args.csv_path, newline="") as f:
+            for row in csv.DictReader(f):
+                email = (row.get("email") or "").strip()
+                if not email or email.lower() in existing:
+                    skipped += 1
+                    continue
+                name = (row.get("name") or "").strip()
+                niche = (row.get("niche") or "").strip()
+                website = (row.get("website") or "").strip()
+                hook = (row.get("hook") or "").strip() or None
+                tool_type = args.tool_type or _tool_type_for(niche)
+                channel_id = "csv-" + hashlib.sha1(email.lower().encode()).hexdigest()[:16]
+                upsert_lead(
+                    conn,
+                    channel_id=channel_id,
+                    title=name,
+                    email=email,
+                    niche=niche,
+                    tool_type=tool_type,
+                    subscriber_count=0,
+                    channel_url=website,
+                    thumbnail_url=None,
+                    hook=hook,
+                )
+                existing.add(email.lower())
+                added += 1
+    print(f"Imported {added} lead(s), skipped {skipped} (missing email or duplicate).")
+
+
 def cmd_send_campaign(args):
     from campaign import run_campaign_batch
     run_campaign_batch(sender_email=args.sender_email)
@@ -107,6 +146,11 @@ def build_parser():
 
     p_list = sub.add_parser("list-leads")
     p_list.set_defaults(func=cmd_list_leads)
+
+    p_import = sub.add_parser("import-leads")
+    p_import.add_argument("--csv-path", required=True)
+    p_import.add_argument("--tool-type", default=None, help="Override auto-detected tool type")
+    p_import.set_defaults(func=cmd_import_leads)
 
     p_send = sub.add_parser("send-campaign")
     p_send.add_argument("--sender-email", required=True)

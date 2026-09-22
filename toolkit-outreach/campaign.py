@@ -50,11 +50,14 @@ def _load_template(touch_number: int, channel_id: str = None):
 
 
 def _render(text: str, lead, sender_email: str) -> str:
+    hook = lead["hook"] if "hook" in lead.keys() else None
+    hook_line = f"One thing I noticed on your site: {hook}. " if hook else ""
     return text.format(
         channel_title=lead["title"],
         niche=lead["niche"] or "your niche",
         sender_name=CONFIG.sender_name,
         proposal_url=_proposal_url(lead["channel_id"]),
+        hook_line=hook_line,
     )
 
 

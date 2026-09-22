@@ -2,7 +2,7 @@ SUBJECT: {channel_title} - try this before you read the rest of this email
 
 Dear {channel_title} team,
 
-Before any explanation - here's an interactive tool I built specifically for a "{niche}" audience like yours. Try it, it's live:
+{hook_line}Before any explanation - here's an interactive tool I built specifically for a "{niche}" audience like yours. Try it, it's live:
 
 {proposal_url}
 

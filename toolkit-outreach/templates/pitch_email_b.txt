@@ -2,7 +2,7 @@ SUBJECT: A working tool for {channel_title}'s site, not a pitch
 
 Dear {channel_title} team,
 
-Most emails like this ask for a call before showing you anything. I'd rather just show you: I built a short, interactive tool for your "{niche}" audience and it's already live.
+{hook_line}Most emails like this ask for a call before showing you anything. I'd rather just show you: I built a short, interactive tool for your "{niche}" audience and it's already live.
 
 {proposal_url}
 

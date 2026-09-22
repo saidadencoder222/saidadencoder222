@@ -2,7 +2,7 @@ SUBJECT: I built {channel_title} a tool - it's already live
 
 Hi {channel_title} team,
 
-I didn't want to pitch you on an idea, so I skipped that step and just built the thing: a free, interactive tool for your "{niche}" audience, already working, no signup needed to try it.
+{hook_line}I didn't want to pitch you on an idea, so I skipped that step and just built the thing: a free, interactive tool for your "{niche}" audience, already working, no signup needed to try it.
 
 {proposal_url}
 

@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cre8or Coaching — Natural Transformation, Done For You</title>
+<meta name="description" content="1:1 high-ticket coaching with Cre8or. Custom nutrition, training, and accountability for a natural transformation.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0b;
+    --bg-alt:#111113;
+    --card:#17171a;
+    --border:#26262b;
+    --text:#f5f5f4;
+    --muted:#9a9a9f;
+    --accent:#c9ff3e;
+    --accent-dim:#8fc21c;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;display:block;}
+  a{color:inherit;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px;}
+  h1,h2,h3{font-family:'Bebas Neue',sans-serif;letter-spacing:0.5px;line-height:1.05;font-weight:400;}
+
+  /* Demo ribbon */
+  .demo-ribbon{
+    background:var(--accent);
+    color:#0a0a0b;
+    text-align:center;
+    font-size:13px;
+    font-weight:700;
+    padding:10px 16px;
+    letter-spacing:0.3px;
+  }
+  .demo-ribbon a{text-decoration:underline;}
+
+  /* Nav */
+  nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(10,10,11,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:72px;}
+  .logo{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:1px;}
+  .logo span{color:var(--accent);}
+  nav .links{display:flex;gap:32px;font-size:14px;font-weight:600;}
+  nav .links a{opacity:0.85;transition:opacity .2s;}
+  nav .links a:hover{opacity:1;}
+  .btn{
+    display:inline-block;
+    background:var(--accent);
+    color:#0a0a0b;
+    font-weight:800;
+    padding:14px 28px;
+    border-radius:999px;
+    text-decoration:none;
+    font-size:15px;
+    border:none;
+    cursor:pointer;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(201,255,62,0.25);}
+  .btn-ghost{
+    background:transparent;
+    color:var(--text);
+    border:1px solid var(--border);
+    padding:13px 26px;
+  }
+  .btn-ghost:hover{border-color:var(--accent);box-shadow:none;transform:none;}
+  .btn-sm{padding:10px 20px;font-size:13px;}
+
+  /* Hero */
+  .hero{
+    position:relative;
+    min-height:92vh;
+    display:flex;
+    align-items:flex-end;
+    overflow:hidden;
+  }
+  .hero-bg{
+    position:absolute;inset:0;
+    background-image:url('images/hero.jpg');
+    background-size:cover;
+    background-position:center 20%;
+    filter:brightness(0.6);
+  }
+  .hero-gradient{
+    position:absolute;inset:0;
+    background:linear-gradient(180deg, rgba(10,10,11,0.1) 0%, rgba(10,10,11,0.55) 55%, var(--bg) 100%);
+  }
+  .hero-content{position:relative;z-index:2;padding-bottom:72px;width:100%;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:13px;font-weight:700;color:var(--accent);
+    letter-spacing:1.5px;text-transform:uppercase;margin-bottom:18px;
+  }
+  .eyebrow::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--accent);}
+  .hero h1{font-size:clamp(48px,9vw,104px);max-width:900px;}
+  .hero h1 em{font-style:normal;color:var(--accent);}
+  .hero p.lead{font-size:19px;color:var(--muted);max-width:520px;margin-top:20px;}
+  .hero-cta{display:flex;gap:16px;margin-top:36px;flex-wrap:wrap;}
+
+  /* Stat bar */
+  .statbar{
+    border-top:1px solid var(--border);
+    border-bottom:1px solid var(--border);
+    background:var(--bg-alt);
+  }
+  .statbar .wrap{
+    display:grid;grid-template-columns:repeat(4,1fr);
+    padding:36px 24px;gap:24px;
+  }
+  .stat{text-align:center;}
+  .stat .num{font-family:'Bebas Neue',sans-serif;font-size:40px;color:var(--accent);}
+  .stat .label{font-size:13px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:0.5px;}
+
+  section{padding:110px 0;}
+  .tag{
+    font-size:13px;font-weight:700;color:var(--accent);text-transform:uppercase;
+    letter-spacing:1.5px;margin-bottom:14px;display:block;
+  }
+  .section-head{max-width:640px;margin-bottom:56px;}
+  .section-head h2{font-size:clamp(34px,5vw,56px);}
+  .section-head p{color:var(--muted);font-size:17px;margin-top:14px;}
+
+  /* Story */
+  .story{display:grid;grid-template-columns:0.85fr 1.15fr;gap:64px;align-items:center;}
+  .story-img{
+    border-radius:20px;overflow:hidden;
+    border:1px solid var(--border);
+    aspect-ratio:4/5;
+  }
+  .story-img img{width:100%;height:100%;object-fit:cover;object-position:center 15%;}
+  .story h2{font-size:clamp(32px,4.5vw,50px);margin-bottom:22px;}
+  .story p{color:var(--muted);font-size:16px;margin-bottom:16px;}
+  .story p strong{color:var(--text);}
+  .signature{margin-top:28px;font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--accent);}
+
+  /* Gallery */
+  .gallery-grid{
+    display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:16px;
+  }
+  .gallery-grid .g-item{
+    border-radius:16px;overflow:hidden;border:1px solid var(--border);
+    position:relative;background:var(--card);
+  }
+  .gallery-grid .g-item:first-child{grid-row:span 2;}
+  .gallery-grid img{width:100%;height:100%;object-fit:cover;}
+  .g-caption{
+    position:absolute;bottom:0;left:0;right:0;
+    background:linear-gradient(0deg, rgba(0,0,0,0.75), transparent);
+    padding:20px 16px 14px;font-size:13px;font-weight:600;color:#fff;
+  }
+
+  /* Program cards */
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .card{
+    background:var(--card);border:1px solid var(--border);
+    border-radius:20px;padding:36px 30px;
+    transition:border-color .2s ease, transform .2s ease;
+  }
+  .card:hover{border-color:var(--accent);transform:translateY(-4px);}
+  .card .num{font-family:'Bebas Neue',sans-serif;color:var(--accent);font-size:22px;margin-bottom:18px;}
+  .card h3{font-size:26px;margin-bottom:12px;}
+  .card p{color:var(--muted);font-size:15px;}
+  .card ul{margin-top:16px;padding-left:18px;color:var(--muted);font-size:14px;}
+  .card li{margin-bottom:8px;}
+
+  /* Offer / pricing */
+  .offer{
+    background:var(--card);border:1px solid var(--border);
+    border-radius:28px;padding:56px;
+    display:grid;grid-template-columns:1.2fr 1fr;gap:48px;align-items:center;
+  }
+  .offer h2{font-size:clamp(30px,4vw,44px);margin-bottom:16px;}
+  .offer p{color:var(--muted);font-size:16px;margin-bottom:10px;}
+  .offer-list{list-style:none;margin-top:24px;}
+  .offer-list li{
+    display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;font-size:15px;color:var(--text);
+  }
+  .offer-list li::before{content:'✓';color:var(--accent);font-weight:800;}
+  .price-card{
+    background:var(--bg-alt);border:1px solid var(--border);border-radius:20px;
+    padding:36px;text-align:center;
+  }
+  .price-card .price{font-family:'Bebas Neue',sans-serif;font-size:56px;color:var(--accent);}
+  .price-card .price span{font-size:16px;color:var(--muted);font-family:'Inter';}
+  .price-card .note{font-size:13px;color:var(--muted);margin:12px 0 26px;}
+
+  /* Why partner */
+  .partner{
+    background:linear-gradient(135deg, #17170d 0%, #0a0a0b 60%);
+    border:1px solid var(--border);
+    border-radius:28px;
+    padding:64px;
+  }
+  .partner-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:32px;margin-top:40px;}
+  .partner-item{display:flex;gap:16px;}
+  .partner-item .icon{
+    width:44px;height:44px;border-radius:12px;background:rgba(201,255,62,0.12);
+    display:flex;align-items:center;justify-content:center;color:var(--accent);
+    font-weight:800;flex-shrink:0;font-family:'Bebas Neue',sans-serif;font-size:20px;
+  }
+  .partner-item h4{font-size:17px;margin-bottom:6px;}
+  .partner-item p{font-size:14px;color:var(--muted);}
+
+  /* CTA final */
+  .cta-final{text-align:center;padding-top:90px;}
+  .cta-final h2{font-size:clamp(40px,7vw,80px);max-width:820px;margin:0 auto;}
+  .cta-final p{color:var(--muted);font-size:17px;margin:20px auto 36px;max-width:520px;}
+
+  footer{
+    border-top:1px solid var(--border);
+    padding:40px 0;
+    color:var(--muted);
+    font-size:13px;
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
+  }
+
+  @media (max-width:860px){
+    .story,.offer,.partner-grid{grid-template-columns:1fr;}
+    .cards{grid-template-columns:1fr;}
+    .gallery-grid{grid-template-columns:1fr 1fr;}
+    .gallery-grid .g-item:first-child{grid-row:span 1;grid-column:span 2;}
+    .statbar .wrap{grid-template-columns:repeat(2,1fr);}
+    nav .links{display:none;}
+    .partner{padding:36px 24px;}
+    .offer{padding:32px 24px;}
+    section{padding:72px 0;}
+  }
+</style>
+</head>
+<body>
+
+  <div class="demo-ribbon">
+    ⚡ This is a private demo page built for <strong>@Cre8or</strong> — a preview of your coaching brand, live in 48 hours. <a href="#apply">See how →</a>
+  </div>
+
+  <nav>
+    <div class="wrap">
+      <div class="logo">CRE<span>8</span>OR <span style="font-size:13px;color:var(--muted);font-family:'Inter';font-weight:600;letter-spacing:0;">COACHING</span></div>
+      <div class="links">
+        <a href="#story">Story</a>
+        <a href="#results">Results</a>
+        <a href="#program">Program</a>
+        <a href="#partner">Why Partner</a>
+      </div>
+      <a href="#apply" class="btn btn-sm">Apply Now</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-gradient"></div>
+    <div class="wrap hero-content">
+      <span class="eyebrow">100% Natural · 1:1 Coaching</span>
+      <h1>From skinny<br>to <em>shredded</em> —<br>the natural way.</h1>
+      <p class="lead">I built my physique from the ground up with nothing but tracked nutrition, smart training, and consistency. Now I coach a small group of guys through the exact system — no shortcuts, no fluff.</p>
+      <div class="hero-cta">
+        <a href="#apply" class="btn">Apply For Coaching</a>
+        <a href="#story" class="btn btn-ghost">See My Story</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="statbar">
+    <div class="wrap">
+      <div class="stat"><div class="num">100%</div><div class="label">Natural</div></div>
+      <div class="stat"><div class="num">1:1</div><div class="label">Direct Coaching</div></div>
+      <div class="stat"><div class="num">12wk</div><div class="label">Core Program</div></div>
+      <div class="stat"><div class="num">24/7</div><div class="label">Check-In Access</div></div>
+    </div>
+  </div>
+
+  <section id="story">
+    <div class="wrap story">
+      <div class="story-img">
+        <img src="images/portrait.jpg" alt="Cre8or portrait">
+      </div>
+      <div>
+        <span class="tag">My Story</span>
+        <h2>I didn't start with genetics.<br>I started with a plan.</h2>
+        <p>Every video on my page is a real snapshot of the process — the awkward stages, the outdoor workouts, the daily grind that nobody sees on highlight reels. <strong>I tracked everything</strong>: what I ate, how I trained, how I recovered.</p>
+        <p>People kept asking how I did it. So I turned the exact system — the food, the splits, the tracking method, all of it — into a coaching program I now run 1:1.</p>
+        <p>This page is what that program looks like when it's presented the way it deserves to be: <strong>professional, credible, and built to convert followers into high-ticket clients.</strong></p>
+        <div class="signature">— Cre8or</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="results" style="background:var(--bg-alt);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="tag">The Proof</span>
+        <h2>Real transformation. Real content.<br>Zero filters.</h2>
+        <p>Straight from the source — the same footage that's already stopping thumbs on your feed, now framed like the premium brand it deserves to be.</p>
+      </div>
+      <div class="gallery-grid">
+        <div class="g-item">
+          <img src="images/hero.jpg" alt="Cre8or physique outdoors">
+          <div class="g-caption">"I feel at home in nature" — outdoor training content</div>
+        </div>
+        <div class="g-item">
+          <img src="images/physique-1.jpg" alt="Cre8or physique closeup">
+          <div class="g-caption">Progress check-ins</div>
+        </div>
+        <div class="g-item">
+          <img src="images/lifestyle-1.jpg" alt="Cre8or lifestyle content">
+          <div class="g-caption">Daily vlog content</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="program">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="tag">The System</span>
+        <h2>What clients get inside<br>1:1 coaching.</h2>
+        <p>The exact framework you already teased in your DMs — packaged as a premium offer people are happy to pay high-ticket prices for.</p>
+      </div>
+      <div class="cards">
+        <div class="card">
+          <div class="num">01</div>
+          <h3>Custom Nutrition</h3>
+          <p>A tracked, sustainable eating plan built around your client's body, schedule, and goals — not a generic PDF.</p>
+          <ul>
+            <li>Macro & calorie targets</li>
+            <li>Weekly adjustments</li>
+            <li>No extreme restriction</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="num">02</div>
+          <h3>Training Program</h3>
+          <p>The same natural training split that built your physique, adapted to each client's equipment and experience.</p>
+          <ul>
+            <li>Progressive overload tracking</li>
+            <li>Video form checks</li>
+            <li>Home or gym versions</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="num">03</div>
+          <h3>Direct Access</h3>
+          <p>Weekly check-ins and direct messaging so clients feel coached, not left with a template and a "good luck."</p>
+          <ul>
+            <li>Weekly progress review</li>
+            <li>Priority DM access</li>
+            <li>Accountability system</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:var(--bg-alt);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+    <div class="wrap">
+      <div class="offer">
+        <div>
+          <span class="tag">The Offer</span>
+          <h2>High-Ticket 1:1 Coaching</h2>
+          <p>Everything above, delivered personally by Cre8or — positioned and priced like the premium service it is.</p>
+          <ul class="offer-list">
+            <li>Fully custom nutrition & training plans</li>
+            <li>Weekly 1:1 check-ins</li>
+            <li>Direct messaging support</li>
+            <li>Progress tracking dashboard</li>
+            <li>Limited to a small client roster</li>
+          </ul>
+        </div>
+        <div class="price-card">
+          <div style="font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Founding Cohort</div>
+          <div class="price">$XX<span>/mo</span></div>
+          <div class="note">Pricing to be finalized together — this is a demo layout, not a live offer yet.</div>
+          <a href="#apply" class="btn" style="width:100%;">Claim a Spot</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="partner">
+    <div class="wrap">
+      <div class="partner">
+        <span class="tag">Why Partner With Me</span>
+        <h2 style="font-size:clamp(30px,4.5vw,46px);max-width:640px;">You bring the audience and the results.<br>I bring the page, the funnel, and the systems.</h2>
+        <div class="partner-grid">
+          <div class="partner-item">
+            <div class="icon">1</div>
+            <div>
+              <h4>You already have the proof</h4>
+              <p>Your content is the hardest part of a coaching business to fake. It's already done — this page just presents it properly.</p>
+            </div>
+          </div>
+          <div class="partner-item">
+            <div class="icon">2</div>
+            <div>
+              <h4>I handle the build</h4>
+              <p>Landing page, application flow, positioning, and pricing structure — done for you, so you focus on coaching, not code.</p>
+            </div>
+          </div>
+          <div class="partner-item">
+            <div class="icon">3</div>
+            <div>
+              <h4>Built to convert</h4>
+              <p>This layout is designed around the exact things that get high-ticket buyers to apply: proof, clarity, and a clear next step.</p>
+            </div>
+          </div>
+          <div class="partner-item">
+            <div class="icon">4</div>
+            <div>
+              <h4>No cost to see it live</h4>
+              <p>This demo cost you nothing. If you like the direction, we can go live and start taking applications this week.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="apply" class="cta-final">
+    <div class="wrap">
+      <span class="tag">Next Step</span>
+      <h2>Ready to turn your page<br>into a coaching business?</h2>
+      <p>This is just a demo of what's possible. Say the word and we build out the real thing — application form, payment, and all — around your brand.</p>
+      <a href="mailto:saidaden229@gmail.com?subject=Let's%20build%20my%20coaching%20page" class="btn">Let's Talk — Apply To Partner</a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap" style="display:flex;justify-content:space-between;width:100%;flex-wrap:wrap;gap:12px;">
+      <div>© 2026 Cre8or Coaching — Demo Page</div>
+      <div>Built as a partnership preview. Not a live offer.</div>
+    </div>
+  </footer>
+
+</body>
+</html>

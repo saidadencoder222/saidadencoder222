@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Arya High-Ticket Build</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+:root{
+  --bg:#0A0B0E; --surface:#131519; --surface-2:#1A1D22; --border:#282C33;
+  --text:#F2F3F5; --text-dim:#AEB2BA; --text-faint:#6F747D;
+  --grad:linear-gradient(120deg,#3B82F6 0%,#7C9CF0 45%,#E8C468 100%);
+  --gold:#E8C468; --blue:#3B82F6;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:Manrope,ui-sans-serif,system-ui,sans-serif;margin:0}
+.wrap{max-width:920px;margin:0 auto;padding:0 20px}
+h1,h2{font-family:'Instrument Serif',Georgia,serif;font-weight:400}
+.mono{font-family:'IBM Plex Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums}
+img{max-width:100%;display:block}
+a{color:inherit}
+
+.hero{position:relative;padding-block:76px 56px;overflow:hidden;border-bottom:1px solid var(--border)}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg img{width:100%;height:100%;object-fit:cover;object-position:50% 25%;filter:saturate(0) brightness(.4)}
+.hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,11,14,.5) 0%,rgba(10,11,14,.9) 70%,var(--bg) 100%)}
+.hero-inner{position:relative;z-index:1}
+.idbar{display:flex;align-items:center;gap:12px;margin-bottom:32px}
+.avatar{width:52px;height:52px;border-radius:50%;padding:2px;background:var(--grad)}
+.avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover;border:2px solid var(--bg)}
+.idbar .handle{font-weight:800;font-size:14.5px;display:flex;align-items:center;gap:5px}
+.idbar .sub{font-size:12px;color:var(--text-faint)}
+.check{width:14px;height:14px;border-radius:50%;background:var(--blue);display:inline-flex;align-items:center;justify-content:center;font-size:9px;color:#fff}
+.eyebrow{font-size:11.5px;text-transform:uppercase;letter-spacing:.16em;font-weight:700;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:14px}
+.hero h1{font-size:clamp(32px,6vw,52px);line-height:1.1;margin:0 0 18px;max-width:15ch;text-wrap:balance}
+.hero p.lead{font-size:16.5px;color:var(--text-dim);max-width:52ch;margin:0 0 28px}
+.statrow{display:flex;gap:26px;flex-wrap:wrap}
+.statrow div{display:flex;flex-direction:column}
+.statrow b{font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:600}
+.statrow span{font-size:11px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+
+.section{padding-block:56px}
+.section-head{max-width:58ch;margin-bottom:30px}
+.section-head .kicker{font-size:11.5px;text-transform:uppercase;letter-spacing:.14em;color:var(--gold);font-weight:700;margin-bottom:10px}
+.section-head h2{font-size:clamp(24px,4vw,32px);margin:0 0 10px;text-wrap:balance}
+.section-head p{color:var(--text-dim);font-size:14.5px;margin:0}
+
+.proofgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media (max-width:720px){.proofgrid{grid-template-columns:repeat(2,1fr)}}
+.pcard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px}
+.pcard b{display:block;font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:600;color:var(--gold)}
+.pcard span{font-size:11.5px;color:var(--text-dim);line-height:1.4;display:block;margin-top:4px}
+
+.offercard{background:var(--surface);border:1.5px solid transparent;background:linear-gradient(var(--surface),var(--surface)) padding-box, var(--grad) border-box;border-radius:18px;padding:30px;display:flex;flex-direction:column;gap:16px}
+.offercard .tag{font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.offercard h3{font-family:Manrope;font-weight:800;font-size:21px;margin:0}
+.offercard .price{font-family:'IBM Plex Mono',monospace;font-size:15px;color:var(--text-dim)}
+.offercard .price b{font-size:15px;color:var(--text)}
+.offercard ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:560px){.offercard ul{grid-template-columns:1fr}}
+.offercard li{font-size:13.5px;display:flex;gap:8px;align-items:flex-start;color:#DEE0E4}
+.offercard li:before{content:"";width:5px;height:5px;margin-top:6px;flex:0 0 auto;background:var(--gold);transform:rotate(45deg)}
+
+.gallery{display:grid;grid-template-columns:1.4fr 1fr;gap:14px}
+@media (max-width:600px){.gallery{grid-template-columns:1fr}}
+.gallery img{border-radius:14px;border:1px solid var(--border);width:100%;height:100%;object-fit:cover;max-height:420px}
+
+.footcta{padding-block:64px 84px;text-align:center;border-top:1px solid var(--border)}
+.footcta h2{font-size:clamp(26px,5vw,38px);margin:0 0 14px;text-wrap:balance}
+.footcta p{color:var(--text-dim);font-size:14px;margin:0 0 24px}
+.footcta a.big{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:99px;background:var(--grad);color:#0A0B0E;font-weight:800;font-size:14.5px;text-decoration:none}
+.footfine{margin-top:20px;font-size:11.5px;color:var(--text-faint)}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="hero-bg"><img src="images/arya-gold.jpg" alt=""></div>
+  <div class="wrap hero-inner">
+    <div class="idbar">
+      <div class="avatar"><img src="images/arya-avatar.jpg" alt="arya.fuk"></div>
+      <div>
+        <div class="handle">@arya.fuk <span class="check">✓</span></div>
+        <div class="sub">Arya Singh · Fitness model, 20 · "Natty"</div>
+      </div>
+    </div>
+    <div class="eyebrow">Elaborating</div>
+    <h1>The audience is there. The content is there. The offer isn't.</h1>
+    <p class="lead">10.6K followers, real engagement, quality content — and no way for anyone to actually pay you yet. Here's what a high-ticket program looks like on your account, and the proof that this exact playbook already works.</p>
+    <div class="statrow">
+      <div><b>10.6K</b><span>followers</span></div>
+      <div><b>33</b><span>posts, consistent</span></div>
+      <div><b>£0</b><span>upfront cost to you</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="section">
+    <div class="section-head">
+      <div class="kicker">Not promises — proof</div>
+      <h2>The same build, already running.</h2>
+      <p>This isn't a pitch on projections. Every number below is from a live account, a real funnel, real leads and real payments already processed.</p>
+    </div>
+    <div class="proofgrid">
+      <div class="pcard"><b>655K</b><span>follower client with a live, converting coaching landing page and working CTA</span></div>
+      <div class="pcard"><b>2.2M</b><span>average views on ad collaborations, 13% full-video completion</span></div>
+      <div class="pcard"><b>17.8%</b><span>visit-to-submission rate on the lead intake form — 622 visits, 111 real submissions</span></div>
+      <div class="pcard"><b>£550</b><span>gross revenue already processed on the exact offer structure, 0% failed or refunded</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="gallery">
+      <img src="images/arya-gold.jpg" alt="">
+      <img src="images/arya-bw.jpg" alt="">
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <div class="kicker">What gets built for you</div>
+      <h2>One program. No cost to start.</h2>
+    </div>
+    <div class="offercard">
+      <div class="tag">Your high-ticket program</div>
+      <h3>1:1 Coaching, built and run for you</h3>
+      <div class="price">Example anchor: <b>£500</b> per client — priced and positioned around your audience, not copy-pasted from someone else's</div>
+      <ul>
+        <li>Landing page + funnel built on your brand</li>
+        <li>Lead capture &amp; intake form, same conversion system proven above</li>
+        <li>Follow-up &amp; booking handled — leads don't go cold</li>
+        <li>Content plan that feeds the funnel, not just the grid</li>
+        <li>I only get paid from results — no upfront fee</li>
+        <li>You keep full ownership of your brand and audience</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="footcta">
+  <div class="wrap">
+    <h2>Same model.<br>Already proven. Zero risk to you.</h2>
+    <p>No fee to start, no obligation — just the same system that's already generating real leads and real payments, built around your account instead of a stranger's.</p>
+    <a class="big" href="https://www.instagram.com/arya.fuk/" target="_blank" rel="noopener">Reply on Instagram →</a>
+    <div class="footfine">Built for @arya.fuk · a working draft — pricing and scope open to a call.</div>
+  </div>
+</div>
+</body>
+</html>

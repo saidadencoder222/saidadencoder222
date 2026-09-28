@@ -3,168 +3,192 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Kelvin High-Ticket Build</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<title>KJ Coaching</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap">
 <style>
 :root{
-  --bg:#0B0A0A; --surface:#161313; --border:#2A2323;
-  --text:#F5F2F0; --text-dim:#B7ADA9; --text-faint:#726863;
-  --grad:linear-gradient(120deg,#E23744 0%,#F2665A 50%,#F5A25A 100%);
-  --red:#E23744; --gold:#F5A25A;
+  --bg:#0C0A08; --surface:#171310; --border:#2E2620;
+  --text:#F7F2EC; --text-dim:#C9BFB4; --text-faint:#7C7267;
+  --orange:#FF6A1A; --orange2:#FFB020;
+  --grad:linear-gradient(120deg,#FF6A1A 0%,#FF8A3D 50%,#FFB020 100%);
 }
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--text);font-family:Manrope,ui-sans-serif,system-ui,sans-serif;margin:0}
-.wrap{max-width:860px;margin:0 auto;padding:0 20px}
-h1,h2{font-family:'Instrument Serif',Georgia,serif;font-weight:400}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+.disp{font-family:'Anton',sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:.01em}
 .mono{font-family:'IBM Plex Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums}
 img{max-width:100%;display:block}
 a{color:inherit}
 
-.hero{position:relative;padding-block:72px 48px;overflow:hidden;border-bottom:1px solid var(--border)}
-.hero-bg{position:absolute;inset:0;z-index:0}
-.hero-bg img{width:100%;height:100%;object-fit:cover;object-position:50% 18%;filter:saturate(.3) brightness(.38)}
-.hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,10,10,.35) 0%,rgba(11,10,10,.92) 72%,var(--bg) 100%)}
-.hero-inner{position:relative;z-index:1}
-.idbar{display:flex;align-items:center;gap:12px;margin-bottom:28px}
-.avatar{width:48px;height:48px;border-radius:50%;padding:2px;background:var(--grad)}
-.avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover;border:2px solid var(--bg)}
-.idbar .handle{font-weight:800;font-size:14px}
-.idbar .sub{font-size:11.5px;color:var(--text-faint)}
-.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.16em;font-weight:700;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:12px}
-.hero h1{font-size:clamp(30px,5.6vw,46px);line-height:1.1;margin:0 0 16px;max-width:16ch;text-wrap:balance}
-.hero p.lead{font-size:15.5px;color:var(--text-dim);max-width:48ch;margin:0 0 24px}
-.statrow{display:flex;gap:24px;flex-wrap:wrap}
-.statrow div{display:flex;flex-direction:column}
-.statrow b{font-family:'IBM Plex Mono',monospace;font-size:19px;font-weight:600}
-.statrow span{font-size:10.5px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+/* HERO — full bleed */
+.hero{position:relative;min-height:92vh;display:flex;align-items:flex-end;overflow:hidden}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 12%}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(12,10,8,.98) 0%,rgba(12,10,8,.55) 46%,rgba(12,10,8,.05) 68%),linear-gradient(90deg,rgba(12,10,8,.55) 0%,transparent 45%)}
+.hero-inner{position:relative;z-index:1;padding:0 22px 56px;width:100%}
+.kicker-row{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.dot{width:7px;height:7px;background:var(--orange);border-radius:50%}
+.kicker{font-size:12px;text-transform:uppercase;letter-spacing:.18em;font-weight:700;color:var(--orange2)}
+.hero h1{font-size:clamp(46px,10vw,108px);line-height:.92;margin:0 0 18px;color:#fff}
+.hero h1 span{color:var(--orange)}
+.hero p{font-size:16px;color:var(--text-dim);max-width:46ch;margin:0 0 26px;line-height:1.5}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:15px 30px;border-radius:4px;font-weight:800;font-size:14px;text-decoration:none;text-transform:uppercase;letter-spacing:.04em}
+.btn-primary{background:var(--grad);color:#0C0A08}
+.btn-ghost{border:1.5px solid var(--border);color:var(--text)}
+.statline{display:flex;gap:22px;margin-top:34px;flex-wrap:wrap}
+.statline div{display:flex;flex-direction:column}
+.statline b{font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:600;color:#fff}
+.statline span{font-size:10.5px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
 
-.section{padding-block:44px}
-.section.tight{padding-block:32px}
-.section-head{max-width:56ch;margin-bottom:22px}
-.section-head .kicker{font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--gold);font-weight:700;margin-bottom:8px}
-.section-head h2{font-size:clamp(22px,3.6vw,28px);margin:0 0 8px;text-wrap:balance}
-.section-head p{color:var(--text-dim);font-size:14px;margin:0}
+/* SPONSOR BAR */
+.sponsorbar{border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--surface)}
+.sponsorbar .wrap{display:flex;align-items:center;justify-content:center;gap:38px;flex-wrap:wrap;padding:18px 22px;font-size:13px;color:var(--text-faint);letter-spacing:.03em}
+.sponsorbar b{color:var(--text-dim);font-weight:700}
 
-.gap{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--red);border-radius:10px;padding:20px 22px;display:flex;flex-direction:column;gap:10px}
-.gap .tag{font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;color:var(--red)}
-.gap p{margin:0;font-size:14px;color:#E9E2DF;line-height:1.55}
-.gap .dm{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-dim);background:#100D0D;border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-top:2px}
+/* STORY split */
+.story{padding-block:80px}
+.story .grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:48px;align-items:center}
+@media (max-width:760px){.story .grid{grid-template-columns:1fr}}
+.story img{border-radius:6px;width:100%;object-fit:cover;aspect-ratio:3/4}
+.story .kicker{font-size:11.5px;text-transform:uppercase;letter-spacing:.16em;color:var(--orange2);font-weight:700;margin-bottom:12px}
+.story h2{font-size:clamp(28px,4.4vw,42px);margin:0 0 18px;line-height:1.05}
+.story p{color:var(--text-dim);font-size:15px;line-height:1.65;margin:0 0 14px}
 
-.dolist{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-@media (max-width:560px){.dolist{grid-template-columns:1fr}}
-.doitem{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;font-size:13.5px;color:#E4DDDA;display:flex;gap:9px;align-items:flex-start}
-.doitem:before{content:"";width:5px;height:5px;margin-top:6px;flex:0 0 auto;background:var(--gold);transform:rotate(45deg)}
+/* MOSAIC photo strip */
+.mosaic{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:12px;padding-block:0 80px}
+@media (max-width:700px){.mosaic{grid-template-columns:1fr 1fr}}
+.mosaic img{border-radius:6px;width:100%;height:100%;object-fit:cover}
+.mosaic .m1{grid-row:span 2}
+@media (max-width:700px){.mosaic .m1{grid-row:span 1}}
 
-.proofgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-@media (max-width:680px){.proofgrid{grid-template-columns:repeat(2,1fr)}}
-.pcard{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px}
-.pcard b{display:block;font-family:'IBM Plex Mono',monospace;font-size:19px;font-weight:600;color:var(--gold)}
-.pcard span{font-size:10.5px;color:var(--text-dim);line-height:1.4;display:block;margin-top:3px}
+/* PROGRAM section */
+.program{padding-block:80px;border-top:1px solid var(--border)}
+.program-head{text-align:center;max-width:56ch;margin:0 auto 48px}
+.program-head .kicker{font-size:11.5px;text-transform:uppercase;letter-spacing:.16em;color:var(--orange2);font-weight:700;margin-bottom:12px}
+.program-head h2{font-size:clamp(28px,4.4vw,44px);margin:0 0 14px;line-height:1.05}
+.program-head p{color:var(--text-dim);font-size:15px;margin:0}
 
-.offercard{background:var(--surface);border:1.5px solid transparent;background:linear-gradient(var(--surface),var(--surface)) padding-box, var(--grad) border-box;border-radius:16px;padding:26px;display:flex;flex-direction:column;gap:14px}
-.offercard .tag{font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-.offercard h3{font-family:Manrope;font-weight:800;font-size:19px;margin:0}
-.offercard .price{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--text-dim)}
-.offercard .price b{font-size:13px;color:var(--text)}
-.offercard ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:9px}
-@media (max-width:540px){.offercard ul{grid-template-columns:1fr}}
-.offercard li{font-size:13px;display:flex;gap:7px;align-items:flex-start;color:#DEE0E4}
-.offercard li:before{content:"";width:5px;height:5px;margin-top:6px;flex:0 0 auto;background:var(--gold);transform:rotate(45deg)}
-.riskline{font-size:12.5px;color:var(--gold);font-weight:600;margin-top:2px}
+.tiers{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media (max-width:700px){.tiers{grid-template-columns:1fr}}
+.tier{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:32px;display:flex;flex-direction:column}
+.tier.hi{border-color:transparent;background:linear-gradient(var(--surface),var(--surface)) padding-box, var(--grad) border-box;border-width:2px;border-style:solid}
+.tier .step{font-size:11px;color:var(--text-faint);font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.tier.hi .step{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tier h3{font-family:'Anton',sans-serif;text-transform:uppercase;font-size:24px;margin:10px 0 6px;letter-spacing:.01em}
+.tier .price{font-family:'IBM Plex Mono',monospace;font-size:32px;font-weight:600;margin:8px 0 16px;color:#fff}
+.tier .price span{font-size:13px;color:var(--text-faint);font-weight:500}
+.tier .desc{color:var(--text-dim);font-size:13.5px;margin-bottom:18px;line-height:1.55}
+.tier ul{list-style:none;margin:0 0 24px;padding:0;display:flex;flex-direction:column;gap:10px;flex:1}
+.tier li{font-size:13.5px;display:flex;gap:9px;align-items:flex-start;color:#E9E2DA}
+.tier li:before{content:"";width:6px;height:6px;margin-top:5px;flex:0 0 auto;background:var(--orange);transform:rotate(45deg)}
+.tier .tbtn{align-self:flex-start;padding:12px 22px;border-radius:4px;font-weight:800;font-size:12.5px;text-transform:uppercase;letter-spacing:.05em;text-decoration:none}
+.tier .tbtn.ghost{border:1.5px solid var(--border);color:var(--text)}
+.tier .tbtn.solid{background:var(--grad);color:#0C0A08}
 
-.sideimg{border-radius:12px;border:1px solid var(--border);width:220px;object-fit:cover}
-
-.footcta{padding-block:56px 72px;text-align:center;border-top:1px solid var(--border)}
-.footcta h2{font-size:clamp(24px,4.6vw,34px);margin:0 0 12px;text-wrap:balance}
-.footcta p{color:var(--text-dim);font-size:13.5px;margin:0 0 22px}
-.footcta a.big{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;border-radius:99px;background:var(--grad);color:#0B0A0A;font-weight:800;font-size:14px;text-decoration:none}
-.footfine{margin-top:18px;font-size:11px;color:var(--text-faint)}
+/* FOOTER CTA */
+.footcta{padding-block:90px;text-align:center;border-top:1px solid var(--border);position:relative;overflow:hidden}
+.footcta .wrap{position:relative;z-index:1}
+.footcta h2{font-family:'Anton',sans-serif;text-transform:uppercase;font-size:clamp(34px,7vw,64px);margin:0 0 16px;line-height:1}
+.footcta h2 span{color:var(--orange)}
+.footcta p{color:var(--text-dim);font-size:14px;margin:0 0 28px}
+.footfine{margin-top:22px;font-size:11px;color:var(--text-faint)}
 </style>
 </head>
 <body>
+
 <div class="hero">
-  <div class="hero-bg"><img src="images/kelvin-hero.jpg" alt=""></div>
-  <div class="wrap hero-inner">
-    <div class="idbar">
-      <div class="avatar"><img src="images/kelvin-avatar.jpg" alt="kelvin.jrlifts"></div>
-      <div>
-        <div class="handle">@kelvin.jrlifts</div>
-        <div class="sub">KJ · Bodybuilder & sponsored athlete · Maryland</div>
-      </div>
+  <img src="images/kelvin-front.jpg" alt="Kelvin JR - KJ">
+  <div class="hero-inner wrap">
+    <div class="kicker-row"><span class="dot"></span><span class="kicker">Maryland · Natural Bodybuilder · Prep 2026</span></div>
+    <h1 class="disp">Built<br>different.<br><span>Coached different.</span></h1>
+    <p>1:1 coaching from a sponsored competitive bodybuilder — real programming, real check-ins, built around your body and your life, not a generic PDF plan.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="https://www.instagram.com/kelvin.jrlifts/" target="_blank" rel="noopener">Apply For Coaching</a>
+      <a class="btn btn-ghost" href="#program">See The Programs</a>
     </div>
-    <div class="eyebrow">You already said yes — you just have nowhere to send it</div>
-    <h1>16.1K followers. Three brand deals. Zero way to book you.</h1>
-    <p class="lead">You told me yourself you already coach. But your bio link is a Linktree full of Twitch, Spotify and sponsor codes — not one link to actually work with you. Here's the page that closes that gap.</p>
-    <div class="statrow">
-      <div><b>16.1K</b><span>followers</span></div>
-      <div><b>894</b><span>posts</span></div>
-      <div><b>£0</b><span>upfront cost to you</span></div>
+    <div class="statline">
+      <div><b>16.1K</b><span>Following the journey</span></div>
+      <div><b>894</b><span>Posts of proof, not theory</span></div>
+      <div><b>3</b><span>Sponsored brand partners</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="sponsorbar">
+  <div class="wrap">
+    <span><b>Sponsored by</b></span>
+    <span>Kontrolled Insanity — code KJ</span>
+    <span>HD Muscle — code KJ</span>
+    <span>BioMyst Labs — code KJ</span>
+  </div>
+</div>
+
+<div class="story">
+  <div class="wrap grid">
+    <img src="images/kelvin-side.jpg" alt="Kelvin training">
+    <div>
+      <div class="kicker">Who you're training with</div>
+      <h2 class="disp">Not a coach who talks about it.<br>One who's living it.</h2>
+      <p>I'm KJ — competing, sponsored, and building my own physique in public, on the same platform I'll coach you from. Every program I run comes from what's actually working in my own prep right now, not a template I stopped updating years ago.</p>
+      <p>Coaching clients get direct access to me — programming, nutrition, and check-ins built around your schedule and your starting point, not a one-size plan.</p>
     </div>
   </div>
 </div>
 
 <div class="wrap">
-  <div class="section tight">
-    <div class="gap">
-      <div class="tag">The actual gap</div>
-      <p>You confirmed it yourself when I DM'd you — coaching already exists. What doesn't exist is a place for the other 16,099 people to find out.</p>
-      <div class="dm">"Love the physique bro, you ever thought about offering coaching?"<br>→ "Appreciate you bro, and yes I offer coaching already!"</div>
-    </div>
+  <div class="mosaic">
+    <img class="m1" src="images/kelvin-hero.jpg" alt="Kelvin posing">
+    <img src="images/kelvin-outdoor.jpg" alt="Kelvin physique">
+    <img src="images/kelvin-back.jpg" alt="Kelvin back pose">
   </div>
+</div>
 
-  <div class="section tight">
-    <div class="section-head">
-      <div class="kicker">What I actually do</div>
-      <h2>Not a redesign. A closing system.</h2>
+<div class="program" id="program">
+  <div class="wrap">
+    <div class="program-head">
+      <div class="kicker">The programs</div>
+      <h2 class="disp">Two ways in.</h2>
+      <p>Start self-guided, or go straight to direct 1:1 access — both built on the same system I use myself.</p>
     </div>
-    <div class="dolist">
-      <div class="doitem">Build the coaching page your bio link is missing — one link, one clear offer, one way to pay</div>
-      <div class="doitem">Turn your proof (physique, sponsors, results) into the case for why someone pays you specifically</div>
-      <div class="doitem">Set up the intake so leads are pre-qualified before they hit your DMs</div>
-      <div class="doitem">Nothing upfront — I get paid when it starts converting, same as you would</div>
-    </div>
-  </div>
-
-  <div class="section tight">
-    <div class="section-head">
-      <div class="kicker">Not promises — proof</div>
-      <h2>Same build, already running elsewhere.</h2>
-    </div>
-    <div class="proofgrid">
-      <div class="pcard"><b>655K</b><span>follower client with a live, converting coaching page</span></div>
-      <div class="pcard"><b>2.2M</b><span>avg views on ad collabs, 13% full completion</span></div>
-      <div class="pcard"><b>17.8%</b><span>visit-to-submission on the intake form, 622 visits</span></div>
-      <div class="pcard"><b>£550</b><span>already processed on this exact structure</span></div>
-    </div>
-  </div>
-
-  <div class="section tight">
-    <div class="section-head">
-      <div class="kicker">The offer</div>
-      <h2>One page. One link. No cost to start.</h2>
-    </div>
-    <div class="offercard">
-      <div class="tag">Your coaching, actually bookable</div>
-      <h3>1:1 Coaching Page, built and run for you</h3>
-      <div class="price">Positioned around your physique and sponsors — not a generic template. Example anchor: <b>£500+</b> per client</div>
-      <ul>
-        <li>Landing page + booking flow on your brand</li>
-        <li>Pre-qualifying intake — no more time-wasters in DMs</li>
-        <li>One link, replaces the dead space in your Linktree</li>
-        <li>Built around your sponsors (Kontrolled Insanity, HD Muscle, BioMyst) as proof, not just physique</li>
-      </ul>
-      <div class="riskline">I only get paid from results — no upfront fee, no obligation.</div>
+    <div class="tiers">
+      <div class="tier">
+        <div class="step">Step one</div>
+        <h3>Foundations</h3>
+        <div class="price">£19 <span>one-off</span></div>
+        <p class="desc">A real starting point — not a free template. For anyone building physique fundamentals before going 1:1.</p>
+        <ul>
+          <li>Full training split, beginner–intermediate</li>
+          <li>Diet & macro template</li>
+          <li>Budget-friendly supplement guidance</li>
+          <li>Self-guided, no direct access</li>
+        </ul>
+        <a class="tbtn ghost" href="https://www.instagram.com/kelvin.jrlifts/" target="_blank" rel="noopener">Get Foundations</a>
+      </div>
+      <div class="tier hi">
+        <div class="step">Step two</div>
+        <h3>1:1 Coaching</h3>
+        <div class="price">£180 <span>per month</span></div>
+        <p class="desc">Full personalised coaching, direct from KJ — programming that moves with your progress, not a static plan.</p>
+        <ul>
+          <li>Personalised training & nutrition programming</li>
+          <li>Weekly check-ins & adjustments</li>
+          <li>Direct 1:1 access</li>
+          <li>Sponsor-grade supplement protocol</li>
+        </ul>
+        <a class="tbtn solid" href="https://www.instagram.com/kelvin.jrlifts/" target="_blank" rel="noopener">Apply Now</a>
+      </div>
     </div>
   </div>
 </div>
 
 <div class="footcta">
   <div class="wrap">
-    <h2>The coaching's already real.<br>Let's give it somewhere to land.</h2>
-    <p>Zero cost to start, zero risk — just a link that actually converts the audience you've already built.</p>
-    <a class="big" href="https://www.instagram.com/kelvin.jrlifts/" target="_blank" rel="noopener">Reply on Instagram →</a>
-    <div class="footfine">Built for @kelvin.jrlifts · a working draft — scope and pricing open to a call.</div>
+    <h2 class="disp">Stop scrolling.<br>Start <span>building.</span></h2>
+    <p>Spots are limited to keep check-ins actually personal — apply and I'll get back to you directly.</p>
+    <a class="btn btn-primary" href="https://www.instagram.com/kelvin.jrlifts/" target="_blank" rel="noopener">Apply For Coaching →</a>
+    <div class="footfine">@kelvin.jrlifts · Maryland</div>
   </div>
 </div>
+
 </body>
 </html>

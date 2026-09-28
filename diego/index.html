@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diego Reis Coaching</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+:root{
+  --bg:#07090C; --surface:#111820; --border:#212C38;
+  --text:#EFF6FB; --text-dim:#B7C6D3; --text-faint:#6C7C8A;
+  --cyan:#22D3EE; --blue:#3B82F6;
+  --grad:linear-gradient(120deg,#0EA5E9 0%,#22D3EE 50%,#67E8F9 100%);
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:Manrope,ui-sans-serif,system-ui,sans-serif;margin:0}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+.disp{font-family:'Anton',sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:.01em}
+.mono{font-family:'IBM Plex Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums}
+img{max-width:100%;display:block}
+a{color:inherit}
+
+/* HERO */
+.hero{position:relative;min-height:90vh;display:flex;align-items:flex-end;overflow:hidden}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 25%}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(7,9,12,.98) 0%,rgba(7,9,12,.6) 44%,rgba(7,9,12,.12) 68%),linear-gradient(90deg,rgba(7,9,12,.55) 0%,transparent 45%)}
+.hero-inner{position:relative;z-index:1;padding:0 22px 52px;width:100%}
+.kicker-row{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.dot{width:7px;height:7px;background:var(--cyan);border-radius:50%}
+.kicker{font-size:12px;text-transform:uppercase;letter-spacing:.18em;font-weight:700;color:var(--cyan)}
+.hero h1{font-size:clamp(40px,8.4vw,92px);line-height:.96;margin:0 0 16px;color:#fff}
+.hero h1 span{color:var(--cyan)}
+.hero p{font-size:15.5px;color:var(--text-dim);max-width:46ch;margin:0 0 24px;line-height:1.5}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:15px 30px;border-radius:4px;font-weight:800;font-size:14px;text-decoration:none;text-transform:uppercase;letter-spacing:.04em}
+.btn-primary{background:var(--grad);color:#07090C}
+.btn-ghost{border:1.5px solid var(--border);color:var(--text)}
+.statline{display:flex;gap:22px;margin-top:30px;flex-wrap:wrap}
+.statline div{display:flex;flex-direction:column}
+.statline b{font-family:'IBM Plex Mono',monospace;font-size:21px;font-weight:600;color:#fff}
+.statline span{font-size:10.5px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
+
+/* STORY */
+.story{padding-block:76px}
+.story .grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:44px;align-items:center}
+@media (max-width:760px){.story .grid{grid-template-columns:1fr}}
+.story img{border-radius:6px;width:100%;object-fit:cover;aspect-ratio:3/4}
+.story .kicker{font-size:11.5px;text-transform:uppercase;letter-spacing:.16em;color:var(--cyan);font-weight:700;margin-bottom:12px}
+.story h2{font-size:clamp(26px,4vw,38px);margin:0 0 16px;line-height:1.08}
+.story p{color:var(--text-dim);font-size:14.5px;line-height:1.65;margin:0 0 14px}
+
+/* PILLARS — his real methodology */
+.pillars{padding-block:0 76px}
+.pillars-head{text-align:center;max-width:56ch;margin:0 auto 34px}
+.pillars-head .kicker{font-size:11.5px;text-transform:uppercase;letter-spacing:.16em;color:var(--cyan);font-weight:700;margin-bottom:12px}
+.pillars-head h2{font-size:clamp(24px,3.8vw,34px);margin:0 0 10px;line-height:1.1}
+.pillargrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media (max-width:760px){.pillargrid{grid-template-columns:1fr}}
+.pillar{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:22px}
+.pillar .n{font-family:'IBM Plex Mono',monospace;color:var(--cyan);font-size:12px;font-weight:700;letter-spacing:.05em;margin-bottom:10px}
+.pillar h3{font-size:16px;margin:0 0 8px;font-weight:800}
+.pillar p{font-size:13px;color:var(--text-dim);margin:0;line-height:1.55}
+
+/* PROGRAM */
+.program{padding-block:76px;border-top:1px solid var(--border)}
+.program-head{text-align:center;max-width:56ch;margin:0 auto 44px}
+.program-head .kicker{font-size:11.5px;text-transform:uppercase;letter-spacing:.16em;color:var(--cyan);font-weight:700;margin-bottom:12px}
+.program-head h2{font-size:clamp(26px,4vw,40px);margin:0 0 14px;line-height:1.08}
+.program-head p{color:var(--text-dim);font-size:14.5px;margin:0}
+
+.tiers{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media (max-width:700px){.tiers{grid-template-columns:1fr}}
+.tier{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:30px;display:flex;flex-direction:column}
+.tier.hi{border-color:transparent;background:linear-gradient(var(--surface),var(--surface)) padding-box, var(--grad) border-box;border-width:2px;border-style:solid}
+.tier .step{font-size:11px;color:var(--text-faint);font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.tier.hi .step{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tier h3{font-family:'Anton',sans-serif;text-transform:uppercase;font-size:22px;margin:10px 0 6px}
+.tier .price{font-family:'IBM Plex Mono',monospace;font-size:30px;font-weight:600;margin:8px 0 14px;color:#fff}
+.tier .price span{font-size:12.5px;color:var(--text-faint);font-weight:500}
+.tier .desc{color:var(--text-dim);font-size:13.5px;margin-bottom:16px;line-height:1.55}
+.tier ul{list-style:none;margin:0 0 22px;padding:0;display:flex;flex-direction:column;gap:9px;flex:1}
+.tier li{font-size:13.5px;display:flex;gap:9px;align-items:flex-start;color:#E3EEF5}
+.tier li:before{content:"";width:6px;height:6px;margin-top:5px;flex:0 0 auto;background:var(--cyan);transform:rotate(45deg)}
+.tier .tbtn{align-self:flex-start;padding:12px 22px;border-radius:4px;font-weight:800;font-size:12.5px;text-transform:uppercase;letter-spacing:.05em;text-decoration:none}
+.tier .tbtn.ghost{border:1.5px solid var(--border);color:var(--text)}
+.tier .tbtn.solid{background:var(--grad);color:#07090C}
+
+/* DIVIDER */
+.divider{padding-block:54px;text-align:center;border-top:1px solid var(--border);background:var(--surface)}
+.divider .tag{display:inline-block;font-size:11px;text-transform:uppercase;letter-spacing:.18em;font-weight:700;color:var(--cyan);border:1px solid var(--border);border-radius:99px;padding:8px 18px;margin-bottom:16px}
+.divider h2{font-size:clamp(24px,4vw,34px);margin:0 0 10px;max-width:34ch;margin-inline:auto;line-height:1.15}
+.divider p{color:var(--text-dim);font-size:14px;max-width:52ch;margin:0 auto}
+
+/* PROPOSAL */
+.proposal{padding-block:70px}
+.gap{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--cyan);border-radius:10px;padding:22px;display:flex;flex-direction:column;gap:10px;margin-bottom:40px}
+.gap .tag{font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;color:var(--cyan)}
+.gap p{margin:0;font-size:14px;color:#E9F2F7;line-height:1.6}
+.gap .dm{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-dim);background:#0B1015;border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-top:2px}
+
+.ethos{padding-block:0 40px}
+.ethos-head{text-align:center;max-width:52ch;margin:0 auto 24px}
+.ethos-head .kicker{font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:var(--cyan);font-weight:700;margin-bottom:10px}
+.ethos-head h2{font-size:clamp(22px,3.6vw,30px);margin:0;line-height:1.15}
+.ethos img{border-radius:10px;border:1px solid var(--border);width:100%}
+
+.proofhead{text-align:center;max-width:56ch;margin:48px auto 24px}
+.proofhead .kicker{font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:var(--cyan);font-weight:700;margin-bottom:10px}
+.proofhead h2{font-size:clamp(22px,3.6vw,30px);margin:0 0 10px;line-height:1.15}
+.proofhead p{color:var(--text-dim);font-size:13.5px;margin:0}
+.proofgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:680px){.proofgrid{grid-template-columns:1fr}}
+.proofcard{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.proofcard img{width:100%;display:block}
+.proofcard .cap{padding:12px 14px;font-size:12.5px;color:var(--text-dim);line-height:1.5}
+.proofcard .cap b{color:var(--cyan);font-family:'IBM Plex Mono',monospace}
+
+.dolist{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:40px 0}
+@media (max-width:560px){.dolist{grid-template-columns:1fr}}
+.doitem{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;font-size:13.5px;color:#E3EEF5;display:flex;gap:9px;align-items:flex-start}
+.doitem:before{content:"";width:5px;height:5px;margin-top:6px;flex:0 0 auto;background:var(--cyan);transform:rotate(45deg)}
+
+.offercard{background:var(--surface);border:1.5px solid transparent;background:linear-gradient(var(--surface),var(--surface)) padding-box, var(--grad) border-box;border-radius:16px;padding:26px;display:flex;flex-direction:column;gap:12px}
+.offercard .tag2{font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.offercard h3{font-weight:800;font-size:18px;margin:0}
+.riskline{font-size:12.5px;color:var(--cyan);font-weight:600;margin-top:4px}
+
+/* FOOTER */
+.footcta{padding-block:80px;text-align:center;border-top:1px solid var(--border)}
+.footcta h2{font-family:'Anton',sans-serif;text-transform:uppercase;font-size:clamp(30px,6vw,56px);margin:0 0 14px;line-height:1}
+.footcta h2 span{color:var(--cyan)}
+.footcta p{color:var(--text-dim);font-size:14px;margin:0 0 26px}
+.footfine{margin-top:20px;font-size:11px;color:var(--text-faint)}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <img src="images/diego-hero.jpg" alt="Diego Reis">
+  <div class="hero-inner wrap">
+    <div class="kicker-row"><span class="dot"></span><span class="kicker">Bahia, Brazil 🇧🇷 · Calisthenics · Coaching Now Open</span></div>
+    <h1 class="disp">Torne-se<br>um <span>super humano.</span></h1>
+    <p>Bodyweight coaching built on a real system — not endless cardio, not generic splits. Metabolic calisthenics, workout density, and a recovery protocol that actually moves the needle.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="https://www.instagram.com/digodreis_/" target="_blank" rel="noopener">Apply For Coaching</a>
+      <a class="btn btn-ghost" href="#program">See The Method</a>
+    </div>
+    <div class="statline">
+      <div><b>17</b><span>Posts, all proof of the work</span></div>
+      <div><b>3</b><span>Pillars in the method</span></div>
+      <div><b>0</b><span>Endless-cardio sessions</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="story">
+  <div class="wrap grid">
+    <img src="images/diego-story.jpg" alt="Diego Reis training">
+    <div>
+      <div class="kicker">Who you're training with</div>
+      <h2 class="disp">A real method, not a mood board.</h2>
+      <p>I'm Diego — calisthenics, front lever work, and a coaching system built around three pillars: burn, density, and recovery. Not borrowed from a template, built from what actually gets results with bodyweight training.</p>
+      <p>Coaching clients get the full method applied to them directly — the same weekly system, personalised to your starting point.</p>
+    </div>
+  </div>
+</div>
+
+<div class="pillars">
+  <div class="wrap">
+    <div class="pillars-head">
+      <div class="kicker">The method</div>
+      <h2 class="disp">Three pillars. No fluff.</h2>
+    </div>
+    <div class="pillargrid">
+      <div class="pillar">
+        <div class="n">PILLAR 01</div>
+        <h3>Metabolic Calisthenics (Burn)</h3>
+        <p>No endless cardio. Compound bodyweight circuits keep heart rate at 75-85% to maximize fat oxidation.</p>
+      </div>
+      <div class="pillar">
+        <div class="n">PILLAR 02</div>
+        <h3>Density Over Duration</h3>
+        <p>Workouts are 35-45 min max. We increase density — more work in less time — not duration.</p>
+      </div>
+      <div class="pillar">
+        <div class="n">PILLAR 03</div>
+        <h3>Active Recovery System (Recode)</h3>
+        <p>Fat loss stalls when recovery is bad. This is the edge most programs skip entirely.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="program" id="program">
+  <div class="wrap">
+    <div class="program-head">
+      <div class="kicker">The programs</div>
+      <h2 class="disp">Two ways in.</h2>
+      <p>Start with a self-guided version of the method, or go straight to full 1:1 coaching.</p>
+    </div>
+    <div class="tiers">
+      <div class="tier">
+        <div class="step">Step one</div>
+        <h3>Foundations</h3>
+        <div class="price">$19 <span>one-off</span></div>
+        <p class="desc">The 3-pillar structure, built into a real self-guided plan.</p>
+        <ul>
+          <li>Metabolic calisthenics circuit templates</li>
+          <li>Density-based workout structure</li>
+          <li>Recovery protocol guide</li>
+          <li>Self-guided, no direct check-ins</li>
+        </ul>
+        <a class="tbtn ghost" href="https://www.instagram.com/digodreis_/" target="_blank" rel="noopener">Get The Plan</a>
+      </div>
+      <div class="tier hi">
+        <div class="step">Step two</div>
+        <h3>1:1 Coaching</h3>
+        <div class="price">Apply <span>weekly method</span></div>
+        <p class="desc">The full weekly method, personalised and applied directly to you.</p>
+        <ul>
+          <li>Personalised burn/density/recovery programming</li>
+          <li>Weekly method applied and adjusted</li>
+          <li>Direct 1:1 access</li>
+          <li>Built for complete physique transformation</li>
+        </ul>
+        <a class="tbtn solid" href="https://www.instagram.com/digodreis_/" target="_blank" rel="noopener">Apply Now</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider">
+  <div class="wrap">
+    <span class="tag">Built as an example — proposal below</span>
+    <h2>This is what your coaching could already look like.</h2>
+    <p>Everything above is a working mockup of a real page for you. Below is why I built it, my own proof, and what I'd actually do for you — no cost to start.</p>
+  </div>
+</div>
+
+<div class="proposal">
+  <div class="wrap">
+    <div class="gap">
+      <div class="tag">The actual gap</div>
+      <p>The method you laid out in DM — three real pillars, clearly explained, with an actual close at the end — is genuinely better than most paid coaching pages I've seen. But it's living in a DM thread that only the person you're already talking to will ever see. 601 followers means every single visitor matters more, not less — and right now there's no page turning that method into something people can actually buy.</p>
+      <div class="dm">"If you're interested in completely transforming your physique with satisfying results, let me know, and I'll apply my weekly method for you!"</div>
+    </div>
+
+    <div class="ethos">
+      <div class="ethos-head">
+        <div class="kicker">Why work with me</div>
+        <h2 class="disp">Not a pitch on promises.</h2>
+      </div>
+      <img src="../assets/proof/ethos.jpg" alt="From a life I needed to change, to a standard I now coach.">
+    </div>
+
+    <div class="proofhead">
+      <div class="kicker">Not promises — proof</div>
+      <h2>Every page here is a live screenshot.</h2>
+      <p>A real brand, a real audience, real leads, real client results, and real revenue already processed — not projections.</p>
+    </div>
+    <div class="proofgrid">
+      <div class="proofcard">
+        <img src="../assets/proof/brand.jpg" alt="655K follower coaching brand">
+        <div class="cap"><b>655K followers</b> — live coaching brand with an active, converting link-in-bio funnel.</div>
+      </div>
+      <div class="proofcard">
+        <img src="../assets/proof/leadgen.jpg" alt="Lead generation stats">
+        <div class="cap"><b>622 → 111 → 102</b> — visits to submissions to unique respondents, ~17.8% conversion.</div>
+      </div>
+      <div class="proofcard">
+        <img src="../assets/proof/transform.jpg" alt="Real client transformation">
+        <div class="cap"><b>Real client result</b> — actual before/after from the program, not stock photography.</div>
+      </div>
+      <div class="proofcard">
+        <img src="../assets/proof/revenue.jpg" alt="Revenue dashboard">
+        <div class="cap"><b>£550 gross / £517.61 net</b> — 100% of payments processed, 0% failed or refunded.</div>
+      </div>
+    </div>
+
+    <div class="dolist">
+      <div class="doitem">Turn the 3-pillar method into the actual page it deserves — not just a DM script</div>
+      <div class="doitem">Add a low-ticket entry tier so a 601-follower audience converts more of what it has</div>
+      <div class="doitem">Build the case around your real training photos and method, not generic stock copy</div>
+      <div class="doitem">Nothing upfront — I get paid once it's actually converting</div>
+    </div>
+
+    <div class="offercard">
+      <div class="tag2">The offer</div>
+      <h3>Full coaching page + two-tier funnel, built and run for you</h3>
+      <div class="riskline">I only get paid from results — no upfront fee, no obligation.</div>
+    </div>
+  </div>
+</div>
+
+<div class="footcta">
+  <div class="wrap">
+    <h2 class="disp">The method's already there.<br>Give it a <span>page to live on.</span></h2>
+    <p>Zero cost to start, zero risk — just a page that matches the method you already built.</p>
+    <a class="btn btn-primary" href="https://www.instagram.com/digodreis_/" target="_blank" rel="noopener">Reply On Instagram →</a>
+    <div class="footfine">Built for @digodreis_ · a working draft — pricing and scope open to a call.</div>
+  </div>
+</div>
+
+</body>
+</html>

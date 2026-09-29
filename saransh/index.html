@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Saransh Coaching</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+:root{
+  --bg:#0B090D; --surface:#181420; --border:#2C2438;
+  --text:#F5F1F8; --text-dim:#C4B9D3; --text-faint:#79708A;
+  --pink:#EC4899; --violet:#8B5CF6;
+  --grad:linear-gradient(120deg,#8B5CF6 0%,#C026D3 50%,#EC4899 100%);
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:Manrope,ui-sans-serif,system-ui,sans-serif;margin:0}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+.disp{font-family:'Anton',sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:.01em}
+.mono{font-family:'IBM Plex Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums}
+img{max-width:100%;display:block}
+a{color:inherit}
+
+/* HERO */
+.hero{position:relative;min-height:90vh;display:flex;align-items:flex-end;overflow:hidden}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 25%}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(11,9,13,.98) 0%,rgba(11,9,13,.6) 44%,rgba(11,9,13,.12) 68%),linear-gradient(90deg,rgba(11,9,13,.55) 0%,transparent 45%)}
+.hero-inner{position:relative;z-index:1;padding:0 22px 52px;width:100%}
+.idbar{display:flex;align-items:center;gap:12px;margin-bottom:26px}
+.avatar{width:48px;height:48px;border-radius:50%;padding:2px;background:var(--grad)}
+.avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover;border:2px solid var(--bg)}
+.idbar .handle{font-weight:800;font-size:14px}
+.idbar .sub{font-size:11.5px;color:var(--text-faint)}
+.kicker{font-size:12px;text-transform:uppercase;letter-spacing:.18em;font-weight:700;color:var(--pink);margin-bottom:14px}
+.hero h1{font-size:clamp(38px,8vw,88px);line-height:.98;margin:0 0 16px;color:#fff}
+.hero h1 span{color:var(--pink)}
+.hero p{font-size:15.5px;color:var(--text-dim);max-width:46ch;margin:0 0 24px;line-height:1.5}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:15px 30px;border-radius:4px;font-weight:800;font-size:14px;text-decoration:none;text-transform:uppercase;letter-spacing:.04em}
+.btn-primary{background:var(--grad);color:#0B090D}
+.btn-ghost{border:1.5px solid var(--border);color:var(--text)}
+.statline{display:flex;gap:22px;margin-top:30px;flex-wrap:wrap}
+.statline div{display:flex;flex-direction:column}
+.statline b{font-family:'IBM Plex Mono',monospace;font-size:21px;font-weight:600;color:#fff}
+.statline span{font-size:10.5px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
+
+/* SPONSOR */
+.sponsorbar{border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--surface)}
+.sponsorbar .wrap{display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap;padding:16px 22px;font-size:13px;color:var(--text-faint)}
+.sponsorbar b{color:var(--text-dim);font-weight:700}
+
+/* STORY */
+.story{padding-block:76px}
+.story .grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:44px;align-items:center}
+@media (max-width:760px){.story .grid{grid-template-columns:1fr}}
+.story img{border-radius:6px;width:100%;object-fit:cover;aspect-ratio:3/4}
+.story .kicker{margin-bottom:12px}
+.story h2{font-size:clamp(26px,4vw,38px);margin:0 0 16px;line-height:1.08}
+.story p{color:var(--text-dim);font-size:14.5px;line-height:1.65;margin:0 0 14px}
+
+/* MOSAIC */
+.mosaic{display:grid;grid-template-columns:1fr;gap:12px;padding-block:0 76px;max-width:420px;margin-inline:auto}
+.mosaic img{border-radius:6px;width:100%;height:100%;object-fit:cover;aspect-ratio:4/5}
+
+/* PROGRAM */
+.program{padding-block:76px;border-top:1px solid var(--border)}
+.program-head{text-align:center;max-width:56ch;margin:0 auto 44px}
+.program-head .kicker{margin-bottom:12px}
+.program-head h2{font-size:clamp(26px,4vw,40px);margin:0 0 14px;line-height:1.08}
+.program-head p{color:var(--text-dim);font-size:14.5px;margin:0}
+
+.tiers{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media (max-width:700px){.tiers{grid-template-columns:1fr}}
+.tier{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:30px;display:flex;flex-direction:column}
+.tier.hi{border-color:transparent;background:linear-gradient(var(--surface),var(--surface)) padding-box, var(--grad) border-box;border-width:2px;border-style:solid}
+.tier .step{font-size:11px;color:var(--text-faint);font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.tier.hi .step{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tier h3{font-family:'Anton',sans-serif;text-transform:uppercase;font-size:22px;margin:10px 0 6px}
+.tier .price{font-family:'IBM Plex Mono',monospace;font-size:30px;font-weight:600;margin:8px 0 14px;color:#fff}
+.tier .price span{font-size:12.5px;color:var(--text-faint);font-weight:500}
+.tier .desc{color:var(--text-dim);font-size:13.5px;margin-bottom:16px;line-height:1.55}
+.tier ul{list-style:none;margin:0 0 22px;padding:0;display:flex;flex-direction:column;gap:9px;flex:1}
+.tier li{font-size:13.5px;display:flex;gap:9px;align-items:flex-start;color:#EEE6F2}
+.tier li:before{content:"";width:6px;height:6px;margin-top:5px;flex:0 0 auto;background:var(--pink);transform:rotate(45deg)}
+.tier .tbtn{align-self:flex-start;padding:12px 22px;border-radius:4px;font-weight:800;font-size:12.5px;text-transform:uppercase;letter-spacing:.05em;text-decoration:none}
+.tier .tbtn.ghost{border:1.5px solid var(--border);color:var(--text)}
+.tier .tbtn.solid{background:var(--grad);color:#0B090D}
+
+/* DIVIDER */
+.divider{padding-block:54px;text-align:center;border-top:1px solid var(--border);background:var(--surface)}
+.divider .tag{display:inline-block;font-size:11px;text-transform:uppercase;letter-spacing:.18em;font-weight:700;color:var(--pink);border:1px solid var(--border);border-radius:99px;padding:8px 18px;margin-bottom:16px}
+.divider h2{font-size:clamp(24px,4vw,34px);margin:0 0 10px;max-width:34ch;margin-inline:auto;line-height:1.15}
+.divider p{color:var(--text-dim);font-size:14px;max-width:52ch;margin:0 auto}
+
+/* PROPOSAL */
+.proposal{padding-block:70px}
+.gap{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--pink);border-radius:10px;padding:22px;display:flex;flex-direction:column;gap:10px;margin-bottom:40px}
+.gap .tag{font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;color:var(--pink)}
+.gap p{margin:0;font-size:14px;color:#F2ECF6;line-height:1.6}
+.gap .dm{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-dim);background:#100D15;border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-top:2px}
+
+.ethos{padding-block:0 40px}
+.ethos-head{text-align:center;max-width:52ch;margin:0 auto 24px}
+.ethos-head .kicker{margin-bottom:10px}
+.ethos-head h2{font-size:clamp(22px,3.6vw,30px);margin:0;line-height:1.15}
+.ethos img{border-radius:10px;border:1px solid var(--border);width:100%}
+
+.proofhead{text-align:center;max-width:56ch;margin:48px auto 24px}
+.proofhead .kicker{margin-bottom:10px}
+.proofhead h2{font-size:clamp(22px,3.6vw,30px);margin:0 0 10px;line-height:1.15}
+.proofhead p{color:var(--text-dim);font-size:13.5px;margin:0}
+.proofgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:680px){.proofgrid{grid-template-columns:1fr}}
+.proofcard{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.proofcard img{width:100%;display:block}
+.proofcard .cap{padding:12px 14px;font-size:12.5px;color:var(--text-dim);line-height:1.5}
+.proofcard .cap b{color:var(--pink);font-family:'IBM Plex Mono',monospace}
+
+.dolist{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:40px 0}
+@media (max-width:560px){.dolist{grid-template-columns:1fr}}
+.doitem{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;font-size:13.5px;color:#EEE6F2;display:flex;gap:9px;align-items:flex-start}
+.doitem:before{content:"";width:5px;height:5px;margin-top:6px;flex:0 0 auto;background:var(--pink);transform:rotate(45deg)}
+
+.offercard{background:var(--surface);border:1.5px solid transparent;background:linear-gradient(var(--surface),var(--surface)) padding-box, var(--grad) border-box;border-radius:16px;padding:26px;display:flex;flex-direction:column;gap:12px}
+.offercard .tag2{font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.offercard h3{font-weight:800;font-size:18px;margin:0}
+.riskline{font-size:12.5px;color:var(--pink);font-weight:600;margin-top:4px}
+
+/* FOOTER */
+.footcta{padding-block:80px;text-align:center;border-top:1px solid var(--border)}
+.footcta h2{font-family:'Anton',sans-serif;text-transform:uppercase;font-size:clamp(30px,6vw,56px);margin:0 0 14px;line-height:1}
+.footcta h2 span{color:var(--pink)}
+.footcta p{color:var(--text-dim);font-size:14px;margin:0 0 26px}
+.footfine{margin-top:20px;font-size:11px;color:var(--text-faint)}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <img src="images/saransh-hero.jpg" alt="Saransh Choudhary">
+  <div class="hero-inner wrap">
+    <div class="idbar">
+      <div class="avatar"><img src="images/saransh-avatar.jpg" alt="saransh.x"></div>
+      <div>
+        <div class="handle">@saransh.x</div>
+        <div class="sub">Saransh Choudhary · Reel creator · Chandigarh</div>
+      </div>
+    </div>
+    <div class="kicker">Already coaching · Now taking new clients</div>
+    <h1 class="disp">The physique's<br>proof. <span>Now the offer.</span></h1>
+    <p>1:1 online coaching from a reel creator who's already built the physique he coaches — real training, real content, no generic templates.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="https://www.instagram.com/saransh.x/" target="_blank" rel="noopener">Apply For Coaching</a>
+      <a class="btn btn-ghost" href="#program">See The Programs</a>
+    </div>
+    <div class="statline">
+      <div><b>2,323</b><span>following the journey</span></div>
+      <div><b>245</b><span>posts of proof</span></div>
+      <div><b>20</b><span>years old, already coaching</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="sponsorbar">
+  <div class="wrap">
+    <span><b>Fueled by</b></span>
+    <span>@rippedupnutrition — code SC10</span>
+  </div>
+</div>
+
+<div class="story">
+  <div class="wrap grid">
+    <img src="images/saransh-story.jpg" alt="Saransh training">
+    <div>
+      <div class="kicker">Who you're training with</div>
+      <h2 class="disp">The physique is the résumé.</h2>
+      <p>I'm Saransh — reel creator, sponsored athlete, and the physique in every post is my own work, not a stock photo. That's the same standard I bring to coaching: real programming, built from what actually got me here.</p>
+      <p>1:1 coaching clients get that process applied directly to them — training and structure built around your body, not a generic plan.</p>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="mosaic">
+    <img src="images/saransh-results.jpg" alt="Saransh physique results">
+  </div>
+</div>
+
+<div class="program" id="program">
+  <div class="wrap">
+    <div class="program-head">
+      <div class="kicker">The programs</div>
+      <h2 class="disp">Two ways in.</h2>
+      <p>Start with a self-guided plan, or go straight to full 1:1 coaching.</p>
+    </div>
+    <div class="tiers">
+      <div class="tier">
+        <div class="step">Step one</div>
+        <h3>Foundations Plan</h3>
+        <div class="price">₹999 <span>one-off</span></div>
+        <p class="desc">A real structured starting point for followers who aren't ready for full 1:1 yet.</p>
+        <ul>
+          <li>Full training split</li>
+          <li>Diet & macro template</li>
+          <li>Physique-building fundamentals</li>
+          <li>Self-guided, no direct check-ins</li>
+        </ul>
+        <a class="tbtn ghost" href="https://www.instagram.com/saransh.x/" target="_blank" rel="noopener">Get The Plan</a>
+      </div>
+      <div class="tier hi">
+        <div class="step">Step two</div>
+        <h3>1:1 Online Coaching</h3>
+        <div class="price">Apply <span>for pricing</span></div>
+        <p class="desc">Full personalised coaching, direct from Saransh — the offer already in your bio, finally with a real page behind it.</p>
+        <ul>
+          <li>Personalised training & nutrition programming</li>
+          <li>Weekly check-ins & adjustments</li>
+          <li>Direct 1:1 access</li>
+          <li>Built on the exact process behind the physique</li>
+        </ul>
+        <a class="tbtn solid" href="https://www.instagram.com/saransh.x/" target="_blank" rel="noopener">Apply Now</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider">
+  <div class="wrap">
+    <span class="tag">Built as an example — proposal below</span>
+    <h2>This is what your coaching could already look like.</h2>
+    <p>Everything above is a working mockup of a real page for you. Below is why I built it, my own proof, and what I'd actually do for you — no cost to start.</p>
+  </div>
+</div>
+
+<div class="proposal">
+  <div class="wrap">
+    <div class="gap">
+      <div class="tag">The actual gap</div>
+      <p>Your bio already says "DM for 1:1 coaching" — you've done the hard part, you know you want to coach and you're saying so publicly. But it's three words with no page behind them: no pricing, no proof, no way for someone on the fence to see what they're actually signing up for before they message you.</p>
+      <div class="dm">"Love the physique bro, you ever thought about offering coaching?"<br>→ "Thanks man❤️" · "Yea bro I actually do offer online coaching"</div>
+    </div>
+
+    <div class="ethos">
+      <div class="ethos-head">
+        <div class="kicker">Why work with me</div>
+        <h2 class="disp">Not a pitch on promises.</h2>
+      </div>
+      <img src="../assets/proof/ethos.jpg" alt="From a life I needed to change, to a standard I now coach.">
+    </div>
+
+    <div class="proofhead">
+      <div class="kicker">Not promises — proof</div>
+      <h2>Every page here is a live screenshot.</h2>
+      <p>A real brand, a real audience, real leads, real client results, and real revenue already processed — not projections.</p>
+    </div>
+    <div class="proofgrid">
+      <div class="proofcard">
+        <img src="../assets/proof/brand.jpg" alt="655K follower coaching brand">
+        <div class="cap"><b>655K followers</b> — live coaching brand with an active, converting link-in-bio funnel.</div>
+      </div>
+      <div class="proofcard">
+        <img src="../assets/proof/leadgen.jpg" alt="Lead generation stats">
+        <div class="cap"><b>622 → 111 → 102</b> — visits to submissions to unique respondents, ~17.8% conversion.</div>
+      </div>
+      <div class="proofcard">
+        <img src="../assets/proof/transform.jpg" alt="Real client transformation">
+        <div class="cap"><b>Real client result</b> — actual before/after from the program, not stock photography.</div>
+      </div>
+      <div class="proofcard">
+        <img src="../assets/proof/revenue.jpg" alt="Revenue dashboard">
+        <div class="cap"><b>£550 gross / £517.61 net</b> — 100% of payments processed, 0% failed or refunded.</div>
+      </div>
+    </div>
+
+    <div class="dolist">
+      <div class="doitem">Build the page above (or your version of it) so "DM for coaching" finally has proof behind it</div>
+      <div class="doitem">Add a low-ticket entry tier so more of 2,323 followers have somewhere to start</div>
+      <div class="doitem">Turn your actual training content into the sales case, not just the bio line</div>
+      <div class="doitem">Nothing upfront — I get paid once it's actually converting</div>
+    </div>
+
+    <div class="offercard">
+      <div class="tag2">The offer</div>
+      <h3>Full coaching page + two-tier funnel, built and run for you</h3>
+      <div class="riskline">I only get paid from results — no upfront fee, no obligation.</div>
+    </div>
+  </div>
+</div>
+
+<div class="footcta">
+  <div class="wrap">
+    <h2 class="disp">The bio line's already there.<br>Give it a <span>page to back it up.</span></h2>
+    <p>Zero cost to start, zero risk — just a page that matches what you've already built.</p>
+    <a class="btn btn-primary" href="https://www.instagram.com/saransh.x/" target="_blank" rel="noopener">Reply On Instagram →</a>
+    <div class="footfine">Built for @saransh.x · a working draft — pricing and scope open to a call.</div>
+  </div>
+</div>
+
+</body>
+</html>

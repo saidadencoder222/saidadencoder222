@@ -1,16 +1,10 @@
-SUBJECT: {greeting_name} - a quick preview before you read the rest
+SUBJECT: {greeting_name} - one quick question
 
-Dear {greeting_name},
+Hi {greeting_name},
 
-{hook_line}Before any explanation - here's a live preview of an interactive tool built specifically for a {niche} audience like yours:
+{hook_line}Do you get many people asking questions on your site before they book/buy, or does most of that happen over email/DM instead?
 
-{proposal_url}
-
-The logic: your visitors get a specific, personal answer in under a minute instead of a generic freebie, which means whoever reaches out afterward already knows what they need - easier to convert, less time wasted on the wrong fit.
-
-{pricing_line}
-
-If it's not the right fit, no need to respond.
+Just trying to understand how {niche} businesses like yours handle that - no pitch here.
 
 Kind regards,
 {sender_name}

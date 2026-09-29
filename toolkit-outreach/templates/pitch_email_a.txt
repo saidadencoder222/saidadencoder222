@@ -1,16 +1,10 @@
-SUBJECT: A free preview I built for {greeting_name}
+SUBJECT: quick question, {greeting_name}
 
 Hi {greeting_name},
 
-{hook_line}I didn't want to pitch you on an idea, so I skipped that step and just built a live preview: an interactive tool for your {niche} audience, no signup needed to try it.
+{hook_line}Quick one - for your {niche} site, are you using any kind of interactive quiz or tool to capture leads, or is it mostly a plain contact form right now?
 
-{proposal_url}
-
-The idea is simple - your visitors answer a few quick questions and get a real, personal answer instantly, instead of another generic lead magnet. That's the kind of thing that turns a browser into someone worth following up with.
-
-{pricing_line}
-
-If it's not useful, no reply needed.
+Not pitching anything, just curious how you handle it.
 
 Kind regards,
 {sender_name}

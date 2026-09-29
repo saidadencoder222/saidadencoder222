@@ -4,18 +4,18 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ryebread Coaching</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap">
 <style>
 :root{
-  --bg:#0A0907; --surface:#131110; --surface-2:#1A1714; --border:#2A2620;
-  --text:#F6F3EE; --text-dim:#B9B0A2; --text-faint:#6E6559;
-  --gold:#C9A46A; --gold-soft:#E4CFA0;
-  --grad:linear-gradient(120deg,#8A6D3A 0%,#C9A46A 50%,#E4CFA0 100%);
+  --bg:#0B0812; --surface:#150F20; --surface-2:#1C1329; --border:#2E2242;
+  --text:#F5F2FA; --text-dim:#C1B4D6; --text-faint:#786A93;
+  --violet:#A855F7; --violet-soft:#D8B4FE; --lilac:#7C3AED;
+  --grad:linear-gradient(120deg,#6D28D9 0%,#A855F7 50%,#E9D5FF 100%);
 }
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--text);font-family:Manrope,ui-sans-serif,system-ui,sans-serif;margin:0}
 .wrap{max-width:1040px;margin:0 auto;padding:0 26px}
-h1,h2,.disp{font-family:'Instrument Serif',Georgia,serif;font-weight:400}
+h1,h2,.disp{font-family:'Fraunces',Georgia,serif;font-weight:400;font-optical-sizing:auto}
 .mono{font-family:'IBM Plex Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums}
 img{max-width:100%;display:block;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
 a{color:inherit}
@@ -23,21 +23,21 @@ a{color:inherit}
 
 /* HERO */
 .hero{position:relative;min-height:96vh;display:flex;align-items:flex-end;overflow:hidden}
-.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 18%;filter:saturate(.92)}
-.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,9,7,.98) 0%,rgba(10,9,7,.62) 44%,rgba(10,9,7,.14) 70%),linear-gradient(90deg,rgba(10,9,7,.5) 0%,transparent 50%)}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 15%}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(11,8,18,.98) 0%,rgba(11,8,18,.6) 46%,rgba(11,8,18,.12) 70%),linear-gradient(90deg,rgba(11,8,18,.5) 0%,transparent 50%)}
 .hero-inner{position:relative;z-index:1;padding:0 26px 68px;width:100%}
 .idbar{display:flex;align-items:center;gap:14px;margin-bottom:36px}
 .avatar{width:52px;height:52px;border-radius:50%;padding:2px;background:var(--grad)}
 .avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover;border:2px solid var(--bg)}
 .idbar .handle{font-weight:800;font-size:14.5px;letter-spacing:.01em}
 .idbar .sub{font-size:12px;color:var(--text-faint);margin-top:2px}
-.eyebrow{display:flex;align-items:center;gap:12px;font-size:11.5px;text-transform:uppercase;letter-spacing:.24em;font-weight:700;color:var(--gold-soft);margin-bottom:22px}
-.hero h1{font-size:clamp(40px,7.6vw,86px);line-height:1.04;margin:0 0 24px;max-width:16ch;text-wrap:balance;color:#fff;font-weight:400}
-.hero h1 em{font-style:italic;color:var(--gold-soft)}
+.eyebrow{display:flex;align-items:center;gap:12px;font-size:11.5px;text-transform:uppercase;letter-spacing:.24em;font-weight:700;color:var(--violet-soft);margin-bottom:22px}
+.hero h1{font-size:clamp(40px,7.6vw,86px);line-height:1.02;margin:0 0 24px;max-width:16ch;text-wrap:balance;color:#fff;font-weight:400}
+.hero h1 em{font-style:italic;color:var(--violet-soft)}
 .hero p.lead{font-size:17px;color:var(--text-dim);max-width:50ch;margin:0 0 36px;line-height:1.65;font-weight:400}
 .hero-cta{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
 .btn{display:inline-flex;align-items:center;gap:9px;padding:16px 32px;border-radius:2px;font-weight:700;font-size:12.5px;text-decoration:none;text-transform:uppercase;letter-spacing:.1em}
-.btn-primary{background:var(--grad);color:#0A0907}
+.btn-primary{background:var(--grad);color:#0B0812}
 .btn-ghost{border:1px solid var(--border);color:var(--text-dim)}
 .statrow{display:flex;gap:0;margin-top:44px;flex-wrap:wrap;border-top:1px solid var(--border);padding-top:26px}
 .statrow div{display:flex;flex-direction:column;padding-right:38px;border-right:1px solid var(--border);margin-right:38px}
@@ -48,14 +48,14 @@ a{color:inherit}
 /* SPONSOR */
 .sponsorbar{border-bottom:1px solid var(--border);background:var(--surface)}
 .sponsorbar .wrap{display:flex;align-items:center;justify-content:center;gap:22px;flex-wrap:wrap;padding:20px 26px;font-size:12.5px;color:var(--text-faint);letter-spacing:.02em}
-.sponsorbar b{color:var(--gold-soft);font-weight:700}
+.sponsorbar b{color:var(--violet-soft);font-weight:700}
 
 /* SECTION shared */
 .section{padding-block:96px}
 .section.tight{padding-block:72px}
 .section-head{max-width:62ch;margin-bottom:44px}
 .section-head.center{margin-inline:auto;text-align:center}
-.section-head .kicker{display:flex;align-items:center;gap:12px;font-size:11px;text-transform:uppercase;letter-spacing:.2em;color:var(--gold-soft);font-weight:700;margin-bottom:16px}
+.section-head .kicker{display:flex;align-items:center;gap:12px;font-size:11px;text-transform:uppercase;letter-spacing:.2em;color:var(--violet-soft);font-weight:700;margin-bottom:16px}
 .section-head.center .kicker{justify-content:center}
 .section-head h2{font-size:clamp(28px,4.6vw,46px);margin:0 0 14px;line-height:1.08;text-wrap:balance}
 .section-head p{color:var(--text-dim);font-size:15px;margin:0;line-height:1.65}
@@ -65,10 +65,14 @@ a{color:inherit}
 .about .grid{display:grid;grid-template-columns:1fr 1.15fr;gap:56px;align-items:center}
 @media (max-width:780px){.about .grid{grid-template-columns:1fr}}
 .about img{border-radius:2px;width:100%;object-fit:cover;aspect-ratio:4/5}
-.about .pull{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-size:22px;line-height:1.4;color:var(--gold-soft);margin:22px 0;border-left:2px solid var(--gold);padding-left:20px}
+.about .pull{font-family:'Fraunces',Georgia,serif;font-style:italic;font-size:22px;line-height:1.4;color:var(--violet-soft);margin:22px 0;border-left:2px solid var(--violet);padding-left:20px}
 .about p{color:var(--text-dim);font-size:15px;line-height:1.75;margin:0 0 16px}
 .about .tagrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
 .tagpill{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--text-dim);border:1px solid var(--border);border-radius:99px;padding:8px 16px}
+.streaminset{display:flex;gap:14px;align-items:center;margin-top:26px;background:var(--surface);border:1px solid var(--border);border-radius:2px;padding:14px}
+.streaminset img{width:64px;height:64px;object-fit:cover;border-radius:2px;flex:0 0 auto}
+.streaminset span{font-size:12.5px;color:var(--text-dim);line-height:1.5}
+.streaminset b{color:var(--violet-soft);display:block;font-size:12px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px}
 
 /* MOSAIC */
 .mosaic{display:grid;grid-template-columns:1fr 1fr;gap:16px}
@@ -76,35 +80,44 @@ a{color:inherit}
 
 /* PROGRAM */
 .program{border-top:1px solid var(--border)}
-.tiers{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-@media (max-width:700px){.tiers{grid-template-columns:1fr}}
-.tier{background:var(--surface);border:1px solid var(--border);border-radius:2px;padding:36px;display:flex;flex-direction:column}
-.tier.hi{border-color:var(--gold);background:linear-gradient(180deg,var(--surface-2),var(--surface))}
+.tiers{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
+@media (max-width:900px){.tiers{grid-template-columns:1fr}}
+.tier{background:var(--surface);border:1px solid var(--border);border-radius:2px;padding:32px;display:flex;flex-direction:column}
+.tier.hi{border-color:var(--violet)}
+.tier.vip{border-color:transparent;background:linear-gradient(180deg,var(--surface-2),var(--surface)) padding-box, var(--grad) border-box;border-width:2px;border-style:solid;position:relative}
+.tier.vip .badge{position:absolute;top:-13px;left:32px;background:var(--grad);color:#0B0812;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;padding:5px 14px;border-radius:99px}
 .tier .step{font-size:11px;color:var(--text-faint);font-weight:700;letter-spacing:.12em;text-transform:uppercase}
-.tier.hi .step{color:var(--gold-soft)}
-.tier h3{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:26px;margin:14px 0 10px}
-.tier .price{font-family:'IBM Plex Mono',monospace;font-size:32px;font-weight:600;margin:10px 0 18px;color:#fff}
-.tier .price span{font-size:12.5px;color:var(--text-faint);font-weight:500;font-family:Manrope}
-.tier .desc{color:var(--text-dim);font-size:13.5px;margin-bottom:20px;line-height:1.6}
-.tier ul{list-style:none;margin:0 0 26px;padding:0;display:flex;flex-direction:column;gap:11px;flex:1}
-.tier li{font-size:13.5px;display:flex;gap:10px;align-items:flex-start;color:#E9E4DA}
-.tier li:before{content:"—";color:var(--gold);flex:0 0 auto}
-.tier .tbtn{align-self:flex-start;padding:13px 26px;border-radius:2px;font-weight:700;font-size:11.5px;text-decoration:none;text-transform:uppercase;letter-spacing:.08em}
+.tier.hi .step,.tier.vip .step{color:var(--violet-soft)}
+.tier h3{font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:23px;margin:14px 0 8px}
+.tier .price{font-family:'IBM Plex Mono',monospace;font-size:28px;font-weight:600;margin:8px 0 16px;color:#fff}
+.tier .price span{font-size:12px;color:var(--text-faint);font-weight:500;font-family:Manrope}
+.tier .desc{color:var(--text-dim);font-size:13px;margin-bottom:18px;line-height:1.6}
+.tier ul{list-style:none;margin:0 0 24px;padding:0;display:flex;flex-direction:column;gap:10px;flex:1}
+.tier li{font-size:13px;display:flex;gap:9px;align-items:flex-start;color:#EAE3F5}
+.tier li:before{content:"—";color:var(--violet-soft);flex:0 0 auto}
+.tier .tbtn{align-self:flex-start;padding:12px 24px;border-radius:2px;font-weight:700;font-size:11px;text-decoration:none;text-transform:uppercase;letter-spacing:.08em}
 .tier .tbtn.ghost{border:1px solid var(--border);color:var(--text-dim)}
-.tier .tbtn.solid{background:var(--grad);color:#0A0907}
+.tier .tbtn.solid{background:var(--grad);color:#0B0812}
 
 /* PROJECTION */
 .projection{border-top:1px solid var(--border);background:var(--surface)}
 .bignum{font-family:'IBM Plex Mono',monospace;font-size:clamp(52px,9vw,92px);font-weight:600;color:#fff;line-height:1;margin:14px 0 6px}
-.bignum span{font-size:.4em;color:var(--gold-soft);vertical-align:top}
+.bignum span{font-size:.4em;color:var(--violet-soft);vertical-align:top}
 .mathtable{width:100%;border-collapse:collapse;margin-top:30px;max-width:720px;margin-inline:auto}
 .mathtable th{text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--text-faint);font-weight:700;padding:12px 14px;border-bottom:1px solid var(--border)}
 .mathtable td{padding:18px 14px;border-bottom:1px solid var(--border);font-size:14.5px}
 .mathtable td.num{font-family:'IBM Plex Mono',monospace;text-align:right}
 .mathtable td.sub{color:var(--text-faint);font-family:'IBM Plex Mono',monospace;font-size:12px}
 .mathtable tr.total td{font-weight:700;color:#fff;font-size:16px;border-bottom:none;padding-top:24px}
-.mathtable tr.total td.num{color:var(--gold-soft)}
+.mathtable tr.total td.num{color:var(--violet-soft)}
 .mathnote{margin-top:20px;font-size:12.5px;color:var(--text-faint);line-height:1.65;max-width:720px;margin-inline:auto}
+
+/* PROPOSAL / WHY */
+.gap{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--violet);border-radius:2px;padding:26px;display:flex;flex-direction:column;gap:12px;margin-bottom:44px}
+.gap .tag{font-size:10.5px;text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:var(--violet-soft)}
+.gap p{margin:0;font-size:14.5px;color:#EFE9F8;line-height:1.65}
+.gap .dm{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-dim);background:#0F0A18;border:1px solid var(--border);border-radius:2px;padding:14px 16px;margin-top:2px}
+.ethos img{border-radius:2px;border:1px solid var(--border);width:100%}
 
 /* PROOF */
 .proofgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
@@ -112,22 +125,22 @@ a{color:inherit}
 .proofcard{background:var(--surface);border:1px solid var(--border);border-radius:2px;overflow:hidden}
 .proofcard img{width:100%;display:block}
 .proofcard .cap{padding:16px 18px;font-size:12.5px;color:var(--text-dim);line-height:1.55}
-.proofcard .cap b{color:var(--gold-soft);font-family:'IBM Plex Mono',monospace}
+.proofcard .cap b{color:var(--violet-soft);font-family:'IBM Plex Mono',monospace}
 
 /* OFFER */
-.offercard{border:1px solid var(--gold);border-radius:2px;padding:48px;display:flex;flex-direction:column;gap:20px;background:linear-gradient(180deg,var(--surface-2),var(--surface))}
-.offercard .tag{font-size:11px;text-transform:uppercase;letter-spacing:.14em;font-weight:700;color:var(--gold-soft)}
-.offercard h3{font-family:'Instrument Serif',Georgia,serif;font-size:30px;margin:0;max-width:22ch;font-weight:400}
+.offercard{border:1px solid var(--violet);border-radius:2px;padding:48px;display:flex;flex-direction:column;gap:20px;background:linear-gradient(180deg,var(--surface-2),var(--surface))}
+.offercard .tag{font-size:11px;text-transform:uppercase;letter-spacing:.14em;font-weight:700;color:var(--violet-soft)}
+.offercard h3{font-family:'Fraunces',Georgia,serif;font-size:29px;margin:0;max-width:24ch;font-weight:400}
 .offercard p{color:var(--text-dim);font-size:15px;margin:0;max-width:58ch;line-height:1.65}
 .riskbox{display:flex;align-items:flex-start;gap:16px;border-top:1px solid var(--border);padding-top:24px;margin-top:6px}
-.riskbox .ico{width:38px;height:38px;flex:0 0 auto;border-radius:50%;border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;color:var(--gold-soft);font-family:'IBM Plex Mono',monospace;font-size:13px}
+.riskbox .ico{width:38px;height:38px;flex:0 0 auto;border-radius:50%;border:1px solid var(--violet);display:flex;align-items:center;justify-content:center;color:var(--violet-soft);font-family:'IBM Plex Mono',monospace;font-size:13px}
 .riskbox span{font-size:14.5px;color:#fff;font-weight:600;display:block}
 .riskbox small{display:block;font-size:12.5px;color:var(--text-faint);font-weight:400;margin-top:4px;line-height:1.6}
 
 /* FOOTER */
 .footcta{padding-block:100px;text-align:center;border-top:1px solid var(--border)}
 .footcta h2{font-size:clamp(34px,6vw,64px);margin:0 0 18px;line-height:1.05;font-weight:400}
-.footcta h2 em{font-style:italic;color:var(--gold-soft)}
+.footcta h2 em{font-style:italic;color:var(--violet-soft)}
 .footcta p{color:var(--text-dim);font-size:15px;margin:0 0 32px}
 .footfine{margin-top:24px;font-size:11.5px;color:var(--text-faint)}
 </style>
@@ -135,7 +148,7 @@ a{color:inherit}
 <body>
 
 <div class="hero">
-  <img src="images/rye-hero.jpg" alt="Ryebread">
+  <img src="images/rye-shoulders.jpg" alt="Ryebread">
   <div class="hero-inner wrap">
     <div class="idbar">
       <div class="avatar"><img src="images/rye-avatar.jpg" alt="ryebread.yum"></div>
@@ -169,13 +182,17 @@ a{color:inherit}
 
 <div class="section about">
   <div class="wrap grid">
-    <img src="images/rye-jersey.jpg" alt="Rye">
+    <img src="images/rye-mirror.jpg" alt="Rye">
     <div>
       <div class="kicker"><span class="rule"></span>Who's actually behind the account</div>
       <h2 style="font-size:clamp(28px,4.6vw,42px);margin:0 0 8px;line-height:1.1">Not a fitness page. A whole person, and that's the brand.</h2>
-      <p>Rye isn't a physique account that happens to exist — it's a full character. Gains built in public across 113 posts, a Twitch stream running under ryebreadyummy, and a personality that's as much anime hoodies and glasses as it is back-double-biceps.</p>
+      <p>Rye isn't a physique account that happens to exist — it's a full character. Gains built in public across 113 posts, a Twitch stream running under ryebreadyummy, glasses and an anatomy poster in the background of the mirror pic as much as the physique itself.</p>
       <div class="pull">"125K people didn't follow a body. They followed a person — the gains are just the part that's easiest to screenshot."</div>
       <p>That's exactly why a generic coaching template would undersell this. The system built here is priced and positioned around the actual size and shape of this audience — a creator with real reach, a real second platform in Twitch, and a real sponsor already on the page.</p>
+      <div class="streaminset">
+        <img src="images/rye-stream.jpg" alt="Rye streaming">
+        <span><b>Also live on Twitch</b>The same person coaching you is on camera streaming as ryebreadyummy — coaching isn't a side character here, it's an extension of the same audience relationship.</span>
+      </div>
       <div class="tagrow">
         <span class="tagpill">125K Instagram</span>
         <span class="tagpill">Live on Twitch</span>
@@ -189,7 +206,7 @@ a{color:inherit}
 <div class="wrap">
   <div class="mosaic">
     <img src="images/rye-bench.jpg" alt="Ryebread training">
-    <img src="images/rye-story.jpg" alt="Ryebread physique">
+    <img src="images/rye-jersey.jpg" alt="Ryebread">
   </div>
 </div>
 
@@ -197,19 +214,18 @@ a{color:inherit}
   <div class="wrap">
     <div class="section-head center">
       <div class="kicker"><span class="rule"></span>The system<span class="rule"></span></div>
-      <h2>Two tiers, built for an account this size.</h2>
-      <p>Not the same $19/$180 template pitched to a 5K-follower account — priced and structured for 125K.</p>
+      <h2>Three tiers, built for an account this size.</h2>
+      <p>Not the same $19/$180 template pitched to a 5K-follower account — priced and structured for 125K, top to bottom.</p>
     </div>
     <div class="tiers">
       <div class="tier">
         <div class="step">Entry Tier</div>
         <h3>Foundations</h3>
         <div class="price">$29 <span>one-off</span></div>
-        <p class="desc">The self-guided version of the training system — for the audience that isn't ready for 1:1 yet, at real scale.</p>
+        <p class="desc">The self-guided version of the training system — for the audience not ready for 1:1 yet, at real scale.</p>
         <ul>
           <li>Full training split & progression</li>
           <li>Nutrition & recomp guidance</li>
-          <li>Built from your own content, not generic</li>
           <li>Self-guided, no direct access</li>
         </ul>
         <a class="tbtn ghost" href="https://www.instagram.com/ryebread.yum/" target="_blank" rel="noopener">Preview Tier</a>
@@ -217,13 +233,27 @@ a{color:inherit}
       <div class="tier hi">
         <div class="step">High-Ticket Tier</div>
         <h3>1:1 Coaching</h3>
-        <div class="price">$220 <span>per month</span></div>
-        <p class="desc">Full personalised coaching, direct from you — priced for a creator with a real, proven audience, not a starter rate.</p>
+        <div class="price">$220 <span>/mo</span></div>
+        <p class="desc">Full personalised coaching, direct from you — priced for a real, proven audience.</p>
         <ul>
-          <li>Personalised training & nutrition programming</li>
+          <li>Personalised training & nutrition</li>
           <li>Weekly check-ins & direct access</li>
-          <li>Positioned around your actual brand and content</li>
-          <li>The highest-margin part of the whole system</li>
+          <li>Positioned around your own brand</li>
+        </ul>
+        <a class="tbtn ghost" href="#offer">See The Offer</a>
+      </div>
+      <div class="tier vip">
+        <span class="badge">Premium</span>
+        <div class="step">Concierge Tier</div>
+        <h3>Elite Coaching</h3>
+        <div class="price">$450 <span>/mo</span></div>
+        <p class="desc">The tier built for the top slice of 125K — the ones who'd pay for direct, priority access to you specifically.</p>
+        <ul>
+          <li>Everything in 1:1 Coaching, plus:</li>
+          <li>Monthly video call, not just check-ins</li>
+          <li>Direct messaging access between sessions</li>
+          <li>Custom supplement & meal protocol</li>
+          <li>Capped spots — priority scheduling</li>
         </ul>
         <a class="tbtn solid" href="#offer">See The Offer</a>
       </div>
@@ -237,22 +267,37 @@ a{color:inherit}
       <div class="kicker"><span class="rule"></span>The projection<span class="rule"></span></div>
       <h2>A proper system, run properly.</h2>
       <div class="bignum">$15<span>K</span>/mo</div>
-      <p style="margin-top:14px">Not a guess — the actual math, built off 125K followers and a two-tier system instead of one price point.</p>
+      <p style="margin-top:14px">Not a guess — the actual math, built off 125K followers and a three-tier system instead of one price point.</p>
     </div>
     <table class="mathtable">
       <tr><th>Revenue line</th><th></th><th style="text-align:right">Monthly</th></tr>
-      <tr><td>Foundations — self-guided tier</td><td class="sub">~300 sales × $29</td><td class="num">$8,700</td></tr>
-      <tr><td>1:1 Coaching — high-ticket tier</td><td class="sub">~20 clients × $220/mo</td><td class="num">$4,400</td></tr>
-      <tr><td>Sponsor / affiliate uplift</td><td class="sub">structured funnel, existing RYE code</td><td class="num">$1,450</td></tr>
-      <tr><td>Recaptured sales — email follow-up</td><td class="sub">~55 sales × $29</td><td class="num">$1,600</td></tr>
-      <tr class="total"><td>Realistic monthly total</td><td></td><td class="num">~$16,150</td></tr>
+      <tr><td>Foundations — self-guided tier</td><td class="sub">~280 sales × $29</td><td class="num">$8,120</td></tr>
+      <tr><td>1:1 Coaching — high-ticket tier</td><td class="sub">~15 clients × $220/mo</td><td class="num">$3,300</td></tr>
+      <tr><td>Elite Coaching — concierge tier</td><td class="sub">~5 clients × $450/mo</td><td class="num">$2,250</td></tr>
+      <tr><td>Sponsor / affiliate uplift</td><td class="sub">structured funnel, existing RYE code</td><td class="num">$1,000</td></tr>
+      <tr><td>Recaptured sales — email follow-up</td><td class="sub">~50 sales × $29</td><td class="num">$1,450</td></tr>
+      <tr class="total"><td>Realistic monthly total</td><td></td><td class="num">~$16,120</td></tr>
     </table>
-    <p class="mathnote">Rounded conservatively to a $15K/month target. Same 125K followers, same content already being made — the difference is a system that actually captures both ends of the audience (the ones who want a cheap starting point, and the ones who'd pay real money for direct access) instead of losing both.</p>
+    <p class="mathnote">Rounded conservatively to a $15K/month target. Same 125K followers, same content already being made — the difference is a system that captures three segments of the audience instead of losing all but the ones who already DM first.</p>
   </div>
 </div>
 
 <div class="section tight">
   <div class="wrap">
+    <div class="gap">
+      <div class="tag">Why this, not just a page</div>
+      <p>Anyone can build you a landing page. The reason this is priced and structured the way it is comes from the same place every number on this page comes from — a track record built on evidence, not projections dressed up to look confident.</p>
+      <div class="dm">"I work on a commission-based split so I don't charge you anything until you make money."</div>
+    </div>
+
+    <div class="ethos" style="margin-bottom:48px">
+      <div class="section-head center">
+        <div class="kicker"><span class="rule"></span>Why work with me<span class="rule"></span></div>
+        <h2 style="font-size:clamp(22px,3.6vw,30px)">Not a pitch on promises.</h2>
+      </div>
+      <img src="../assets/proof/ethos.jpg" alt="From a life I needed to change, to a standard I now coach.">
+    </div>
+
     <div class="section-head center">
       <div class="kicker"><span class="rule"></span>Not promises — proof<span class="rule"></span></div>
       <h2>Every page here is a live screenshot.</h2>
@@ -284,7 +329,7 @@ a{color:inherit}
     <div class="offercard">
       <div class="tag">The Offer</div>
       <h3>Full coaching system, built and run for you.</h3>
-      <p>Both tiers, the funnel connecting them, the pages themselves — everything above, live on your account, built around your actual content and brand instead of a generic template.</p>
+      <p>All three tiers, the funnel connecting them, the pages themselves — everything above, live on your account, built around your actual content and brand instead of a generic template.</p>
       <div class="riskbox">
         <span class="ico">$0</span>
         <div>

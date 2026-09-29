@@ -1,4 +1,4 @@
-SUBJECT: A preview for {channel_title}'s site, not a pitch
+SUBJECT: A preview for {greeting_name}'s site, not a pitch
 
 Dear {greeting_name},
 

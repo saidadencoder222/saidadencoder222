@@ -1,4 +1,4 @@
-SUBJECT: {channel_title} - a quick preview before you read the rest
+SUBJECT: {greeting_name} - a quick preview before you read the rest
 
 Dear {greeting_name},
 

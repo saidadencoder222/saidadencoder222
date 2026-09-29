@@ -1,4 +1,4 @@
-SUBJECT: A free preview I built for {channel_title}
+SUBJECT: A free preview I built for {greeting_name}
 
 Hi {greeting_name},
 

@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ryebread Coaching</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+:root{
+  --bg:#08090D; --surface:#12141C; --surface-2:#181B26; --border:#242835;
+  --text:#F4F5F8; --text-dim:#B7BECC; --text-faint:#666E80;
+  --indigo:#4F5FE8; --copper:#E68A4F;
+  --grad:linear-gradient(120deg,#4F5FE8 0%,#7B6FF0 50%,#E68A4F 100%);
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:Manrope,ui-sans-serif,system-ui,sans-serif;margin:0}
+.wrap{max-width:1100px;margin:0 auto;padding:0 24px}
+h1,h2,.disp{font-family:'Instrument Serif',Georgia,serif;font-weight:400}
+.mono{font-family:'IBM Plex Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums}
+img{max-width:100%;display:block;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+a{color:inherit}
+
+/* HERO */
+.hero{position:relative;min-height:94vh;display:flex;align-items:flex-end;overflow:hidden}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 20%}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(8,9,13,.98) 0%,rgba(8,9,13,.58) 46%,rgba(8,9,13,.1) 70%),linear-gradient(90deg,rgba(8,9,13,.55) 0%,transparent 48%)}
+.hero-inner{position:relative;z-index:1;padding:0 24px 60px;width:100%}
+.idbar{display:flex;align-items:center;gap:13px;margin-bottom:30px}
+.avatar{width:50px;height:50px;border-radius:50%;padding:2px;background:var(--grad)}
+.avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover;border:2px solid var(--bg)}
+.idbar .handle{font-weight:800;font-size:14.5px;display:flex;align-items:center;gap:6px}
+.check{width:14px;height:14px;border-radius:50%;background:var(--indigo);display:inline-flex;align-items:center;justify-content:center;font-size:9px;color:#fff}
+.idbar .sub{font-size:12px;color:var(--text-faint)}
+.eyebrow{font-size:11.5px;text-transform:uppercase;letter-spacing:.18em;font-weight:700;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:16px}
+.hero h1{font-size:clamp(38px,7.4vw,80px);line-height:1.02;margin:0 0 20px;max-width:15ch;text-wrap:balance;color:#fff}
+.hero h1 em{font-style:italic;color:var(--copper)}
+.hero p.lead{font-size:16.5px;color:var(--text-dim);max-width:52ch;margin:0 0 30px;line-height:1.55}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:15px 30px;border-radius:99px;font-weight:700;font-size:14px;text-decoration:none}
+.btn-primary{background:var(--grad);color:#08090D}
+.btn-ghost{border:1.5px solid var(--border);color:var(--text)}
+.statrow{display:flex;gap:32px;margin-top:34px;flex-wrap:wrap}
+.statrow div{display:flex;flex-direction:column}
+.statrow b{font-family:'IBM Plex Mono',monospace;font-size:23px;font-weight:600;color:#fff}
+.statrow span{font-size:11px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.06em;margin-top:3px}
+
+/* SPONSOR */
+.sponsorbar{border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--surface)}
+.sponsorbar .wrap{display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap;padding:18px 24px;font-size:13.5px;color:var(--text-faint)}
+.sponsorbar b{color:var(--text-dim);font-weight:700}
+
+/* SECTION shared */
+.section{padding-block:84px}
+.section.tight{padding-block:64px}
+.section-head{max-width:60ch;margin-bottom:36px}
+.section-head.center{margin-inline:auto;text-align:center}
+.section-head .kicker{font-size:11.5px;text-transform:uppercase;letter-spacing:.16em;color:var(--copper);font-weight:700;margin-bottom:12px}
+.section-head h2{font-size:clamp(26px,4.2vw,40px);margin:0 0 12px;line-height:1.1;text-wrap:balance}
+.section-head p{color:var(--text-dim);font-size:14.5px;margin:0;line-height:1.6}
+
+/* STORY */
+.story .grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:48px;align-items:center}
+@media (max-width:760px){.story .grid{grid-template-columns:1fr}}
+.story img{border-radius:10px;width:100%;object-fit:cover;aspect-ratio:3/4}
+
+/* MOSAIC */
+.mosaic{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.mosaic img{border-radius:10px;width:100%;height:100%;object-fit:cover;aspect-ratio:4/5}
+
+/* PROGRAM */
+.program{border-top:1px solid var(--border)}
+.tiers{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+@media (max-width:700px){.tiers{grid-template-columns:1fr}}
+.tier{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:32px;display:flex;flex-direction:column}
+.tier.hi{border-color:transparent;background:linear-gradient(var(--surface),var(--surface)) padding-box, var(--grad) border-box;border-width:2px;border-style:solid}
+.tier .step{font-size:11px;color:var(--text-faint);font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.tier.hi .step{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tier h3{font-family:Manrope;font-weight:800;font-size:21px;margin:12px 0 8px}
+.tier .price{font-family:'IBM Plex Mono',monospace;font-size:32px;font-weight:600;margin:8px 0 16px;color:#fff}
+.tier .price span{font-size:13px;color:var(--text-faint);font-weight:500}
+.tier .desc{color:var(--text-dim);font-size:13.5px;margin-bottom:18px;line-height:1.55}
+.tier ul{list-style:none;margin:0 0 24px;padding:0;display:flex;flex-direction:column;gap:10px;flex:1}
+.tier li{font-size:13.5px;display:flex;gap:9px;align-items:flex-start;color:#E8EAF0}
+.tier li:before{content:"";width:6px;height:6px;margin-top:5px;flex:0 0 auto;background:var(--copper);transform:rotate(45deg)}
+.tier .tbtn{align-self:flex-start;padding:12px 24px;border-radius:99px;font-weight:700;font-size:12.5px;text-decoration:none}
+.tier .tbtn.ghost{border:1.5px solid var(--border);color:var(--text)}
+.tier .tbtn.solid{background:var(--grad);color:#08090D}
+
+/* PROJECTION */
+.projection{border-top:1px solid var(--border);background:var(--surface)}
+.bignum{font-family:'IBM Plex Mono',monospace;font-size:clamp(48px,9vw,88px);font-weight:600;color:#fff;line-height:1;margin:6px 0 4px}
+.bignum span{font-size:.4em;color:var(--copper);vertical-align:top}
+.projhead{text-align:center;max-width:60ch;margin:0 auto 40px}
+.mathtable{width:100%;border-collapse:collapse;margin-top:24px;max-width:720px;margin-inline:auto}
+.mathtable th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--text-faint);font-weight:700;padding:10px 14px;border-bottom:1px solid var(--border)}
+.mathtable td{padding:16px 14px;border-bottom:1px solid var(--border);font-size:14.5px}
+.mathtable td.num{font-family:'IBM Plex Mono',monospace;text-align:right}
+.mathtable td.sub{color:var(--text-faint);font-family:'IBM Plex Mono',monospace;font-size:12.5px}
+.mathtable tr.total td{font-weight:800;color:#fff;font-size:16px;border-bottom:none;padding-top:22px}
+.mathtable tr.total td.num{color:var(--copper)}
+.mathnote{margin-top:18px;font-size:12.5px;color:var(--text-faint);line-height:1.6;max-width:720px;margin-inline:auto}
+
+/* PROOF */
+.proofgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:680px){.proofgrid{grid-template-columns:1fr}}
+.proofcard{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.proofcard img{width:100%;display:block}
+.proofcard .cap{padding:14px 16px;font-size:12.5px;color:var(--text-dim);line-height:1.5}
+.proofcard .cap b{color:var(--copper);font-family:'IBM Plex Mono',monospace}
+
+/* OFFER */
+.offercard{background:linear-gradient(180deg,var(--surface-2),var(--surface)) padding-box, var(--grad) border-box;border:1.5px solid transparent;border-radius:20px;padding:40px;display:flex;flex-direction:column;gap:16px}
+.offercard .tag{font-size:11.5px;text-transform:uppercase;letter-spacing:.1em;font-weight:700;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.offercard h3{font-size:26px;margin:0;max-width:24ch}
+.offercard p{color:var(--text-dim);font-size:14.5px;margin:0;max-width:56ch;line-height:1.6}
+.riskbox{display:flex;align-items:center;gap:12px;background:#0E1018;border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin-top:6px}
+.riskbox .ico{font-size:20px}
+.riskbox span{font-size:14px;color:#fff;font-weight:600}
+.riskbox small{display:block;font-size:12px;color:var(--text-faint);font-weight:400;margin-top:2px}
+
+/* FOOTER */
+.footcta{padding-block:90px;text-align:center;border-top:1px solid var(--border)}
+.footcta h2{font-size:clamp(32px,6vw,60px);margin:0 0 16px;line-height:1.05}
+.footcta h2 em{font-style:italic;color:var(--copper)}
+.footcta p{color:var(--text-dim);font-size:14.5px;margin:0 0 30px}
+.footfine{margin-top:22px;font-size:11.5px;color:var(--text-faint)}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <img src="images/rye-hero.jpg" alt="Ryebread">
+  <div class="hero-inner wrap">
+    <div class="idbar">
+      <div class="avatar"><img src="images/rye-avatar.jpg" alt="ryebread.yum"></div>
+      <div>
+        <div class="handle">@ryebread.yum <span class="check">✓</span></div>
+        <div class="sub">rye · Twitch: ryebreadyummy · 125K on the gains</div>
+      </div>
+    </div>
+    <div class="eyebrow">The site — built exactly like you asked to see</div>
+    <h1>125K people already<br>watch this. <em>Time to<br>let them pay for it.</em></h1>
+    <p class="lead">You've got the audience, the physique, and the personality most coaches spend years building. This is the page and the system that turns that into revenue — built specifically for your account.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#offer">See The Offer</a>
+      <a class="btn btn-ghost" href="#projection">See The Numbers</a>
+    </div>
+    <div class="statrow">
+      <div><b>125K</b><span>followers</span></div>
+      <div><b>113</b><span>posts</span></div>
+      <div><b>$0</b><span>upfront cost to you</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="sponsorbar">
+  <div class="wrap">
+    <span><b>Fueled by</b></span>
+    <span>@breathedivinity — code RYE</span>
+    <span style="opacity:.5">·</span>
+    <span>Live on Twitch as ryebreadyummy</span>
+  </div>
+</div>
+
+<div class="section story">
+  <div class="wrap grid">
+    <img src="images/rye-story.jpg" alt="Ryebread training">
+    <div>
+      <div class="kicker" style="font-size:11.5px;text-transform:uppercase;letter-spacing:.16em;color:var(--copper);font-weight:700;margin-bottom:12px">Why this account is different</div>
+      <h2>125K didn't come from one lucky reel.</h2>
+      <p style="color:var(--text-dim);font-size:14.5px;line-height:1.65;margin:0 0 14px">Most creators this size got there off a single viral moment and never built anything past it. Yours came from 113 posts of actual consistency — the physique, the personality, the Twitch stream, all of it real and all of it already converting attention.</p>
+      <p style="color:var(--text-dim);font-size:14.5px;line-height:1.65;margin:0">What's missing isn't reach. It's a structured place for that reach to actually become revenue — and a system that scales with an audience your size instead of a generic template built for someone with 5K followers.</p>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="mosaic">
+    <img src="images/rye-bench.jpg" alt="Ryebread training">
+    <img src="images/rye-jersey.jpg" alt="Ryebread">
+  </div>
+</div>
+
+<div class="section program">
+  <div class="wrap">
+    <div class="section-head center">
+      <div class="kicker">The system</div>
+      <h2>Two tiers, built for an account this size.</h2>
+      <p>Not the same $19/$180 template I'd pitch a 5K-follower account — priced and structured for 125K.</p>
+    </div>
+    <div class="tiers">
+      <div class="tier">
+        <div class="step">Entry tier</div>
+        <h3>Foundations</h3>
+        <div class="price">$29 <span>one-off</span></div>
+        <p class="desc">The self-guided version of your training system — for the audience that isn't ready for 1:1 yet, at your actual scale.</p>
+        <ul>
+          <li>Full training split & progression</li>
+          <li>Nutrition & recomp guidance</li>
+          <li>Built from your own content, not generic</li>
+          <li>Self-guided, no direct access</li>
+        </ul>
+        <a class="tbtn ghost" href="https://www.instagram.com/ryebread.yum/" target="_blank" rel="noopener">Preview Tier</a>
+      </div>
+      <div class="tier hi">
+        <div class="step">High-ticket tier</div>
+        <h3>1:1 Coaching</h3>
+        <div class="price">$220 <span>per month</span></div>
+        <p class="desc">Full personalised coaching, direct from you — priced for a creator with a real, proven audience, not a starter rate.</p>
+        <ul>
+          <li>Personalised training & nutrition programming</li>
+          <li>Weekly check-ins & direct access</li>
+          <li>Positioned around your actual brand and content</li>
+          <li>The highest-margin part of the whole system</li>
+        </ul>
+        <a class="tbtn solid" href="#offer">See The Offer</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section projection" id="projection">
+  <div class="wrap">
+    <div class="projhead">
+      <div class="kicker" style="font-size:11.5px;text-transform:uppercase;letter-spacing:.16em;color:var(--copper);font-weight:700;margin-bottom:12px">The projection</div>
+      <h2 style="font-size:clamp(26px,4.2vw,40px);margin:0 0 8px">A proper system, run properly.</h2>
+      <div class="bignum">$15<span>K</span>/mo</div>
+      <p style="color:var(--text-dim);font-size:14.5px;margin:8px 0 0">Not a guess — the actual math, built off 125K followers and a two-tier system instead of one generic price point.</p>
+    </div>
+    <table class="mathtable">
+      <tr><th>Revenue line</th><th></th><th style="text-align:right">Monthly</th></tr>
+      <tr><td>Foundations — self-guided tier</td><td class="sub">~300 sales × $29</td><td class="num">$8,700</td></tr>
+      <tr><td>1:1 Coaching — high-ticket tier</td><td class="sub">~20 clients × $220/mo</td><td class="num">$4,400</td></tr>
+      <tr><td>Sponsor / affiliate uplift</td><td class="sub">structured funnel, existing RYE code</td><td class="num">$1,450</td></tr>
+      <tr><td>Recaptured sales — email follow-up</td><td class="sub">~55 sales × $29</td><td class="num">$1,600</td></tr>
+      <tr class="total"><td>Realistic monthly total</td><td></td><td class="num">~$16,150</td></tr>
+    </table>
+    <p class="mathnote">Rounded conservatively to a $15K/month target. Same 125K followers, same content you're already making — the difference is a system that actually captures the two ends of your audience (the ones who want a cheap starting point, and the ones who'd pay real money for direct access to you) instead of losing both.</p>
+  </div>
+</div>
+
+<div class="section tight">
+  <div class="wrap">
+    <div class="section-head center">
+      <div class="kicker">Not promises — proof</div>
+      <h2>Every page here is a live screenshot.</h2>
+      <p>A real brand, a real audience, real leads, real client results, and real revenue already processed — not projections built on hope.</p>
+    </div>
+    <div class="proofgrid">
+      <div class="proofcard">
+        <img src="../assets/proof/brand.jpg" alt="655K follower coaching brand">
+        <div class="cap"><b>655K followers</b> — live coaching brand with an active, converting link-in-bio funnel.</div>
+      </div>
+      <div class="proofcard">
+        <img src="../assets/proof/leadgen.jpg" alt="Lead generation stats">
+        <div class="cap"><b>622 → 111 → 102</b> — visits to submissions to unique respondents, ~17.8% conversion.</div>
+      </div>
+      <div class="proofcard">
+        <img src="../assets/proof/transform.jpg" alt="Real client transformation">
+        <div class="cap"><b>Real client result</b> — actual before/after from the program, not stock photography.</div>
+      </div>
+      <div class="proofcard">
+        <img src="../assets/proof/revenue.jpg" alt="Revenue dashboard">
+        <div class="cap"><b>£550 gross / £517.61 net</b> — 100% of payments processed, 0% failed or refunded.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" id="offer">
+  <div class="wrap">
+    <div class="offercard">
+      <div class="tag">The offer</div>
+      <h3>Full coaching system, built and run for you — both tiers, the funnel, the pages.</h3>
+      <p>Everything above, live on your account: the Foundations tier, the 1:1 Coaching page, the funnel connecting them, built around your actual content and brand.</p>
+      <div class="riskbox">
+        <span class="ico">🤝</span>
+        <div>
+          <span>Commission-based split — I don't charge you anything until you make money.</span>
+          <small>No upfront fee, no retainer, no risk to you. I get paid from what the system actually generates.</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footcta">
+  <div class="wrap">
+    <h2>125K people are already<br>watching. <em>Let's get paid for it.</em></h2>
+    <p>Zero cost to start, zero risk — just the system your audience already deserves.</p>
+    <a class="btn btn-primary" href="https://www.instagram.com/ryebread.yum/" target="_blank" rel="noopener">Reply On Instagram →</a>
+    <div class="footfine">Built for @ryebread.yum · commission-based, no upfront fee — happy to walk through the numbers on a call.</div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lance Growth Audit</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+:root{
+  --bg:#0A0D12; --surface:#131922; --border:#232D3A;
+  --text:#EEF2F6; --text-dim:#AFBBCA; --text-faint:#67758A;
+  --blue:#3B82F6; --amber:#F5A623;
+  --grad:linear-gradient(120deg,#2563EB 0%,#3B82F6 50%,#F5A623 100%);
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:Manrope,ui-sans-serif,system-ui,sans-serif;margin:0}
+.wrap{max-width:900px;margin:0 auto;padding:0 22px}
+.disp{font-family:'Anton',sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:.01em}
+.mono{font-family:'IBM Plex Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums}
+img{max-width:100%;display:block}
+a{color:inherit}
+
+/* HEADER */
+.head{position:relative;padding-block:64px 0;border-bottom:1px solid var(--border)}
+.head .top{display:flex;align-items:center;gap:14px;margin-bottom:24px;flex-wrap:wrap}
+.badge{font-size:11px;text-transform:uppercase;letter-spacing:.16em;font-weight:700;color:var(--amber);border:1px solid var(--border);border-radius:99px;padding:7px 16px}
+.head h1{font-size:clamp(32px,6vw,56px);line-height:1.03;margin:0 0 16px;color:#fff}
+.head h1 span{color:var(--amber)}
+.head p.lead{font-size:15.5px;color:var(--text-dim);max-width:56ch;margin:0 0 32px;line-height:1.55}
+.statrow{display:flex;gap:30px;flex-wrap:wrap;padding-bottom:40px}
+.statrow div{display:flex;flex-direction:column}
+.statrow b{font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:600;color:#fff}
+.statrow span{font-size:11px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.06em;margin-top:3px}
+
+/* SECTION */
+.section{padding-block:56px;border-bottom:1px solid var(--border)}
+.section-head{max-width:60ch;margin-bottom:28px}
+.section-head .n{font-family:'IBM Plex Mono',monospace;color:var(--amber);font-size:12px;font-weight:700;letter-spacing:.05em;margin-bottom:10px}
+.section-head h2{font-size:clamp(22px,3.4vw,30px);margin:0 0 10px;line-height:1.15}
+.section-head p{color:var(--text-dim);font-size:14px;margin:0;line-height:1.6}
+
+/* CURRENT SETUP */
+.setuprow{display:grid;grid-template-columns:.9fr 1.1fr;gap:34px;align-items:center}
+@media (max-width:700px){.setuprow{grid-template-columns:1fr}}
+.setuprow img{border-radius:8px;width:100%;object-fit:cover;aspect-ratio:4/5}
+.checklist{display:flex;flex-direction:column;gap:12px}
+.checkitem{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:#E4EAF0}
+.checkitem b{color:var(--amber)}
+.checkitem:before{content:"✓";color:#4ADE80;font-weight:800;flex:0 0 auto}
+
+/* FINDINGS */
+.findings{display:flex;flex-direction:column;gap:14px}
+.finding{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--amber);border-radius:8px;padding:20px 22px}
+.finding .ftag{font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;color:var(--amber);margin-bottom:8px}
+.finding h3{font-size:15.5px;margin:0 0 8px;font-weight:800}
+.finding p{font-size:13.5px;color:var(--text-dim);margin:0;line-height:1.6}
+.finding .impact{margin-top:10px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:#F87171}
+
+/* MATH */
+.mathtable{width:100%;border-collapse:collapse;margin-top:8px}
+.mathtable th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--text-faint);font-weight:700;padding:10px 12px;border-bottom:1px solid var(--border)}
+.mathtable td{padding:14px 12px;border-bottom:1px solid var(--border);font-size:14px}
+.mathtable td.num{font-family:'IBM Plex Mono',monospace;text-align:right}
+.mathtable tr.total td{font-weight:800;color:#fff;font-size:15px;border-bottom:none;padding-top:18px}
+.mathtable tr.total td.num{color:var(--amber)}
+.mathnote{margin-top:14px;font-size:12.5px;color:var(--text-faint);line-height:1.6}
+
+/* OFFER */
+.offercard{background:var(--surface);border:1.5px solid transparent;background:linear-gradient(var(--surface),var(--surface)) padding-box, var(--grad) border-box;border-radius:16px;padding:30px;display:flex;flex-direction:column;gap:14px}
+.offercard .tag{font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.offercard h3{font-size:20px;margin:0;font-weight:800}
+.offercard ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:560px){.offercard ul{grid-template-columns:1fr}}
+.offercard li{font-size:13.5px;display:flex;gap:8px;align-items:flex-start;color:#DEE5EC}
+.offercard li:before{content:"";width:5px;height:5px;margin-top:6px;flex:0 0 auto;background:var(--amber);transform:rotate(45deg)}
+.riskline{font-size:13px;color:var(--amber);font-weight:600}
+
+/* FOOTER */
+.footcta{padding-block:70px;text-align:center}
+.footcta h2{font-family:'Anton',sans-serif;text-transform:uppercase;font-size:clamp(28px,5.4vw,48px);margin:0 0 14px;line-height:1}
+.footcta h2 span{color:var(--amber)}
+.footcta p{color:var(--text-dim);font-size:14px;margin:0 0 26px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:15px 30px;border-radius:4px;font-weight:800;font-size:14px;text-decoration:none;text-transform:uppercase;letter-spacing:.04em;background:var(--grad);color:#0A0D12}
+.footfine{margin-top:20px;font-size:11px;color:var(--text-faint)}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="head">
+    <div class="top">
+      <span class="badge">Growth Audit</span>
+      <span class="badge">@lancegymc</span>
+    </div>
+    <h1>You built a real product.<br>It's just <span>leaking money.</span></h1>
+    <p class="lead">You already did the hard part most creators never do — a real course, real checkout, real payment processing. This is a straight audit of what's actually costing you sales right now, and the math on what fixing it is worth.</p>
+    <div class="statrow">
+      <div><b>5,646</b><span>followers</span></div>
+      <div><b>161</b><span>posts</span></div>
+      <div><b>$30</b><span>current price point</span></div>
+      <div><b>1</b><span>product — that's finding #1</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <div class="n">WHAT'S ALREADY WORKING</div>
+      <h2>Credit where it's due.</h2>
+      <p>Most creators I look at have nothing live. You've got real infrastructure — this audit starts from that, not from zero.</p>
+    </div>
+    <div class="setuprow">
+      <img src="images/lance-hero.jpg" alt="Lance">
+      <div class="checklist">
+        <div class="checkitem">A real course — <b>"The Blueprint"</b> — training splits, mindset, nutrition, bulk/cut/recomp</div>
+        <div class="checkitem">Real checkout via <b>Paddle</b>, with login/account creation</div>
+        <div class="checkitem">A <b>30-day money-back guarantee</b> — genuinely builds trust</div>
+        <div class="checkitem">Content that actually converts attention — the physique and gym content is strong</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <div class="n">THE AUDIT</div>
+      <h2>Four things costing you sales right now.</h2>
+    </div>
+    <div class="findings">
+      <div class="finding">
+        <div class="ftag">Finding 01</div>
+        <h3>One price point catches one type of buyer</h3>
+        <p>$30 is a big ask for someone who's never heard of you, and way too small for someone who wants direct access to you. Right now both of those people get the same offer — or nothing.</p>
+        <div class="impact">Estimated impact: most of your 5.6K followers never convert either direction.</div>
+      </div>
+      <div class="finding">
+        <div class="ftag">Finding 02</div>
+        <h3>The sales page has no proof on it</h3>
+        <p>No student results, no testimonials, no "X people already in." Just copy and a price. For a cold visitor with no context on you, that's the single biggest thing standing between them and paying.</p>
+        <div class="impact">Estimated impact: conversion rate is likely well under half of what proof alone would add.</div>
+      </div>
+      <div class="finding">
+        <div class="ftag">Finding 03</div>
+        <h3>Anyone who doesn't buy is gone forever</h3>
+        <p>No email capture, no retargeting, no follow-up. Someone lands on the page, hesitates, leaves — and there's no way to ever reach them again.</p>
+        <div class="impact">Estimated impact: this is the single largest silent leak in the funnel.</div>
+      </div>
+      <div class="finding">
+        <div class="ftag">Finding 04</div>
+        <h3>No path for your highest-intent buyers</h3>
+        <p>The people most locked in — the ones who'd pay real money for direct access to you — have nowhere to go past the $30 course. That's the highest-margin part of your audience going completely uncaptured.</p>
+        <div class="impact">Estimated impact: this is where most of the missing revenue actually is.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <div class="n">THE MATH</div>
+      <h2>A realistic path to $10K/month.</h2>
+      <p>Not a guarantee — the actual math, built from fixing the four findings above. This is what the numbers look like once the funnel isn't leaking.</p>
+    </div>
+    <table class="mathtable">
+      <tr><th>Revenue line</th><th></th><th style="text-align:right">Monthly</th></tr>
+      <tr><td>Blueprint course, conversion-fixed page</td><td class="mono" style="color:var(--text-faint)">~150 sales × $30</td><td class="num">$4,500</td></tr>
+      <tr><td>1:1 Coaching — new high-ticket tier</td><td class="mono" style="color:var(--text-faint)">~25 clients × $180/mo</td><td class="num">$4,500</td></tr>
+      <tr><td>Recaptured / email follow-up sales</td><td class="mono" style="color:var(--text-faint)">~35 sales × $30</td><td class="num">$1,050</td></tr>
+      <tr class="total"><td>Realistic monthly total</td><td></td><td class="num">~$10,050</td></tr>
+    </table>
+    <p class="mathnote">This isn't "post more and hope" — it's the same 5.6K followers and the same course, with the funnel fixed and a tier added for the buyers the $30 price point can't capture. Getting the funnel live is fast; getting to these numbers depends on execution and audience growth, same as anything real.</p>
+  </div>
+
+  <div class="section" style="border-bottom:none">
+    <div class="section-head">
+      <div class="n">THE FIX</div>
+      <h2>What I'd actually build.</h2>
+    </div>
+    <div class="offercard">
+      <div class="tag">The offer</div>
+      <h3>Funnel audit fixes + high-ticket tier, built and run for you</h3>
+      <ul>
+        <li>Rebuild the sales page with real proof, results, and social proof built in</li>
+        <li>Add an email capture so no visitor is lost for good</li>
+        <li>Build the 1:1 Coaching tier and page — the highest-margin part of this audience</li>
+        <li>Keep The Blueprint exactly as-is — it already works, it just needs backup</li>
+      </ul>
+      <div class="riskline">I only get paid from results — no upfront fee, no obligation.</div>
+    </div>
+  </div>
+</div>
+
+<div class="footcta">
+  <div class="wrap">
+    <h2>You already built the hard part.<br>Let's stop it from <span>leaking.</span></h2>
+    <p>Zero cost to start, zero risk — just the funnel your course actually deserves.</p>
+    <a class="btn" href="https://www.instagram.com/lancegymc/" target="_blank" rel="noopener">Reply On Instagram →</a>
+    <div class="footfine">Built for @lancegymc · a working audit — numbers and scope open to a call.</div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lance — Content &amp; Positioning Plan</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+:root{
+  --bg:#0A0A08; --surface:#141310; --surface-2:#1B1915; --border:#2C2A22;
+  --text:#F6F4EE; --text-dim:#C2BCAA; --text-faint:#726C5B;
+  --gold:#D4AF37; --gold-soft:#EEDC96;
+  --grad:linear-gradient(120deg,#8A6D1E 0%,#D4AF37 50%,#EEDC96 100%);
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:Manrope,ui-sans-serif,system-ui,sans-serif;margin:0}
+.wrap{max-width:1040px;margin:0 auto;padding:0 26px}
+.disp{font-family:'Anton',sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:.01em}
+.mono{font-family:'IBM Plex Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums}
+img{max-width:100%;display:block;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+a{color:inherit}
+.rule{width:44px;height:1px;background:var(--grad)}
+
+/* HERO */
+.hero{position:relative;min-height:92vh;display:flex;align-items:flex-end;overflow:hidden}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 15%}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,10,8,.98) 0%,rgba(10,10,8,.6) 46%,rgba(10,10,8,.14) 70%),linear-gradient(90deg,rgba(10,10,8,.5) 0%,transparent 50%)}
+.hero-inner{position:relative;z-index:1;padding:0 26px 62px;width:100%}
+.badge{display:inline-block;font-size:11px;text-transform:uppercase;letter-spacing:.18em;font-weight:700;color:var(--gold-soft);border:1px solid var(--border);border-radius:99px;padding:8px 18px;margin-bottom:22px}
+.hero h1{font-size:clamp(36px,7vw,74px);line-height:1.02;margin:0 0 20px;max-width:16ch;color:#fff}
+.hero h1 span{color:var(--gold-soft)}
+.hero p.lead{font-size:16px;color:var(--text-dim);max-width:52ch;margin:0 0 30px;line-height:1.6}
+.statrow{display:flex;gap:0;flex-wrap:wrap;border-top:1px solid var(--border);padding-top:24px}
+.statrow div{display:flex;flex-direction:column;padding-right:34px;border-right:1px solid var(--border);margin-right:34px}
+.statrow div:last-child{border-right:none}
+.statrow b{font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:600;color:#fff}
+.statrow span{font-size:10px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.06em;margin-top:3px}
+
+/* SECTION */
+.section{padding-block:80px}
+.section.tight{padding-block:60px}
+.section-head{max-width:62ch;margin-bottom:36px}
+.section-head.center{margin-inline:auto;text-align:center}
+.section-head .kicker{display:flex;align-items:center;gap:12px;font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:var(--gold-soft);font-weight:700;margin-bottom:14px}
+.section-head.center .kicker{justify-content:center}
+.section-head h2{font-size:clamp(24px,3.8vw,36px);margin:0 0 10px;line-height:1.15}
+.section-head p{color:var(--text-dim);font-size:14.5px;margin:0;line-height:1.6}
+
+/* REEL PROOF */
+.reelgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+@media (max-width:760px){.reelgrid{grid-template-columns:repeat(3,1fr)}}
+.reelcard{position:relative;border-radius:6px;overflow:hidden;border:1px solid var(--border)}
+.reelcard img{aspect-ratio:3/4;object-fit:cover;width:100%}
+.reelcard .views{position:absolute;bottom:8px;left:8px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#fff;background:rgba(0,0,0,.55);padding:3px 8px;border-radius:99px;display:flex;align-items:center;gap:4px}
+
+/* FINDINGS */
+.findings{display:flex;flex-direction:column;gap:14px}
+.finding{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:6px;padding:22px 24px}
+.finding .fn{font-family:'IBM Plex Mono',monospace;color:var(--gold-soft);font-size:11px;font-weight:700;letter-spacing:.05em;margin-bottom:8px}
+.finding h3{font-size:16.5px;margin:0 0 8px;font-weight:800}
+.finding p{font-size:13.5px;color:var(--text-dim);margin:0;line-height:1.6}
+
+/* PLAN steps */
+.plansteps{display:flex;flex-direction:column;gap:0}
+.planstep{display:flex;gap:22px;padding:26px 0;border-bottom:1px solid var(--border)}
+.planstep:last-child{border-bottom:none}
+.planstep .num{font-family:'IBM Plex Mono',monospace;font-size:26px;font-weight:600;color:var(--gold-soft);flex:0 0 auto;width:50px}
+.planstep h3{font-size:17px;margin:0 0 8px;font-weight:800}
+.planstep p{font-size:13.5px;color:var(--text-dim);margin:0;line-height:1.65}
+
+/* TIMELINE */
+.timeline{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px}
+@media (max-width:760px){.timeline{grid-template-columns:1fr}}
+.tlcard{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:26px}
+.tlcard.hi{border-color:var(--gold)}
+.tlcard .wk{font-family:'IBM Plex Mono',monospace;color:var(--gold-soft);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px}
+.tlcard h3{font-size:17px;margin:0 0 10px;font-weight:800}
+.tlcard p{font-size:13px;color:var(--text-dim);margin:0;line-height:1.6}
+
+/* CASE STUDY */
+.casestudy{background:var(--surface);border:1.5px solid transparent;background:linear-gradient(var(--surface),var(--surface)) padding-box, var(--grad) border-box;border-radius:14px;padding:36px}
+.casestudy .tag{font-size:11px;text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:var(--gold-soft);margin-bottom:14px}
+.cs-stats{display:flex;gap:40px;flex-wrap:wrap;margin:18px 0}
+.cs-stats div{display:flex;flex-direction:column}
+.cs-stats b{font-family:'IBM Plex Mono',monospace;font-size:30px;font-weight:600;color:#fff}
+.cs-stats span{font-size:11px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.06em;margin-top:4px}
+.casestudy p{font-size:14px;color:var(--text-dim);margin:0;line-height:1.65;max-width:64ch}
+
+/* PROOF */
+.proofgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:680px){.proofgrid{grid-template-columns:1fr}}
+.proofcard{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.proofcard img{width:100%;display:block}
+.proofcard .cap{padding:14px 16px;font-size:12.5px;color:var(--text-dim);line-height:1.5}
+.proofcard .cap b{color:var(--gold-soft);font-family:'IBM Plex Mono',monospace}
+
+/* OFFER */
+.offercard{border:1px solid var(--gold);border-radius:12px;padding:36px;display:flex;flex-direction:column;gap:16px;background:var(--surface)}
+.offercard .tag{font-size:11px;text-transform:uppercase;letter-spacing:.12em;font-weight:700;color:var(--gold-soft)}
+.offercard h3{font-size:22px;margin:0;max-width:26ch}
+.riskline{font-size:13px;color:var(--gold-soft);font-weight:600}
+
+.footcta{padding-block:80px;text-align:center;border-top:1px solid var(--border)}
+.footcta h2{font-family:'Anton',sans-serif;text-transform:uppercase;font-size:clamp(28px,5vw,48px);margin:0 0 14px;line-height:1}
+.footcta h2 span{color:var(--gold-soft)}
+.footcta p{color:var(--text-dim);font-size:14px;margin:0}
+.footfine{margin-top:20px;font-size:11px;color:var(--text-faint)}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <img src="images/lance-hero.jpg" alt="Lance">
+  <div class="hero-inner wrap">
+    <span class="badge">Content &amp; Positioning Plan — @lancegymc</span>
+    <h1>The reach is real.<br>The <span>positioning</span> isn't.</h1>
+    <p class="lead">Every reel below is pulling real, consistent views — this isn't a reach problem. It's that none of it is built to convert, and right now you read as "a guy with a good physique," not a premium coach people pay for.</p>
+    <div class="statrow">
+      <div><b>2K–9K</b><span>views per reel, consistent</span></div>
+      <div><b>0</b><span>videos with a real CTA</span></div>
+      <div><b>$0</b><span>upfront cost to fix it</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="section tight">
+  <div class="wrap">
+    <div class="section-head center">
+      <div class="kicker"><span class="rule"></span>Not a reach problem<span class="rule"></span></div>
+      <h2>This is what real, working content looks like.</h2>
+      <p>Every one of these numbers is straight off your own Reels tab. The audience is already showing up — the plan below is entirely about what happens once they do.</p>
+    </div>
+    <div class="reelgrid">
+      <div class="reelcard"><img src="images/lance-hero.jpg" alt=""><span class="views">👁 3,424</span></div>
+      <div class="reelcard"><img src="images/lance-look.jpg" alt=""><span class="views">👁 4,499</span></div>
+      <div class="reelcard"><img src="images/lance-bench.jpg" alt=""><span class="views">👁 3,616</span></div>
+      <div class="reelcard"><img src="images/lance-shoulder.jpg" alt=""><span class="views">👁 4,226</span></div>
+      <div class="reelcard"><img src="images/lance-towel.jpg" alt=""><span class="views">👁 4,811</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="border-top:1px solid var(--border)">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker"><span class="rule"></span>The audit</div>
+      <h2>Three things capping how this converts.</h2>
+    </div>
+    <div class="findings">
+      <div class="finding">
+        <div class="fn">FINDING 01</div>
+        <h3>Posts aren't built to convert</h3>
+        <p>Thousands of views per reel and nothing on the other end of them. Right now the content and the offer are two completely separate things — the views don't lead anywhere.</p>
+      </div>
+      <div class="finding">
+        <div class="fn">FINDING 02</div>
+        <h3>No CTA, no story</h3>
+        <p>The videos never say what to do next, and they never use your actual story — the specific reason you're the person to learn this from, not just someone with a good physique.</p>
+      </div>
+      <div class="finding">
+        <div class="fn">FINDING 03</div>
+        <h3>No beginning, no end — it reads generic</h3>
+        <p>No structure, minimal talking. Without a hook, a build, and a close, every reel plays the same — which is exactly why it feels like "any guy with a good physique" instead of a coach worth paying for.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="border-top:1px solid var(--border)">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker"><span class="rule"></span>The plan</div>
+      <h2>What actually changes.</h2>
+    </div>
+    <div class="plansteps">
+      <div class="planstep">
+        <div class="num mono">01</div>
+        <div>
+          <h3>Real call-to-action, every video</h3>
+          <p>Every piece of content ends with a clear next step — not "link in bio," an actual reason to click through right now.</p>
+        </div>
+      </div>
+      <div class="planstep">
+        <div class="num mono">02</div>
+        <div>
+          <h3>Storytelling built from your actual story</h3>
+          <p>Not generic gym-bro content — your specific journey, used deliberately, so people connect with the coach, not just the physique.</p>
+        </div>
+      </div>
+      <div class="planstep">
+        <div class="num mono">03</div>
+        <div>
+          <h3>Proper video structure and script</h3>
+          <p>Hook, story, close — every video. The structure that turns a scroll-past into someone who actually watches to the end and remembers you.</p>
+        </div>
+      </div>
+      <div class="planstep">
+        <div class="num mono">04</div>
+        <div>
+          <h3>Full repositioning — premium, not generic</h3>
+          <p>Everything changes in how you come across: not a normal coach, a premium one people pay real money to work with — someone actively helping clients through real transformations.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="border-top:1px solid var(--border)">
+  <div class="wrap">
+    <div class="section-head center">
+      <div class="kicker"><span class="rule"></span>Rollout<span class="rule"></span></div>
+      <h2>Two weeks to launch, then convert.</h2>
+    </div>
+    <div class="timeline">
+      <div class="tlcard">
+        <div class="wk">Week 1</div>
+        <h3>Story-led launch begins</h3>
+        <p>Daily Stories built around your actual story and the new positioning — priming the audience before any hard sell.</p>
+      </div>
+      <div class="tlcard">
+        <div class="wk">Week 2</div>
+        <h3>Structure goes live everywhere</h3>
+        <p>New video structure and CTA system rolled into posts and Reels — content starts actively converting, not just performing.</p>
+      </div>
+      <div class="tlcard hi">
+        <div class="wk">From Week 3</div>
+        <h3>Convert</h3>
+        <p>With positioning, story, and structure all live, the audience that's already showing up finally has somewhere real to go.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="border-top:1px solid var(--border)">
+  <div class="wrap">
+    <div class="casestudy">
+      <div class="tag">Case study</div>
+      <h3 style="font-size:20px;margin:0 0 6px">Same system, already proven.</h3>
+      <div class="cs-stats">
+        <div><b>8K → 40K</b><span>follower growth</span></div>
+        <div><b>111</b><span>new leads generated</span></div>
+      </div>
+      <p>This exact system — storytelling, structure, positioning, then a story-led launch — has already taken a client from 8K to 40K followers, generating 111 new leads off the same kind of audience you already have.</p>
+    </div>
+  </div>
+</div>
+
+<div class="section tight" style="border-top:1px solid var(--border)">
+  <div class="wrap">
+    <div class="section-head center">
+      <div class="kicker"><span class="rule"></span>Not promises — proof<span class="rule"></span></div>
+      <h2>Every page here is a live screenshot.</h2>
+      <p>Real leads, real client results, real revenue already processed — from the same system this plan is built on.</p>
+    </div>
+    <div class="proofgrid">
+      <div class="proofcard">
+        <img src="../assets/proof/leadgen.jpg" alt="Lead generation stats">
+        <div class="cap"><b>622 → 111 → 102</b> — visits to submissions to unique respondents, ~17.8% conversion. Same 111 leads referenced above.</div>
+      </div>
+      <div class="proofcard">
+        <img src="../assets/proof/revenue.jpg" alt="Revenue dashboard">
+        <div class="cap"><b>£550 gross / £517.61 net</b> — 100% of payments processed, 0% failed or refunded.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="border-top:1px solid var(--border)">
+  <div class="wrap">
+    <div class="offercard">
+      <div class="tag">The offer</div>
+      <h3>Full content, positioning &amp; launch system — built and run with you.</h3>
+      <p style="color:var(--text-dim);font-size:14px;margin:0;line-height:1.6">CTA system, storytelling, video scripts, the two-week Stories launch, and the repositioning itself — all of it, built around your account specifically.</p>
+      <div class="riskline">Results-based — no upfront fee, no obligation. Paid from what it actually generates.</div>
+    </div>
+  </div>
+</div>
+
+<div class="footcta">
+  <div class="wrap">
+    <h2>The audience is already here.<br>Time to give them <span>somewhere to go.</span></h2>
+    <p>Zero cost to start — built specifically off your account, your story, your content.</p>
+    <div class="footfine">Built for @lancegymc · walking through this live — happy to go deeper on any section.</div>
+  </div>
+</div>
+
+</body>
+</html>

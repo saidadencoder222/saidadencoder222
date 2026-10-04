@@ -1,0 +1,17 @@
+SUBJECT: {channel_title} - three things holding your channel back
+
+Dear {channel_title} team,
+
+I pulled your public YouTube data - upload cadence, recent view counts, channel description - and found a few specific, fixable gaps most channels at your stage don't notice themselves. I've written them up on a page along with the monetization paths that tend to fit a channel your size:
+
+{proposal_url}
+
+To be clear on scope: this is built from YouTube data alone, not your other platforms or funnel.
+
+If any of it's useful, I'd welcome a conversation. There's no charge to start - terms only get discussed once we've actually talked.
+
+Kind regards,
+{sender_name}
+
+---
+If you would prefer not to hear from me again, please reply with UNSUBSCRIBE in the subject line and I will remove you immediately.

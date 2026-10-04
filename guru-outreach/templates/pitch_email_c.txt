@@ -1,0 +1,17 @@
+SUBJECT: {channel_title} - a free audit, no catch
+
+Dear {channel_title} team,
+
+I'm {sender_name}. I audited {channel_title} using your public upload history, recent views, and channel description, and laid out what I found on a page - specific gaps, not generic advice, plus monetization paths worth considering at your stage:
+
+{proposal_url}
+
+For transparency: this reflects YouTube data only, nothing about your other platforms or business.
+
+If it's useful, I'd welcome a conversation. No charge to begin - terms would only be agreed after that discussion.
+
+Kind regards,
+{sender_name}
+
+---
+If you would prefer not to hear from me again, please reply with UNSUBSCRIBE in the subject line and I will remove you immediately.

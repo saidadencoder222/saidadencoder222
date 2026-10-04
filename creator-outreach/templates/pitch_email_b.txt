@@ -1,0 +1,19 @@
+SUBJECT: A resource for {channel_title}'s audience
+
+Dear {channel_title} team,
+
+Most parenting advice fails for the same reason: it's generic. "Stay calm" and "be consistent" aren't wrong, they're just useless in the actual moment a child is ignoring you. {product_name} is built the other way round - specific scripts and techniques for getting a child to listen the first time, without shouting or bribing.
+
+Your "{niche}" content told me this would land with your audience, so I've put together a real preview rather than a sales pitch:
+
+{proposal_url}
+
+It costs nothing to look, and there's nothing to commit to upfront. If it's a fit, we can discuss a partnership shaped around however you work with your audience.
+
+If it's not right for your channel, that's completely fine - no reply needed.
+
+Best regards,
+{sender_name}
+
+---
+If you would prefer not to hear from me again, please reply with UNSUBSCRIBE in the subject line and I will remove you immediately.

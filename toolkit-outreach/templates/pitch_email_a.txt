@@ -1,0 +1,13 @@
+SUBJECT: quick question, {greeting_name}
+
+Hi {greeting_name},
+
+{hook_line}Quick one - for your {niche} site, are you using any kind of interactive quiz or tool to capture leads, or is it mostly a plain contact form right now?
+
+Not pitching anything, just curious how you handle it.
+
+Kind regards,
+{sender_name}
+
+---
+If you would prefer not to hear from me again, please reply with UNSUBSCRIBE in the subject line and I will remove you immediately.

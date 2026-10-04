@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Listen First Partnership</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  :root {
+    --bg: #121214;
+    --bg-raised: #1a1a1d;
+    --text: #f2f0ea;
+    --text-muted: #a39d92;
+    --border: #2b2a2c;
+    --accent: #c9a227;
+    --accent-text: #1a1608;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Work Sans", -apple-system, "Segoe UI", sans-serif;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+  .display {
+    font-family: "Bebas Neue", "Arial Narrow", sans-serif;
+    letter-spacing: 0.01em;
+    text-wrap: balance;
+    line-height: 0.95;
+  }
+  .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+  .eyebrow {
+    font-family: "Work Sans", sans-serif;
+    font-weight: 700;
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  header.hero {
+    padding-block: 56px 40px;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-top { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; }
+  .avatar {
+    width: 64px; height: 64px; border-radius: 50%;
+    object-fit: cover; border: 2px solid var(--accent);
+    background: var(--bg-raised); flex-shrink: 0;
+  }
+  .avatar-fallback {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: var(--accent); color: var(--accent-text);
+    display: flex; align-items: center; justify-content: center;
+    font-family: "Bebas Neue", sans-serif; font-size: 1.6rem;
+    flex-shrink: 0;
+  }
+  .channel-name { font-size: 1.05rem; font-weight: 600; }
+  .channel-sub { color: var(--text-muted); font-size: 0.9rem; }
+
+  h1.headline { font-size: clamp(2.6rem, 7vw, 4.4rem); margin: 0 0 18px; color: var(--text); }
+  .dek { font-size: 1.1rem; line-height: 1.55; color: var(--text-muted); max-width: 58ch; margin: 0; }
+
+  section { padding-block: 48px; border-bottom: 1px solid var(--border); }
+  section:last-of-type { border-bottom: none; }
+  h2.section-title {
+    font-size: clamp(1.8rem, 4.5vw, 2.6rem);
+    margin: 6px 0 28px;
+  }
+  section > .eyebrow { display: block; margin-bottom: 4px; }
+
+  .chapter {
+    padding: 20px 0;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .chapter:first-child { border-top: none; }
+  .chapter-num {
+    font-family: "IBM Plex Mono", monospace;
+    color: var(--accent);
+    font-size: 0.9rem;
+    flex-shrink: 0;
+    width: 24px;
+  }
+  .chapter h3 { font-size: 1.02rem; margin: 0 0 6px; }
+  .chapter p { margin: 0; color: var(--text-muted); line-height: 1.55; font-size: 0.94rem; }
+
+  .agreement-box {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 28px 26px;
+  }
+  .agreement-box p { line-height: 1.65; color: var(--text-muted); margin: 0 0 14px; }
+  .agreement-box p:last-child { margin-bottom: 0; }
+  .agreement-box strong { color: var(--text); }
+
+  footer.cta {
+    padding-block: 56px 64px;
+    text-align: center;
+  }
+  .cta-line { font-size: 1.3rem; line-height: 1.5; max-width: 44ch; margin: 0 auto 24px; }
+  .cta-button {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--accent-text);
+    font-weight: 700;
+    padding: 14px 32px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.95rem;
+  }
+  .example-note {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    text-align: center;
+    padding: 10px;
+    background: var(--bg-raised);
+  }
+
+  @media (max-width: 560px) {
+    .chapter { flex-direction: column; gap: 4px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="example-banner" class="example-note" hidden>Showing example data - open this link with your own ?id= to see a real preview.</div>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="hero-top">
+      <img id="avatar-img" class="avatar" alt="" hidden>
+      <div id="avatar-fallback" class="avatar-fallback" hidden></div>
+      <div>
+        <div class="channel-name" id="channel-name"></div>
+        <div class="channel-sub">Partnership preview</div>
+      </div>
+    </div>
+    <div class="eyebrow">Prepared by Said</div>
+    <h1 class="headline display">Listen First.</h1>
+    <p class="dek">A parenting guide on getting kids to listen without yelling or bribing - here's what's inside, and how a partnership with your channel could work.</p>
+  </header>
+
+  <section>
+    <span class="eyebrow">Inside the guide</span>
+    <h2 class="section-title display">Four techniques,<br>from twelve chapters.</h2>
+    <div class="chapter">
+      <div class="chapter-num mono">01</div>
+      <div>
+        <h3>Connect Before You Correct</h3>
+        <p>Why an instruction given before a child feels safe and seen gets ignored - and the five-second fix that changes that.</p>
+      </div>
+    </div>
+    <div class="chapter">
+      <div class="chapter-num mono">02</div>
+      <div>
+        <h3>Say Less, Not More</h3>
+        <p>Why five instructions in one breath become noise, and how saying less actually gets heard more.</p>
+      </div>
+    </div>
+    <div class="chapter">
+      <div class="chapter-num mono">03</div>
+      <div>
+        <h3>Offer a Choice, Not a Command</h3>
+        <p>Why commands invite a fight and a limited choice ends the same way without one.</p>
+      </div>
+    </div>
+    <div class="chapter">
+      <div class="chapter-num mono">04</div>
+      <div>
+        <h3>Follow Through, Calmly, Every Time</h3>
+        <p>Why consistency, not severity, is what actually builds the habit of listening the first time.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">The idea</span>
+    <h2 class="section-title display">Why <span id="channel-name-2"></span>.</h2>
+    <p id="niche-blurb" style="color: var(--text-muted); line-height: 1.65; font-size: 1.02rem; max-width: 58ch;"></p>
+  </section>
+
+  <section>
+    <span class="eyebrow">How this would work</span>
+    <h2 class="section-title display">No cost<br>to you.</h2>
+    <div class="agreement-box">
+      <p><strong>There's nothing to pay and nothing to commit to upfront.</strong> If the guide is a fit, we'd talk through a format that suits your channel - a review, a mention, an affiliate arrangement, whatever makes sense for how you work with your audience.</p>
+      <p>If it's not a fit, that's fine too - keep the preview either way.</p>
+    </div>
+  </section>
+
+  <footer class="cta">
+    <p class="cta-line display" style="font-size: clamp(1.6rem, 4vw, 2.2rem);">Worth a quick reply?</p>
+    <a class="cta-button" href="#" id="cta-reply">Reply to the email</a>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var DATA = {"UCJftr3BCzoMmPn8EwsF_G2w": {"title": "The Gentle Life", "thumbnailUrl": "https://yt3.ggpht.com/OfcknXlLqEKlQlVX8U84LdFHoxgxiOFVGdeZQJ82tNfyNmaeURXDVe1sg5Rbz9zSBHdJ3bIgXw=s800-c-k-c0x00ffffff-no-rj", "niche": "gentle parenting tips", "accent": "#a16207"}, "UCt5rFmkU9-fVm8kIVjz3qVg": {"title": "Jesse Moncur", "thumbnailUrl": "https://yt3.ggpht.com/pI-OBlh4tmuvOBGDBYgVEEnrf8C4WA3AjvuWE6GE6a4Cp1PKg9Ju8r84-daPTpIgwtkFGrsF_Pc=s800-c-k-c0x00ffffff-no-rj", "niche": "toddler discipline tips", "accent": "#166534"}, "UCUkdk5nI1If0-0it-JPrBAw": {"title": "Mom of 6 Japan", "thumbnailUrl": "https://yt3.ggpht.com/CqMqOOG4XJtFq9yF4NPXJIlDABMdEaGSXS5ERm0L-MOXr-TkyH34sUZ_BoyZTHW-iBU-VzI5Dg=s800-c-k-c0x00ffffff-no-rj", "niche": "mom life family vlog", "accent": "#b45309"}, "UC1kbYeP18kboGZMwwE13Vzg": {"title": "Momlifewithlaura ", "thumbnailUrl": "https://yt3.ggpht.com/NqJovmsTNgPUKCGGRmtNGC06Vk-s9Jtxowp4Mu6Wc1rJUwVC8QTQjqqMpEJ-DoK4ktHIKFcYYQ=s800-c-k-c0x00ffffff-no-rj", "niche": "mom life family vlog", "accent": "#a16207"}, "UCHF76BhKW5XwQK7rQOLXniw": {"title": "Real Life Mom and Wife", "thumbnailUrl": "https://yt3.ggpht.com/iqZd08G-Q9UWqp65RGsV_B5V3lwCSwRuna5-DudoynpmmNX_NQCFhRxzxLKp9vG_Fmmro4RbcQ=s800-c-k-c0x00ffffff-no-rj", "niche": "mom life family vlog", "accent": "#6b21a8"}, "UCS5tQT4KGivj4hTS4HoLlmw": {"title": "Habeeba's Vlog", "thumbnailUrl": "https://yt3.ggpht.com/mkKbe5qkJYXjue-GUyygHFg5dwejGxTZrZAAPJwd6xhOg2Kmf96jDAOiC6L2XELP_edXOUQyBw=s800-c-k-c0x00ffffff-no-rj", "niche": "big family vlog", "accent": "#b45309"}, "UCUIW7pRqcIv6JPgEL4-SyUQ": {"title": "The Radford Family", "thumbnailUrl": "https://yt3.ggpht.com/WRuYs4zyGbtO7tQLOTBN_S43FQ_hICthLmco8uBrBy_CH1DPsef4bDwem4CF9nE--qrwU0tLtw=s800-c-k-c0x00ffffff-no-rj", "niche": "big family vlog", "accent": "#a16207"}, "UCOWBL2B_JnbqJbhCaE4iJfQ": {"title": "Puthettu Travel Vlog", "thumbnailUrl": "https://yt3.ggpht.com/S_x0hrJ7NLc9af1DddGV_eBd4uZQ0BN7FVbRCa30mLjlNbVoV0Xqi9p4Vx1aZaXicA-R59Ji-mk=s800-c-k-c0x00ffffff-no-rj", "niche": "big family vlog", "accent": "#b45309"}, "UCMLqsgXvM6Vs0aiegOdrtLQ": {"title": "Big Big Family in the USA", "thumbnailUrl": "https://yt3.ggpht.com/S2Cye_JaEqv2YZmObKjZN7-2jJCo2QEVVzgFrWh_DKNwqkxgAftRkGX5EEDc6_k9rWeg1OHw=s800-c-k-c0x00ffffff-no-rj", "niche": "big family vlog", "accent": "#166534"}, "UCAQTLQ34a_Hn3ffnrZfywMQ": {"title": "Sabrina Klass", "thumbnailUrl": "https://yt3.ggpht.com/tRaHBCGJODMiQnHZtsQSSlA7w6Z7a3PRD7CZWdXQBtsxgJ2QUm8Hw4iPqc5yMPNCMvNu0F3vOqM=s800-c-k-c0x00ffffff-no-rj", "niche": "sahm mom vlogger", "accent": "#9d174d"}, "UCk66NiL0damdhuvnnDYmG0Q": {"title": "Dad Mode In Dark Mode", "thumbnailUrl": "https://yt3.ggpht.com/GNysWF3sRNSQF3PqjVvIsA4vg1KlI5zVIfWbX92Sr22pxqsB_8NAGEebcxpsbQfYWopZh_hQOA=s800-c-k-c0x00ffffff-no-rj", "niche": "dad family channel", "accent": "#0f766e"}, "UCJvrnXP9svq1Xsz_meHh1dA": {"title": "Diary of a Single Mom ", "thumbnailUrl": "https://yt3.ggpht.com/s9FJrGLb_cr2rVRIcP74_ZkUBSB2r3-cCGc_zEmhrI-JP5ftok_L9jf6zvOI64Nh6NiSZu8yhlk=s800-c-k-c0x00ffffff-no-rj", "niche": "single mom vlog", "accent": "#6b21a8"}, "UC4PWmIxLwVEmeYcBS5v1vGw": {"title": "vlog 4u", "thumbnailUrl": "https://yt3.ggpht.com/Dhw3915hBoawCzE4IGhxpgx7Lgra9thKTmVuehqu2qkKnIxf4uUPNOT7tDA3uAah1D-Bd3EI=s800-c-k-c0x00ffffff-no-rj", "niche": "family of 4 vlog", "accent": "#166534"}, "UCpXmdeiyKN_zgZBKQkie4Gg": {"title": "sasayui vlog", "thumbnailUrl": "https://yt3.ggpht.com/JkQ8hdY9XrKhAFBFETN0xu852IRchSwAmGicu6FyzxYvYjyWqwnP62EWHbsDvTnYjWNc1xxvAQ=s800-c-k-c0x00ffffff-no-rj", "niche": "family of 4 vlog", "accent": "#1e293b"}, "UCPSj8lldVWFvufmr_Z77rtQ": {"title": "MiMi Family Vlog", "thumbnailUrl": "https://yt3.ggpht.com/vmTLcRWqB6RD8rb0AuBjk1ovhlCdQAex-Q1Ui4PQAlGcrUQJJqpDt3hLGPFw8SZRBTbnB5Klcsc=s800-c-k-c0x00ffffff-no-rj", "niche": "family of 4 vlog", "accent": "#b45309"}, "UC945uWaT4MaAEoUxX4R4TrQ": {"title": "Folkstar vandna k vlog", "thumbnailUrl": "https://yt3.ggpht.com/btKdgVMBogk0Yfb9hbchCmj09rszlowItmUth5xfSDnLsLVz4eo0Qi3nn_enTOkhyqYmv8qTlQ=s800-c-k-c0x00ffffff-no-rj", "niche": "family of 4 vlog", "accent": "#b45309"}, "UChjdg_pMcGr5Iq-Tg_e1l9Q": {"title": "Pardeep Sindhu Vlog", "thumbnailUrl": "https://yt3.ggpht.com/SgGxbt61KSPYV1FDmIihLI7oAQAnDRl7VRxetTJxqebmWsql3ZoRJMWIOKplF66vRxHprDPj_Q=s800-c-k-c0x00ffffff-no-rj", "niche": "family of 4 vlog", "accent": "#166534"}, "UCNgEgpCEXrTeKbEO3uR8NRQ": {"title": "Lauryn Willkomm", "thumbnailUrl": "https://yt3.ggpht.com/IMJEZAvmuF8OydoiSon9OYIshSWsMaqX20t_FwUQ3MjJyiS_UYlDxgooCEC4OHlD2x2NQ5CI=s800-c-k-c0x00ffffff-no-rj", "niche": "postpartum mom vlog", "accent": "#b45309"}, "UC-22ocHGcl9o2UypjMI60hw": {"title": "Ira & Mom", "thumbnailUrl": "https://yt3.ggpht.com/jPybAtXIdWJsqpAvFrEau1glO8gwOteAUlE0OQb6Ye4GYgKnxh2VtCeOYEAyUQeC3bJq0herwA=s800-c-k-c0x00ffffff-no-rj", "niche": "postpartum mom vlog", "accent": "#166534"}, "UCU-ZXqhx1xjsxO1ftXJELdg": {"title": "KKandbabyJ", "thumbnailUrl": "https://yt3.ggpht.com/azeQWSp6sLDpscybLDyxocUeg2xYvUqw2jrnpjUqyoQeOwGgXgQk8Tlj1UyhWSCRj6JxGNhn=s800-c-k-c0x00ffffff-no-rj", "niche": "postpartum mom vlog", "accent": "#166534"}, "UCdmt2Qjr3JFSpSHlG5Ps5aw": {"title": "Life is beautiful #IndianVloggerInDubai #TwinsMom", "thumbnailUrl": "https://yt3.ggpht.com/L3rbRopAasL30kcG6fUQo7SEUQiTd6a9c-BKwVxcpH3z7EgbIi65CpszGGYwxtlvS56bg9jMCp0=s800-c-k-c0x00ffffff-no-rj", "niche": "twin mom life vlog", "accent": "#166534"}, "UCayim5R8yHpjx4A5IAglYmA": {"title": "Katie & Harry ", "thumbnailUrl": "https://yt3.ggpht.com/TVr3NaVOainhfziJyOb9JHPSTuUPBJOCjAs13wFzUZCS3IAfSjyvex6b15BlmZ8WztU2vZZVIhY=s800-c-k-c0x00ffffff-no-rj", "niche": "twin mom life vlog", "accent": "#9d174d"}, "UC-2PNKeLdaEq1fYF8x5ugHg": {"title": "Adele Vlogs", "thumbnailUrl": "https://yt3.ggpht.com/ytc/AIdro_kmBbp2dWS_HRgwcZcyeAfPzVnUSDG5zI45MEuZ-fiipL0=s800-c-k-c0x00ffffff-no-rj", "niche": "homeschool mom vlog", "accent": "#1e293b"}, "UCGmDvEa2u0FO5NhH5x2FGZQ": {"title": "Milena Ciciotti", "thumbnailUrl": "https://yt3.ggpht.com/ytc/AIdro_nQCGwYFQzFd_j8uIpl3_hoVgCLYGjBSSmq1MyKK_QTxQ=s800-c-k-c0x00ffffff-no-rj", "niche": "homeschool mom vlog", "accent": "#b45309"}, "UClMb5rf0u2zhqxG6VNSI3Mg": {"title": "Selah Joy", "thumbnailUrl": "https://yt3.ggpht.com/uY2VeQfYqH1fU2LdkZ3ESUYT43y3ARdCkLQi9WQD_Zg2Cnxm9xh5xcAxTe2mGH_7h6pu0zc=s800-c-k-c0x00ffffff-no-rj", "niche": "homeschool mom vlog", "accent": "#b45309"}, "UC6piZWHp6lS7_44db47n8_g": {"title": "sophie b. ", "thumbnailUrl": "https://yt3.ggpht.com/lUI-VynRjJ5fkViM55elcuw8zzecWaezof7AM9lKMgfvh0ItEwWc5_swyTdmuG_9A0pskFn01Vo=s800-c-k-c0x00ffffff-no-rj", "niche": "homeschool mom vlog", "accent": "#b45309"}, "UC74U1KDtashP19m2U9eTshw": {"title": "Our Tribe of Many", "thumbnailUrl": "https://yt3.ggpht.com/ytc/AIdro_mM-hWEHoKIRYyob3IOkcLBo0eCOcc9mxa13J0-yDpVgSw=s800-c-k-c0x00ffffff-no-rj", "niche": "homeschool mom vlog", "accent": "#a16207"}, "UCFFfqIC3npbT3eRewarazdw": {"title": "Natalie Bennett", "thumbnailUrl": "https://yt3.ggpht.com/dcHLTgqk_pF2kaKnzS8dLDY3jUFrT5XYRynE_8e7TAkZCqID0GhJmTyBVzcwxdAB1j9FDadC=s800-c-k-c0x00ffffff-no-rj", "niche": "homeschool mom vlog", "accent": "#0f766e"}, "UC4xa1GCvt45CnKgjZ2gL_Yg": {"title": "nehaafarswaan _vlogs", "thumbnailUrl": "https://yt3.ggpht.com/CYetfZt5AU_XBB4GyKhJVR0bThOimlwQhvAu8F2uR_azHbHvXbZHdm-yFhTmesug4W6n0X4Z=s800-c-k-c0x00ffffff-no-rj", "niche": "adoption family vlog", "accent": "#0f766e"}, "UC1YaffXkummWhrcn6vOttTw": {"title": "The Logan Fam", "thumbnailUrl": "https://yt3.ggpht.com/3TFcTKCTx-F7MskW8xPue7KkzE_oVxETUjQCW8hlAA1S2P-Ng8nJnL440O--en_qxv7bMyYZ=s800-c-k-c0x00ffffff-no-rj", "niche": "adoption family vlog", "accent": "#b45309"}, "UCiQOmaD1HlLj-Enyjl-e1Ag": {"title": "Hey There Wilders ", "thumbnailUrl": "https://yt3.ggpht.com/5pGJ2UHY-Qjkeq4TE8-cw5joF96ssOj6z8lyd5GP2_413Y1Ts0SXm1COS52IOvC2EykO04oG6w=s800-c-k-c0x00ffffff-no-rj", "niche": "adoption family vlog", "accent": "#1e40af"}, "UCKE8PzFYXq1P5yeZuGVmymA": {"title": "Crazy Pieces", "thumbnailUrl": "https://yt3.ggpht.com/hA4b9gOKGduXrM4TVqdrHqtw4cFUwCWGe8WmCBB0x2NSzCMeVEmZaziYLybDTPl4YX1nf-IdaJQ=s800-c-k-c0x00ffffff-no-rj", "niche": "adoption family vlog", "accent": "#6b21a8"}, "UC4-CH0epzZpD_ARhxCx6LaQ": {"title": "The LaBrant Fam", "thumbnailUrl": "https://yt3.ggpht.com/ytc/AIdro_k7ZClxp4an8nitPcgLB20-qBAw5CkL2bdoV2pcdE4D6vw=s800-c-k-c0x00ffffff-no-rj", "niche": "adoption family vlog", "accent": "#a16207"}, "UCVYX5OEDnAZbCMdxoYA7KEw": {"title": "Raising Autumn", "thumbnailUrl": "https://yt3.ggpht.com/Z1bYLNx0mVL17DcL9DSeL6MwdD_YCEt90_WoTIsT0vS3EoYbzDxQQeaAAIC_f9O8Ea9jRGo6=s800-c-k-c0x00ffffff-no-rj", "niche": "special needs parenting vlog", "accent": "#a16207"}, "UCja7QUMRG9AD8X2F_vXFb9A": {"title": "The Royalty Family", "thumbnailUrl": "https://yt3.ggpht.com/2Zfi0iwOh5bEjVUlNlOPd5fAHGsgRtwBZwA75MIz11GBiQripRbXp3fQAmc_QPoXUOpFKvmAOg=s800-c-k-c0x00ffffff-no-rj", "niche": "military family vlog", "accent": "#1e40af"}, "UCHDQOZjxuSm0-LgLQtMeCqw": {"title": "Dimple Malhan Vlogs", "thumbnailUrl": "https://yt3.ggpht.com/m9GgsEfPlKYhUYJWD0YEShB9TpgJpBXa2_D8IbnmbJidFq7Z8OmnP2h3ooLwxCMFsdEUAbrg=s800-c-k-c0x00ffffff-no-rj", "niche": "military family vlog", "accent": "#166534"}, "UCrdmDvDFeH2uCjWb416P5uw": {"title": "The Blended Family", "thumbnailUrl": "https://yt3.ggpht.com/QTO5ZOo-qwxQU7zonDcQx3mPVREOUHcJysTAMp96TAMFkNfygrd2838B8bcaLSTiHugdlGEFMA=s800-c-k-c0x00ffffff-no-rj", "niche": "blended family vlog", "accent": "#0f766e"}, "UCpE_yAyidJKIsv8mnX1VYzA": {"title": "JesssFam", "thumbnailUrl": "https://yt3.ggpht.com/ytc/AIdro_kjqoxBlf7sxjzICPNK_ascMVNkMEynK6pK9UFBwdwLGz8=s800-c-k-c0x00ffffff-no-rj", "niche": "blended family vlog", "accent": "#b45309"}, "UCIk9OTWgA-JrEhec9S78q8Q": {"title": "TEAM BLENDED FAMILY", "thumbnailUrl": "https://yt3.ggpht.com/srk-rMGi3QEKhBL7Vebs5Gxuogdrp0injNmNAaKYdBz_iOWbjoGu6Pf2CWgFY60h-kuHNeKYOfM=s800-c-k-c0x00ffffff-no-rj", "niche": "blended family vlog", "accent": "#1e293b"}, "UC7p5q0RjHmGZOyFgPab0xcA": {"title": "Team Blended", "thumbnailUrl": "https://yt3.ggpht.com/k-YVNtGp7Y3AQeVzyIPhBpuE8xosEbUfRxUJpFRp53CQ_fwK8wscOidLn6RJKh30woCJXGGX_w=s800-c-k-c0x00ffffff-no-rj", "niche": "blended family vlog", "accent": "#9d174d"}, "UCK4hXj-qZWqCKAyK2RthPpA": {"title": "Muskaan Routine Vlog ", "thumbnailUrl": "https://yt3.ggpht.com/6mGNdN4iqoD-DqcfJIU-4bQQZkvMOlnhVZ0i8VOG4553bYg4DtlFo47gv-4KGy9HktAlLNSCLg=s800-c-k-c0x00ffffff-no-rj", "niche": "young mom vlog", "accent": "#1e293b"}, "UC-j7tR3DhEt85EM9HbvxXqA": {"title": "Zeinab Harake", "thumbnailUrl": "https://yt3.ggpht.com/bqfiRofJSMr4VXSEoljQD2Yatc_SGjnM6U-Q82IEX9GHTi4ypEu_RvA_uFYCz0d5S_V4jt5joQ=s800-c-k-c0x00ffffff-no-rj", "niche": "young mom vlog", "accent": "#166534"}, "UC-cNqQJQTqgua06yNFyUCHQ": {"title": "Abbey Fickley", "thumbnailUrl": "https://yt3.ggpht.com/20x7DZrVcr-BnXzQUeo9jcAzzPA-t6o2EteAuiKfCBb1TuGg3gcvN7WrybzyNBWwZibd45fB=s800-c-k-c0x00ffffff-no-rj", "niche": "co-parenting vlog", "accent": "#0f766e"}, "UCs54IE68zVp0zAPjoTg9oKA": {"title": "Arms Family Homestead", "thumbnailUrl": "https://yt3.ggpht.com/ytc/AIdro_klt2TfPkoCATCMr1jqoCGEWhJi7LHA46Pyn3JUGRi4rrk=s800-c-k-c0x00ffffff-no-rj", "niche": "large family homestead", "accent": "#166534"}, "UCFfhvjvRMWDeJhX88dv-EmQ": {"title": "Farmhouse on Boone", "thumbnailUrl": "https://yt3.ggpht.com/ytc/AIdro_k7dx9QMMZZ3HGIQnRgtlZMYDrFx8zc1x310gY5lBUMbq8=s800-c-k-c0x00ffffff-no-rj", "niche": "large family homestead", "accent": "#1e293b"}, "UC6N-9Wh0DYhDI8sQS7jwjVA": {"title": "Alex Gonzaga Official", "thumbnailUrl": "https://yt3.ggpht.com/XACvjvjIaPxaqz-xAeZUymEa32CYbSAGeQCPI47Oqr7sKjLerETyergj7L14euJcwji3SAhdhg=s800-c-k-c0x00ffffff-no-rj", "niche": "expecting mom vlog", "accent": "#1e40af"}, "UC39p6707suIKTZiw0BTGapw": {"title": "Viy Cortez", "thumbnailUrl": "https://yt3.ggpht.com/wXxX67pChE0m3WsxjVd2usmeWHHza21QmNE_SBkxgwps_XubmziTd-aEZtGUKvw2cSPc8-YXNFI=s800-c-k-c0x00ffffff-no-rj", "niche": "mom of boys vlog", "accent": "#a16207"}, "UC3CRAFrv5xupiZHzoJXoKDw": {"title": "Blessing Boys", "thumbnailUrl": "https://yt3.ggpht.com/h-C0HA4sthb95MbHgoaa5qWU0telp35_42Yf_Hz1LiPCdq47d9GM8yIKt-KT6AFPslNM1qvcSZI=s800-c-k-c0x00ffffff-no-rj", "niche": "mom of boys vlog", "accent": "#9d174d"}, "UCUvEpOhD1BYa6J2dPZbEtTw": {"title": "Tannerites", "thumbnailUrl": "https://yt3.ggpht.com/ytc/AIdro_nMu2bFIAo_2uXeZcgaZMmH3r6gPtD_OEeZu9F4h9sUd_Q=s800-c-k-c0x00ffffff-no-rj", "niche": "parenting teens vlog", "accent": "#a16207"}, "UCGwcH4qnJ2qM_ZJUSFcAMAA": {"title": "JianHao Tan", "thumbnailUrl": "https://yt3.ggpht.com/ytc/AIdro_l1haX7dKXiwSkhVk1EKb_vFLfJBzoFLXU16sy502Sdg-0=s800-c-k-c0x00ffffff-no-rj", "niche": "parenting teens vlog", "accent": "#1e293b"}, "UCjmAh2qxmvWdH3xNPbg0IUQ": {"title": "Jason Vlogs", "thumbnailUrl": "https://yt3.ggpht.com/ytc/AIdro_nAFhIzogDD2jxU6NWvbBkncrF3FiApABVDUyysHrpDk7Y=s800-c-k-c0x00ffffff-no-rj", "niche": "parenting teens vlog", "accent": "#0f766e"}, "UCWaDeMpczr21BN6YFnxcZEA": {"title": "Dougherty Dozen", "thumbnailUrl": "https://yt3.ggpht.com/WfbCyrwNbYqM4AwswQDn6W4vDtWdy6wou-wR25e6uhJuCIcUNU47dJ6veQxmf951A6Buy2rOToE=s800-c-k-c0x00ffffff-no-rj", "niche": "parenting teens vlog", "accent": "#0f766e"}, "UC6sSkkemzPjmrzS0Y0V_2zw": {"title": "Tiana", "thumbnailUrl": "https://yt3.ggpht.com/xEYpfxf7ctdt08aa0azkQ_EY-FD2bltHrJ9a_-MXOoD8DgBc9_eussbU5JC-nLCAkBqWxHHT=s800-c-k-c0x00ffffff-no-rj", "niche": "parenting teens vlog", "accent": "#b45309"}, "UC0QKe0NgW-b0oZvnB5vqiJw": {"title": "The Paayal Jain", "thumbnailUrl": "https://yt3.ggpht.com/ytc/AIdro_nQFWxv0cggJAoNizYjm8XkUjL2H6fAaGWtsELxIJTC6CQ=s800-c-k-c0x00ffffff-no-rj", "niche": "parenting teens vlog", "accent": "#1e293b"}, "UCWI1AJmkMm_sbTX_Ps8gQAw": {"title": "Sydney Serena", "thumbnailUrl": "https://yt3.ggpht.com/kB9SSFhaLAwRLq9M5OBeAj7JsDxGSRSUuYUX2ckekA5l5OziZlSZRe8vE3FpnROFnb5fATRAIg=s800-c-k-c0x00ffffff-no-rj", "niche": "parenting teens vlog", "accent": "#b45309"}, "UCMDPvpD-R1_isb1o0ua15ig": {"title": "BE NATURAL", "thumbnailUrl": "https://yt3.ggpht.com/ytc/AIdro_lj9Q5D5A9Xqeh5_S8XoJe8Jy_1O4DSZHUvI928NbkSVRo=s800-c-k-c0x00ffffff-no-rj", "niche": "raising girls tips", "accent": "#9d174d"}, "UCyGz6zqMDi7CVwQcWA-DnSA": {"title": "Lottie Weaver", "thumbnailUrl": "https://yt3.ggpht.com/YOzNKBNrKQj-Wydr_ZUwWPgqNkPFp5JsI8uaIK3g4kmG6GiEb-k3MEINmDKhKIeQ8bN9X0eVMs0=s800-c-k-c0x00ffffff-no-rj", "niche": "raising girls tips", "accent": "#1e40af"}, "UCK6lN2-_DZQIW3rgNZAJcRQ": {"title": "Big PAPA VLOGS", "thumbnailUrl": "https://yt3.ggpht.com/1A4hB0rTgJoE47YmZTUUWQNWIBoGf4g3vMM3rIzTGyuqtmZ5OmEdPgAm_8uDnXLrGPT2jp3I8d4=s800-c-k-c0x00ffffff-no-rj", "niche": "single dad vlog", "accent": "#9d174d"}, "UCfBqaomkd7VcyOibBX2xtqA": {"title": "Lana Blakely", "thumbnailUrl": "https://yt3.ggpht.com/ytc/AIdro_kTi5_VS9KzcFmWSryKNB6JF3Gx2-lI9y-he19WXfoMUI0=s800-c-k-c0x00ffffff-no-rj", "niche": "family productivity tips", "accent": "#b45309"}, "UCYVFeFY_4-755hqdPfB2qpw": {"title": "Mia Yilin", "thumbnailUrl": "https://yt3.ggpht.com/ZJK-gw90DMN9_vNk9HwKNZSQTXbeR0oFdyWYI9JLlhKr6kIpvuMiazPSwD_EbEjU55AwC0zZsg=s800-c-k-c0x00ffffff-no-rj", "niche": "family productivity tips", "accent": "#166534"}, "UCsJfDna-9xsG-NmM0kwgEkg": {"title": "fayefilms", "thumbnailUrl": "https://yt3.ggpht.com/EVKMz60C3D_LKvV2tDVdzI4DbF4IeNwbarGu8-h2l6oE3NA9SG0lNrHpWFOkMgMcbe8gL83G=s800-c-k-c0x00ffffff-no-rj", "niche": "family productivity tips", "accent": "#6b21a8"}, "UCeDNVLP9jf9a2BDaLUQC7YA": {"title": "That Practical Mom", "thumbnailUrl": "https://yt3.ggpht.com/EZZquhRh-TNMt0dhIr_H6rpV4zlSTE-5w-awLbNw2_hBJEDojnv4Hb-1kQMC6dkozvBE8p_L2w=s800-c-k-c0x00ffffff-no-rj", "niche": "family productivity tips", "accent": "#a16207"}, "UCKzw4X2DQaId-WNAxf1Ew-Q": {"title": "Bellies & Bites", "thumbnailUrl": "https://yt3.ggpht.com/52secTJnGur0rJSJlj5GUEg0_Kl3lGeG5Kcnaj4E53tD1stVk_dI14MUyW9eXwBH32cReNoRlyc=s800-c-k-c0x00ffffff-no-rj", "niche": "picky eater toddler tips", "accent": "#1e293b"}, "UCNlBqKwgsA7HL1imZa12oww": {"title": "Dt Sheema Noor", "thumbnailUrl": "https://yt3.ggpht.com/Yxx6fOf5aFXD5aJOH3W2eK6FrzckVgeKBgcOlU25BtcmkHMExdffCnzb3icbsHTON8BfXbaX1w=s800-c-k-c0x00ffffff-no-rj", "niche": "picky eater toddler tips", "accent": "#1e40af"}, "UCq_2T6-nLANAacEP9FDH-zQ": {"title": "My Fussy Eater (Ciara Attwell)", "thumbnailUrl": "https://yt3.ggpht.com/e_rmxNBke2Vi1NlBH3EuzKIdiLmTZEHdiKAPflrDibeWSiGV49Huo-WvcAZnC9Qzhnu_z7j9=s800-c-k-c0x00ffffff-no-rj", "niche": "picky eater toddler tips", "accent": "#6b21a8"}, "UCuSH6OoySXYpBUOedfX_huQ": {"title": "Theresa Hennig, RD, M.ED.  ", "thumbnailUrl": "https://yt3.ggpht.com/Ocv0fdAoEG05LvDvWOqFl0AWKbM6-KcCepLJpVlvE5ytOyuJIkU0upEbgwEaAWQN3pBBye-zfA=s800-c-k-c0x00ffffff-no-rj", "niche": "picky eater toddler tips", "accent": "#1e40af"}, "UCDgvbq3s_VsU2-cARmdG6QQ": {"title": "The Soulful Parenting", "thumbnailUrl": "https://yt3.ggpht.com/XzLv65usJVx_h5iT7snUyUSxBSa7vo8RN7-mi3B4S6tVmCMYaXxUPA6UXvzUdbTUiFX4yCtm1PE=s800-c-k-c0x00ffffff-no-rj", "niche": "gentle discipline no yelling", "accent": "#b45309"}, "UC5Wv6ULnjQkmbINRv4PfWbQ": {"title": "Wise Parenting", "thumbnailUrl": "https://yt3.ggpht.com/eEqUJNlRBucK3ZTNKGInI05_IsVZUkFC_Qt96bpkCtGbNbWEAHQoHQ_DJAqwnB0XTugTOmHPBg=s800-c-k-c0x00ffffff-no-rj", "niche": "gentle discipline no yelling", "accent": "#b45309"}, "UCIvSb2h5u1_z7YCe5aIyOug": {"title": "Positive Parenting with Astrology w/ Maria Riegger", "thumbnailUrl": "https://yt3.ggpht.com/yaOc37W4diidWi5Ppkw_o0vXnINrS_VrL7oBBdWMuYIrqCNhiw1AJjd0owl_RhfTFppKgnoBVg=s800-c-k-c0x00ffffff-no-rj", "niche": "positive parenting techniques", "accent": "#1e40af"}, "UC6W5UveIhjctqCnge0lw4Qg": {"title": "Positive Parenting Tips and Solutions", "thumbnailUrl": "https://yt3.ggpht.com/ZGAYh1UERb9mQdS4391dFy4MRk6frYaT64z2FTm8pvhZoTA8u8_YYEFTs4mX47cdX5QoqaDEdg=s800-c-k-c0x00ffffff-no-rj", "niche": "positive parenting techniques", "accent": "#6b21a8"}, "UCo8gcWxUwAlg5XlkAB7TRlA": {"title": "4 Peaks Parents with Thomas Miller", "thumbnailUrl": "https://yt3.ggpht.com/jdhfvJOOs6ACUx2tOSTScsoSGb2zX2zg5O403bW4vBl5PwyizBuHlWvPry40WmEMVPYudSdZ=s800-c-k-c0x00ffffff-no-rj", "niche": "parenting without yelling", "accent": "#1e293b"}, "UC_oO5QhG2TC20CjMSpkmKfA": {"title": "Marcela Collier From HIC Parenting Education", "thumbnailUrl": "https://yt3.ggpht.com/qbw8Zt3Pk9rJOZlDM1U5mT7_K1PsqTneKDlmkmaBnKehShe6EpEUdAK-9twWIDvsumltrZxXOg=s800-c-k-c0x00ffffff-no-rj", "niche": "parenting without yelling", "accent": "#1e40af"}, "UC5mQVgSA3OT3iba4BZAh-2w": {"title": "Calm Parenting Podcast", "thumbnailUrl": "https://yt3.ggpht.com/ytc/AIdro_mPDkVMPosxV3jVv7lS_4XGFPQoJ_hQAphZpLV_MjOvfOY=s800-c-k-c0x00ffffff-no-rj", "niche": "calm parenting method", "accent": "#9d174d"}, "UC9-uA7TjypFQIMK01-xEyBQ": {"title": "Calm Parenting Hindi", "thumbnailUrl": "https://yt3.ggpht.com/ylgyptZZx78MEFyHEJmOrJrqZZOfmPd2iGNiSXCHcltpPwLLPSawU6PQcLypCjuUGQoVqDIWlg=s800-c-k-c0x00ffffff-no-rj", "niche": "calm parenting method", "accent": "#a16207"}, "UCWZvC01RJ7pBBjnCLAS2f5A": {"title": "Tiny Talks", "thumbnailUrl": "https://yt3.ggpht.com/Fo6NUpBlzlHKEFtZ197y9IqFSrRX77El2RX12RKF2ziuk6ALp35N7PZCvMdMw8zZtpJkgaepCdM=s800-c-k-c0x00ffffff-no-rj", "niche": "toddler sleep training mom", "accent": "#9d174d"}, "UCBrQY4j79yGU_Np1YNsW0wQ": {"title": "Indian Mom Vlogs", "thumbnailUrl": "https://yt3.ggpht.com/ytc/AIdro_mSMGxqzcMvC8PWu4OFv3KrjD4JmIuMj2pR_QZ6oFA1kw=s800-c-k-c0x00ffffff-no-rj", "niche": "new mom tips vlog", "accent": "#166534"}, "UCt5H-cwOiiSm9bv_4CNyMxA": {"title": "Mom Baby care blog ", "thumbnailUrl": "https://yt3.ggpht.com/dFQlr30j8JglCVVs4B4g63JIi_1_s28rY2FPo4OR-8AZohrGepa7ywY57SEFDgpzOByI5xJh=s800-c-k-c0x00ffffff-no-rj", "niche": "new mom tips vlog", "accent": "#6b21a8"}, "UCVYlCrUqwsRTZfeeuoju_9Q": {"title": "Amanda Fadul", "thumbnailUrl": "https://yt3.ggpht.com/VBZugpJLEiAZfTq1zSdANPqioCy1KokrR3uNtIWKJqFzDRtCmEd_0RO7WzOuFK83hkw7vdyV3A=s800-c-k-c0x00ffffff-no-rj", "niche": "working mom parenting tips", "accent": "#1e40af"}, "UChKEXyzF7FDppUHDexHaS2Q": {"title": "Holden It Down", "thumbnailUrl": "https://yt3.ggpht.com/K5zyYgSvsqp4JSnnuXtOwI0ZhmM7mzSjaglLv65DHsB8nmJcaxR5Xpn5JUwpVmMh1gzWlkLmUg=s800-c-k-c0x00ffffff-no-rj", "niche": "foster parenting vlog", "accent": "#1e293b"}, "UCXgMCehFgqn3H-xuuwx2O3Q": {"title": "Fostering By Faith", "thumbnailUrl": "https://yt3.ggpht.com/ytc/AIdro_kLZXqOp0Rs3GtiNoeSGWLcF8KFUCvK0S00LwW-IBriJg=s800-c-k-c0x00ffffff-no-rj", "niche": "foster parenting vlog", "accent": "#1e293b"}, "UCIQ0UexUe78vIoiDzLyPq0w": {"title": "Nothing but real life", "thumbnailUrl": "https://yt3.ggpht.com/ytc/AIdro_mpocgWpVQeUkcokpLJp4N4lZaFgYWntYxN8Vnxk7T_mQ=s800-c-k-c0x00ffffff-no-rj", "niche": "foster parenting vlog", "accent": "#9d174d"}, "UCnznHn-lIjQbZ1F8_LcvD4g": {"title": " Pakistani Twin Mommy in America  \ud83c\uddfa\ud83c\uddf8", "thumbnailUrl": "https://yt3.ggpht.com/BWvJMn3_LjDFwufEohrBoG0QwBr585UoVVjv4mB9rvgrGcQ85auPmQrZaviQg1aN_iJFpOuaib4=s800-c-k-c0x00ffffff-no-rj", "niche": "twin toddler mom", "accent": "#0f766e"}, "UC1qMBMViZ7aWNHs9PC8NH_g": {"title": "Mom of twin baby vlog", "thumbnailUrl": "https://yt3.ggpht.com/NwHem66AQDqV9_S0UksLCYMHqfjzcar9EbT9yPj9-3ROwdJ5WfH_I3qSzynyIRleYCdAxjpxcw=s800-c-k-c0x00ffffff-no-rj", "niche": "twin toddler mom", "accent": "#9d174d"}, "UC0tUQmSJczis7RTciNXMHBw": {"title": "Autism Family Saanvi", "thumbnailUrl": "https://yt3.ggpht.com/IrUQtwDdt2WsGm1PJyHmRTcKcdOWMmiC2vJ7gjLAZTUuQ7v_xXoYWacQWLvSeC_Pmpfr06cD=s800-c-k-c0x00ffffff-no-rj", "niche": "autism parenting vlog", "accent": "#6b21a8"}, "UC-Wa8Py59GIazwSzvC8v1Hg": {"title": "Autism Family", "thumbnailUrl": "https://yt3.ggpht.com/8X9atvqqU9_32V5QG_TtUjUmmAV0EuB5L5jXVj9yBEUs7OmBNWfAHohFUQ_ajkZ1gEJhkkdGlg=s800-c-k-c0x00ffffff-no-rj", "niche": "autism parenting vlog", "accent": "#9d174d"}, "UCjGxqeBTzlGhjg8ETzXSYZQ": {"title": "Aussie Autism Family", "thumbnailUrl": "https://yt3.ggpht.com/_HFw9wfUQmZwv2qPHEV4jxiZQc7YsdmNfM4wQFZ6j5ZJOV5xJjm9dXjzobcImrYQdVWz498X=s800-c-k-c0x00ffffff-no-rj", "niche": "autism parenting vlog", "accent": "#9d174d"}, "UCMio8zXj-WusM7tEXdN_qlQ": {"title": "Autism Royalty Family", "thumbnailUrl": "https://yt3.ggpht.com/0zmqSicSvQzZtmRNvVSnb69PNcVi_fgVunH8FZfSJ5hE8bZUUBfWtexLMqyRZKRRM8dB6ftF=s800-c-k-c0x00ffffff-no-rj", "niche": "autism parenting vlog", "accent": "#0f766e"}, "UC7JqpCGJj1LuVu_DkODF6LA": {"title": "ABC Parenting", "thumbnailUrl": "https://yt3.ggpht.com/MB8twPaXq9rvDe7wbX7bf9q0-xjD1VwFTnRLNpe7tskcinj3I_i_kFGwwQqmI4R3dhKc7kEFN4U=s800-c-k-c0x00ffffff-no-rj", "niche": "teen parenting advice", "accent": "#a16207"}, "UCJP8MIr9P4CZ4XOvwRO8vJw": {"title": "Parenting with Elena", "thumbnailUrl": "https://yt3.ggpht.com/76yBF9SdEyl5KGCYTjG9KNVHpU9bfmlE7d1mVkU1rPvvzDNUw1rcmFhJb7fP43FCVGiTA5UMeKw=s800-c-k-c0x00ffffff-no-rj", "niche": "teen parenting advice", "accent": "#9d174d"}, "UCnM29_GMGDem1luwyCcEWEw": {"title": "The Parenting Pair", "thumbnailUrl": "https://yt3.ggpht.com/lcgY5jB6GsTl3QEaF4t5wOJmSOSI-SVlalgeJDzhxBnuTzqSsaNi_ME9zjGyfy2peNmQOUAJnA=s800-c-k-c0x00ffffff-no-rj", "niche": "teen parenting advice", "accent": "#b45309"}, "UCu-D8vWM_d5IKPVhGKks6Pw": {"title": "Susan Allan", "thumbnailUrl": "https://yt3.ggpht.com/IIB4YECvkLb5C_bQVN7cBAwp28pQXX4SzF7H7QCsAF3dxKMSCN9ob68xQNeuQve-gObhPN9pPg=s800-c-k-c0x00ffffff-no-rj", "niche": "co-parenting communication tips", "accent": "#166534"}, "UC1eE5JqP2xNdQBOGn6eqCHA": {"title": "Daniel the Dad", "thumbnailUrl": "https://yt3.ggpht.com/WRP8RXiF6-KpNe1macoQirVZ0FOl-4v6FMLSEP2TUoe_wtBHVU58xmgx96QxIQr-NtsxS3nWEA=s800-c-k-c0x00ffffff-no-rj", "niche": "stay at home dad vlog", "accent": "#166534"}, "UC3K_V0FgEq_6SuA6X54z3GQ": {"title": "Mai Pham", "thumbnailUrl": "https://yt3.ggpht.com/QpIUiK_hP2-gw9CuATn2sUbzLQBthwdfGXRCgdxRnj5h2sNLV6m1smui43Tv5yFP1vOegTDt7A=s800-c-k-c0x00ffffff-no-rj", "niche": "parenting influencer tips", "accent": "#1e40af"}, "UC8B1sNPsg-VSCq6hkZdt9qw": {"title": "Clara Dao", "thumbnailUrl": "https://yt3.ggpht.com/hvUcCzEOhJV6kliasc3aVdKSz5zEeZj-fPKxNbmKgZcNTgDL8v0aKdSGarp_eaTANkvyaUgbBcg=s800-c-k-c0x00ffffff-no-rj", "niche": "parenting influencer tips", "accent": "#b45309"}, "UCZFBnnCCO65xMXOdtFz8CfA": {"title": "Sofi Manassyan", "thumbnailUrl": "https://yt3.ggpht.com/vyKYDvRNHlyl-cMyRWxz2zWdbEmsGnBCK3cbKKhqUtddIt5xyk8NhxlptEAAdwgCx7RKIccHGA=s800-c-k-c0x00ffffff-no-rj", "niche": "parenting influencer tips", "accent": "#9d174d"}, "UC6YjT1TJaANveVGQ4vl1CIg": {"title": "Jenny Hoyos", "thumbnailUrl": "https://yt3.ggpht.com/oH3BCLxa2uEGnOqgbn-DSrdD9_7e6HpcntUZjweqcyXrS-Pf7Z4mnV9puwYwG_2nRUe2aakxwg=s800-c-k-c0x00ffffff-no-rj", "niche": "parenting influencer tips", "accent": "#6b21a8"}, "UC-uNVV92llYIMC5-ZUF0Q4w": {"title": "Uyen Ninh", "thumbnailUrl": "https://yt3.ggpht.com/wS9eOI71FROmV77-cWIkKXkjNFdspPrwG0UHypO_WFd702W4qY1dlUrnq2z8NnpC0qsbUfrR=s800-c-k-c0x00ffffff-no-rj", "niche": "parenting influencer tips", "accent": "#1e40af"}, "UC64KwGynvj3hA7T0C9gC5cA": {"title": "Thewizardliz", "thumbnailUrl": "https://yt3.ggpht.com/4vTd6lQgW2dJqqBTIoLj9_yMccnBiDk5j2K1XHzglDhoBqqEdsrXhoXrujl38euQnACsSdpyiA=s800-c-k-c0x00ffffff-no-rj", "niche": "parenting influencer tips", "accent": "#1e293b"}};
+  var params = new URLSearchParams(location.search);
+  var id = params.get('id');
+  var entry = (id && DATA[id]) || null;
+
+  var EXAMPLE = {
+    title: "Example Channel",
+    thumbnailUrl: null,
+    niche: "gentle parenting tips",
+    accent: "#c9a227"
+  };
+
+  var showingExample = !entry;
+  var data = entry || EXAMPLE;
+
+  document.getElementById('example-banner').hidden = !showingExample;
+
+  function contrastTextFor(hex) {
+    var h = hex.replace('#', '');
+    var r = parseInt(h.substring(0, 2), 16);
+    var g = parseInt(h.substring(2, 4), 16);
+    var b = parseInt(h.substring(4, 6), 16);
+    var luminance = 0.299 * r + 0.587 * g + 0.114 * b;
+    return luminance > 140 ? '#1a1608' : '#f2f0ea';
+  }
+
+  document.documentElement.style.setProperty('--accent', data.accent);
+  document.documentElement.style.setProperty('--accent-text', contrastTextFor(data.accent));
+
+  document.getElementById('channel-name').textContent = data.title;
+  document.getElementById('channel-name-2').textContent = data.title;
+  document.getElementById('niche-blurb').textContent =
+    'Given your "' + (data.niche || 'parenting') + '" content, this felt like a natural fit for your audience - ' +
+    'practical, specific advice parents can use the same day, not another generic listicle.';
+
+  var avatarImg = document.getElementById('avatar-img');
+  var avatarFallback = document.getElementById('avatar-fallback');
+  if (data.thumbnailUrl) {
+    avatarImg.src = data.thumbnailUrl;
+    avatarImg.alt = data.title;
+    avatarImg.hidden = false;
+    avatarImg.onerror = function () {
+      avatarImg.hidden = true;
+      avatarFallback.hidden = false;
+      avatarFallback.textContent = (data.title || '?').charAt(0).toUpperCase();
+    };
+  } else {
+    avatarFallback.hidden = false;
+    avatarFallback.textContent = (data.title || '?').charAt(0).toUpperCase();
+  }
+
+  var mailto = 'mailto:said@vantagemedia.ink?subject=' + encodeURIComponent('Re: Listen First partnership - ' + data.title);
+  document.getElementById('cta-reply').href = mailto;
+})();
+</script>
+</body>
+</html>

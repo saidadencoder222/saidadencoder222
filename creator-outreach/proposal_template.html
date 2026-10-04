@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Listen First Partnership</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  :root {
+    --bg: #121214;
+    --bg-raised: #1a1a1d;
+    --text: #f2f0ea;
+    --text-muted: #a39d92;
+    --border: #2b2a2c;
+    --accent: #c9a227;
+    --accent-text: #1a1608;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Work Sans", -apple-system, "Segoe UI", sans-serif;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+  .display {
+    font-family: "Bebas Neue", "Arial Narrow", sans-serif;
+    letter-spacing: 0.01em;
+    text-wrap: balance;
+    line-height: 0.95;
+  }
+  .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+  .eyebrow {
+    font-family: "Work Sans", sans-serif;
+    font-weight: 700;
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  header.hero {
+    padding-block: 56px 40px;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-top { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; }
+  .avatar {
+    width: 64px; height: 64px; border-radius: 50%;
+    object-fit: cover; border: 2px solid var(--accent);
+    background: var(--bg-raised); flex-shrink: 0;
+  }
+  .avatar-fallback {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: var(--accent); color: var(--accent-text);
+    display: flex; align-items: center; justify-content: center;
+    font-family: "Bebas Neue", sans-serif; font-size: 1.6rem;
+    flex-shrink: 0;
+  }
+  .channel-name { font-size: 1.05rem; font-weight: 600; }
+  .channel-sub { color: var(--text-muted); font-size: 0.9rem; }
+
+  h1.headline { font-size: clamp(2.6rem, 7vw, 4.4rem); margin: 0 0 18px; color: var(--text); }
+  .dek { font-size: 1.1rem; line-height: 1.55; color: var(--text-muted); max-width: 58ch; margin: 0; }
+
+  section { padding-block: 48px; border-bottom: 1px solid var(--border); }
+  section:last-of-type { border-bottom: none; }
+  h2.section-title {
+    font-size: clamp(1.8rem, 4.5vw, 2.6rem);
+    margin: 6px 0 28px;
+  }
+  section > .eyebrow { display: block; margin-bottom: 4px; }
+
+  .chapter {
+    padding: 20px 0;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .chapter:first-child { border-top: none; }
+  .chapter-num {
+    font-family: "IBM Plex Mono", monospace;
+    color: var(--accent);
+    font-size: 0.9rem;
+    flex-shrink: 0;
+    width: 24px;
+  }
+  .chapter h3 { font-size: 1.02rem; margin: 0 0 6px; }
+  .chapter p { margin: 0; color: var(--text-muted); line-height: 1.55; font-size: 0.94rem; }
+
+  .agreement-box {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 28px 26px;
+  }
+  .agreement-box p { line-height: 1.65; color: var(--text-muted); margin: 0 0 14px; }
+  .agreement-box p:last-child { margin-bottom: 0; }
+  .agreement-box strong { color: var(--text); }
+
+  footer.cta {
+    padding-block: 56px 64px;
+    text-align: center;
+  }
+  .cta-line { font-size: 1.3rem; line-height: 1.5; max-width: 44ch; margin: 0 auto 24px; }
+  .cta-button {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--accent-text);
+    font-weight: 700;
+    padding: 14px 32px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.95rem;
+  }
+  .example-note {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    text-align: center;
+    padding: 10px;
+    background: var(--bg-raised);
+  }
+
+  @media (max-width: 560px) {
+    .chapter { flex-direction: column; gap: 4px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="example-banner" class="example-note" hidden>Showing example data - open this link with your own ?id= to see a real preview.</div>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="hero-top">
+      <img id="avatar-img" class="avatar" alt="" hidden>
+      <div id="avatar-fallback" class="avatar-fallback" hidden></div>
+      <div>
+        <div class="channel-name" id="channel-name"></div>
+        <div class="channel-sub">Partnership preview</div>
+      </div>
+    </div>
+    <div class="eyebrow">Prepared by Said</div>
+    <h1 class="headline display">Listen First.</h1>
+    <p class="dek">A parenting guide on getting kids to listen without yelling or bribing - here's what's inside, and how a partnership with your channel could work.</p>
+  </header>
+
+  <section>
+    <span class="eyebrow">Inside the guide</span>
+    <h2 class="section-title display">Four techniques,<br>from twelve chapters.</h2>
+    <div class="chapter">
+      <div class="chapter-num mono">01</div>
+      <div>
+        <h3>Connect Before You Correct</h3>
+        <p>Why an instruction given before a child feels safe and seen gets ignored - and the five-second fix that changes that.</p>
+      </div>
+    </div>
+    <div class="chapter">
+      <div class="chapter-num mono">02</div>
+      <div>
+        <h3>Say Less, Not More</h3>
+        <p>Why five instructions in one breath become noise, and how saying less actually gets heard more.</p>
+      </div>
+    </div>
+    <div class="chapter">
+      <div class="chapter-num mono">03</div>
+      <div>
+        <h3>Offer a Choice, Not a Command</h3>
+        <p>Why commands invite a fight and a limited choice ends the same way without one.</p>
+      </div>
+    </div>
+    <div class="chapter">
+      <div class="chapter-num mono">04</div>
+      <div>
+        <h3>Follow Through, Calmly, Every Time</h3>
+        <p>Why consistency, not severity, is what actually builds the habit of listening the first time.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">The idea</span>
+    <h2 class="section-title display">Why <span id="channel-name-2"></span>.</h2>
+    <p id="niche-blurb" style="color: var(--text-muted); line-height: 1.65; font-size: 1.02rem; max-width: 58ch;"></p>
+  </section>
+
+  <section>
+    <span class="eyebrow">How this would work</span>
+    <h2 class="section-title display">No cost<br>to you.</h2>
+    <div class="agreement-box">
+      <p><strong>There's nothing to pay and nothing to commit to upfront.</strong> If the guide is a fit, we'd talk through a format that suits your channel - a review, a mention, an affiliate arrangement, whatever makes sense for how you work with your audience.</p>
+      <p>If it's not a fit, that's fine too - keep the preview either way.</p>
+    </div>
+  </section>
+
+  <footer class="cta">
+    <p class="cta-line display" style="font-size: clamp(1.6rem, 4vw, 2.2rem);">Worth a quick reply?</p>
+    <a class="cta-button" href="#" id="cta-reply">Reply to the email</a>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var DATA = __PROPOSAL_DATA__;
+  var params = new URLSearchParams(location.search);
+  var id = params.get('id');
+  var entry = (id && DATA[id]) || null;
+
+  var EXAMPLE = {
+    title: "Example Channel",
+    thumbnailUrl: null,
+    niche: "gentle parenting tips",
+    accent: "#c9a227"
+  };
+
+  var showingExample = !entry;
+  var data = entry || EXAMPLE;
+
+  document.getElementById('example-banner').hidden = !showingExample;
+
+  function contrastTextFor(hex) {
+    var h = hex.replace('#', '');
+    var r = parseInt(h.substring(0, 2), 16);
+    var g = parseInt(h.substring(2, 4), 16);
+    var b = parseInt(h.substring(4, 6), 16);
+    var luminance = 0.299 * r + 0.587 * g + 0.114 * b;
+    return luminance > 140 ? '#1a1608' : '#f2f0ea';
+  }
+
+  document.documentElement.style.setProperty('--accent', data.accent);
+  document.documentElement.style.setProperty('--accent-text', contrastTextFor(data.accent));
+
+  document.getElementById('channel-name').textContent = data.title;
+  document.getElementById('channel-name-2').textContent = data.title;
+  document.getElementById('niche-blurb').textContent =
+    'Given your "' + (data.niche || 'parenting') + '" content, this felt like a natural fit for your audience - ' +
+    'practical, specific advice parents can use the same day, not another generic listicle.';
+
+  var avatarImg = document.getElementById('avatar-img');
+  var avatarFallback = document.getElementById('avatar-fallback');
+  if (data.thumbnailUrl) {
+    avatarImg.src = data.thumbnailUrl;
+    avatarImg.alt = data.title;
+    avatarImg.hidden = false;
+    avatarImg.onerror = function () {
+      avatarImg.hidden = true;
+      avatarFallback.hidden = false;
+      avatarFallback.textContent = (data.title || '?').charAt(0).toUpperCase();
+    };
+  } else {
+    avatarFallback.hidden = false;
+    avatarFallback.textContent = (data.title || '?').charAt(0).toUpperCase();
+  }
+
+  var mailto = 'mailto:said@vantagemedia.ink?subject=' + encodeURIComponent('Re: Listen First partnership - ' + data.title);
+  document.getElementById('cta-reply').href = mailto;
+})();
+</script>
+</body>
+</html>

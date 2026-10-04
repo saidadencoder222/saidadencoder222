@@ -1,0 +1,19 @@
+SUBJECT: The "put your shoes on" problem - {channel_title}
+
+Hello {channel_title} team,
+
+Every parent knows the moment: you ask once, ask again, ask a third time louder, and nothing happens until you're shouting or bribing just to get shoes on. I wrote {product_name} because that cycle is fixable - not with more patience, but with four specific techniques that change how a request lands the first time.
+
+Given your "{niche}" content, I think your audience would genuinely use this. I've put together a short preview page rather than a cold pitch, so you can see exactly what's inside before anything else:
+
+{proposal_url}
+
+There's no cost and nothing to commit to. If it's a fit, we can talk about a format that suits your channel - review, mention, affiliate link, whatever works for how you reach your audience.
+
+If it's not for you, no response needed.
+
+Kind regards,
+{sender_name}
+
+---
+If you would prefer not to hear from me again, please reply with UNSUBSCRIBE in the subject line and I will remove you immediately.

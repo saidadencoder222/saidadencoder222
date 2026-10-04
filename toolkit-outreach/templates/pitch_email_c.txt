@@ -1,0 +1,13 @@
+SUBJECT: {greeting_name} - one quick question
+
+Hi {greeting_name},
+
+{hook_line}Do you get many people asking questions on your site before they book/buy, or does most of that happen over email/DM instead?
+
+Just trying to understand how {niche} businesses like yours handle that - no pitch here.
+
+Kind regards,
+{sender_name}
+
+---
+If you would prefer not to hear from me again, please reply with UNSUBSCRIBE in the subject line and I will remove you immediately.

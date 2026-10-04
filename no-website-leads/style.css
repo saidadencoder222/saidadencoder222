@@ -10,32 +10,126 @@ body {
 .banner {
   background: #fff3cd;
   color: #664d03;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   text-align: center;
   padding: 8px 16px;
 }
-.hero {
-  background: var(--accent-soft);
-  text-align: center;
-  padding: 48px 20px 36px;
-}
-.hero .emoji { font-size: 48px; }
-.hero h1 { margin: 8px 0 4px; color: var(--accent); font-size: 2rem; }
-.hero .tagline { color: #444; font-size: 1.05rem; margin: 0; }
-main { max-width: 680px; margin: -20px auto 40px; padding: 0 16px; }
+.hero { background: var(--accent-soft); padding: 40px 20px 32px; }
+.hero-inner { max-width: 680px; margin: 0 auto; display: flex; align-items: center; gap: 20px; }
+.hero-icon { flex-shrink: 0; }
+.eyebrow { margin: 0; color: var(--accent); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.8; }
+.hero h1 { margin: 2px 0 4px; color: var(--accent); font-size: 1.9rem; }
+.hero .tagline { color: #444; font-size: 1rem; margin: 0; }
+main { max-width: 680px; margin: -16px auto 40px; padding: 0 16px; }
 .card {
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.06);
   padding: 24px 28px;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
-.card h2 { margin-top: 0; color: var(--accent); font-size: 1.2rem; }
-.card.highlight { border-left: 5px solid var(--accent); }
-.card.cta { background: var(--accent-soft); }
-.links { list-style: none; padding: 0; margin: 0; }
-.links li { margin-bottom: 10px; }
-.links a {
+.card h2 { margin-top: 0; color: var(--accent); font-size: 1.15rem; }
+.problem-list { margin: 0; padding-left: 0; list-style: none; }
+.problem-list li {
+  padding: 10px 0 10px 30px;
+  position: relative;
+  border-bottom: 1px solid #f0f0f0;
+  color: #333;
+  font-size: 0.95rem;
+}
+.problem-list li:last-child { border-bottom: none; }
+.problem-list li::before {
+  content: "\2715";
+  position: absolute;
+  left: 0;
+  top: 10px;
+  color: #c62828;
+  font-weight: 700;
+}
+.mock-site { margin-bottom: 24px; }
+.mock-label {
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+}
+.mock-frame {
+  border: 2px dashed var(--accent);
+  border-radius: 14px;
+  overflow: hidden;
+  background: #fff;
+}
+.mock-hero {
+  background: var(--accent-soft);
+  padding: 28px 20px;
+  text-align: center;
+}
+.mock-photo-placeholder {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px dashed var(--accent);
+  margin: 0 auto 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+}
+.mock-photo-placeholder span svg { width: 40px; height: 40px; }
+.mock-photo-placeholder p { font-size: 0.65rem; color: #666; margin: 4px 0 0; line-height: 1.1; }
+.mock-hero h3 { margin: 4px 0 2px; color: var(--accent); font-size: 1.4rem; }
+.mock-sub { margin: 0 0 14px; color: #555; font-size: 0.9rem; }
+.mock-book-btn {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  padding: 10px 22px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+.mock-about, .mock-services, .mock-gallery, .mock-reviews { padding: 18px 20px; border-top: 1px solid #eee; }
+.mock-about h4, .mock-services h4, .mock-gallery h4, .mock-reviews h4 { margin: 0 0 10px; color: var(--accent); font-size: 1rem; }
+.mock-about p { margin: 0; color: #444; font-size: 0.92rem; }
+.example-tag {
+  font-size: 0.65rem;
+  color: #999;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-left: 6px;
+}
+.service-list { list-style: none; padding: 0; margin: 0; }
+.service-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #f5f5f5;
+  font-size: 0.9rem;
+}
+.service-list li:last-child { border-bottom: none; }
+.service-list .price { color: var(--accent); font-weight: 700; }
+.gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.gallery-tile {
+  aspect-ratio: 1;
+  background: repeating-linear-gradient(45deg, var(--accent-soft), var(--accent-soft) 10px, #fff 10px, #fff 20px);
+  border: 1px dashed #ccc;
+  border-radius: 8px;
+}
+.review-card {
+  background: var(--accent-soft);
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-size: 0.88rem;
+  color: #444;
+  font-style: italic;
+}
+.links-card .links { list-style: none; padding: 0; margin: 0; }
+.links-card .links li { margin-bottom: 10px; }
+.links-card .links a {
   display: inline-block;
   background: var(--accent);
   color: #fff;
@@ -44,8 +138,12 @@ main { max-width: 680px; margin: -20px auto 40px; padding: 0 16px; }
   text-decoration: none;
   font-weight: 600;
 }
-footer { text-align: center; color: #888; font-size: 0.8rem; padding: 20px; }
+footer { text-align: center; color: #888; font-size: 0.78rem; padding: 20px; max-width: 680px; margin: 0 auto; }
 .index-list { list-style: none; padding: 0; margin: 0; }
 .index-list li { padding: 10px 0; border-bottom: 1px solid #eee; }
 .index-list a { color: var(--accent); text-decoration: none; font-weight: 600; }
 .index-list .meta { color: #888; font-size: 0.85rem; margin-left: 8px; }
+@media (max-width: 480px) {
+  .hero-inner { flex-direction: column; text-align: center; }
+  .eyebrow, .hero .tagline { text-align: center; }
+}

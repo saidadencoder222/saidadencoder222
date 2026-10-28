@@ -1,0 +1,10 @@
+work/
+out/
+raw/
+*.mp4
+*.mkv
+*.wav
+*.onnx
+imgcache/
+__pycache__/
+*.zip

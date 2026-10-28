@@ -1,0 +1,3 @@
+# BUSINESS v1.2 (implemented: `c5/b12.py b13.py b14.py`, helpers `c5/inspo.py`)
+Stack: chest title (white line over bigger accent line, pops in) -> frosted-glass toggle list, rows slide in and switch ON on each spoken point (a different list per video) -> dark full-screen scene of slide-in profile-style cards with vertical-blur scroll for ICP/persona style concepts -> yellow-bracket keyword for the key claim -> white file chip for the guide -> typed comment bar for the CTA word. Speaker is re-framed high; graphics stay below the chin. Claims (e.g. "120 leads") shown only as the speaker's own words.
+Open issues from owner feedback: drawn cards look cheaper than references; needs real screenshots/assets.

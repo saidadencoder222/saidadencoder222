@@ -23,6 +23,20 @@ for p, q in sp:
     if m and p - m[-1][1] < .30: m[-1][1] = q
     else: m.append([p, q])
 iv = [[round(max(a - .06, 0), 3), round(b + .14, 3)] for a, b in m if b - a > .2]
+DROP = [tuple(float(v) for v in d.split('-')) for d in os.environ.get('DROP', '').split(',') if d]    # e.g. DROP=1.2-3.45,39.9-41.55 removes retakes (raw time)
+for da, db in DROP:
+    new = []
+    for a, b in iv:
+        if db <= a or da >= b: new.append([a, b]); continue
+        if a < da: new.append([a, round(da, 3)])
+        if b > db: new.append([round(db, 3), b])
+    iv = [x for x in new if x[1] - x[0] > .08]
+KEEP = [tuple(float(v) for v in d.split('-')) for d in os.environ.get('KEEP', '').split(',') if d]    # force-keep short words the energy gate drops, e.g. KEEP=3.42-3.9
+iv = sorted(iv + [[a, b] for a, b in KEEP]); mg = []
+for a, b in iv:                                                                   # merge overlaps so nothing plays twice
+    if mg and a <= mg[-1][1]: mg[-1][1] = max(mg[-1][1], b)
+    else: mg.append([a, b])
+iv = mg
 offs = []; o = 0
 for a, b in iv: offs.append(o); o += b - a
 def cut(t):

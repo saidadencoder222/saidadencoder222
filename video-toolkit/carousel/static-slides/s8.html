@@ -1,0 +1,31 @@
+<!doctype html><meta charset=utf-8><style>
+@font-face{font-family:Inter;src:url(Inter.ttf);font-weight:100 900}
+@font-face{font-family:Crimson;src:url(CrimsonPro-Italic.ttf);font-style:italic}
+@font-face{font-family:Mono;src:url(IBMPlexMono-Regular.ttf)}
+@font-face{font-family:Mono;src:url(IBMPlexMono-Bold.ttf);font-weight:700}
+*{box-sizing:border-box;margin:0}
+body{width:1080px;height:1350px;background:#0b0a0e;color:#f2f0f4;font-family:Inter,sans-serif;position:relative;overflow:hidden}
+.glow{position:absolute;inset:0;background:radial-gradient(900px 700px at 80% 85%,rgba(150,90,200,.22),transparent 70%),radial-gradient(700px 600px at 10% 0%,rgba(255,150,130,.10),transparent 70%)}
+.wrap{position:absolute;inset:0;padding:84px 84px 0}
+.tag{font-family:Mono;font-size:26px;letter-spacing:.14em;text-transform:uppercase;color:#b9b3c4;display:flex;gap:16px;align-items:center}
+.tag i{width:14px;height:14px;border-radius:50%;background:var(--c,#f2f0f4);display:block}
+h1{font-weight:800;font-size:128px;line-height:.98;letter-spacing:-.035em;margin-top:44px}
+h1 em,.acc{font-family:Crimson,serif;font-style:italic;font-weight:400;letter-spacing:-.02em;background:linear-gradient(95deg,#ffc9a8,#f6b6d4 45%,#b9a6ff);-webkit-background-clip:text;color:transparent;padding-right:.08em}
+h1.m{font-size:104px}h1.s{font-size:92px}
+p.sub{font-size:38px;line-height:1.38;color:#b9b3c4;margin-top:38px;max-width:880px}
+p.sub b{color:#fff;font-weight:600}
+.card{background:rgba(255,255,255,.045);border:1.5px solid rgba(255,255,255,.12);border-radius:30px}
+.foot{position:absolute;left:84px;right:84px;bottom:56px;display:flex;align-items:center;gap:22px;font-family:Mono;font-size:24px;color:#b9b3c4}
+.foot .bar{flex:1;height:4px;background:rgba(255,255,255,.14);border-radius:4px;position:relative}
+.foot .bar u{position:absolute;left:0;top:0;height:4px;border-radius:4px;background:linear-gradient(90deg,#ffc9a8,#b9a6ff)}
+.photo{border-radius:28px;overflow:hidden;position:relative;background:#222}
+.photo img{width:100%;height:100%;object-fit:cover;display:block}
+.lab{position:absolute;left:18px;bottom:18px;font-family:Mono;font-size:20px;letter-spacing:.12em;background:rgba(10,10,14,.72);padding:9px 15px;border-radius:99px;color:#eee;text-transform:uppercase}
+.prompt{position:absolute;left:84px;right:84px;bottom:130px;padding:26px 30px;font-family:Mono;font-size:28px;line-height:1.45;color:#d8d3e0;border-radius:24px}
+.prompt span{background:#ffc9a8;color:#2a1a14;border-radius:8px;padding:5px 14px;margin-right:16px;font-size:21px;letter-spacing:.12em;font-weight:700}
+</style><body><div class=glow></div><div class=wrap><div class=tag><i style="--c:#ff6b5e"></i>Your turn</div>
+<h1 style="font-size:116px">Leave your <em>suggestions.</em></h1>
+<p class=sub>Follow for more tips, and drop your pick in the comments.</p>
+<div class="card" style="position:absolute;left:84px;right:84px;top:640px;padding:30px 34px;display:flex;align-items:center;gap:20px"><div style="width:58px;height:58px;border-radius:50%;background:#2a2832"></div><div style="font-size:32px;color:#8b8695;flex:1">Add a comment…</div><div style="font-size:30px;color:#b9a6ff;font-weight:600">Post</div></div>
+<div style="position:absolute;left:84px;top:800px;font-size:34px;color:#d8d3e0;line-height:1.6"><b>you</b> <span style="color:#8b8695;font-size:26px">now</span><br>my number 1 is…</div>
+<div class="card" style="position:absolute;left:84px;right:84px;bottom:170px;padding:34px 38px;font-size:36px;display:flex;justify-content:space-between;align-items:center"><span><b>Follow</b> for more tips</span><span class=acc style="font-size:56px">→</span></div></div><div class="foot"><div class="bar"><u style="width:100%"></u></div><span>08 / 08</span></div></body>

@@ -1,0 +1,54 @@
+<title>Full Time Editor Carousel</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* layout: one centred 4:5 stage, swipe or arrow through ten slides; each slide is a looping video that plays only while in view */
+:root{--bg:#0b0a0e;--ink:#f2f0f4;--mute:#9a94a6;--line:rgba(255,255,255,.14);--peach:#ffc9a8;--lilac:#b9a6ff;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+body{padding-block:20px 28px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;align-items:center;gap:16px;min-height:100vh}
+header{width:min(100%,560px);display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+h1{font-size:15px;font-weight:600;letter-spacing:-.01em;margin:0}
+.sub{font-size:13px;color:var(--mute)}
+.stage{position:relative;width:min(100%,560px)}
+.track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;border-radius:20px;border:1px solid var(--line);background:#111}
+.track::-webkit-scrollbar{display:none}
+.slide{flex:0 0 100%;scroll-snap-align:center;aspect-ratio:4/5;position:relative;background:#0e0d12}
+.slide video{width:100%;height:100%;object-fit:cover;display:block}
+.nav{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:rgba(11,10,14,.72);color:var(--ink);font-size:20px;cursor:pointer;display:grid;place-items:center}
+.nav:hover{background:rgba(40,36,52,.9)}
+.nav:focus-visible,.dot:focus-visible{outline:2px solid var(--lilac);outline-offset:3px}
+.prev{left:8px}.next{right:8px}
+.dots{display:flex;gap:8px;align-items:center}
+.dot{width:8px;height:8px;border-radius:99px;border:0;padding:0;background:var(--line);cursor:pointer;transition:width .25s,background .25s}
+.dot[aria-current="true"]{width:26px;background:linear-gradient(90deg,var(--peach),var(--lilac))}
+.meta{width:min(100%,560px);display:flex;justify-content:space-between;gap:12px;font-size:13px;color:var(--mute)}
+.meta b{color:var(--ink);font-weight:600}
+@media (prefers-reduced-motion:reduce){.dot{transition:none}}
+</style>
+<header><h1>Claude is now a full time editor</h1><span class="sub" id="cnt">1 / 10</span></header>
+<div class="stage">
+  <div class="track" id="track" role="region" aria-label="Carousel slides" tabindex="0"></div>
+  <button class="nav prev" id="prev" aria-label="Previous slide">&#8249;</button>
+  <button class="nav next" id="next" aria-label="Next slide">&#8250;</button>
+</div>
+<div class="dots" id="dots"></div>
+<div class="meta"><span>Built from one business talking-head clip</span><span id="cap"><b>Cover</b></span></div>
+<script>
+var NAMES=["Cover","The method","Transcribe","Cut-out","Captions","Motion","Sound","You direct","Raw to reel","Your reel"];
+var track=document.getElementById('track'),dots=document.getElementById('dots'),cnt=document.getElementById('cnt'),cap=document.getElementById('cap');
+var vids=[];
+NAMES.forEach(function(n,i){
+  var id=('0'+(i+1)).slice(-2),s=document.createElement('div');s.className='slide';
+  var v=document.createElement('video');v.src='s'+id+'.mp4';v.poster='s'+id+'.jpg';v.muted=true;v.loop=true;v.playsInline=true;v.preload=i<2?'auto':'metadata';v.setAttribute('aria-label',n);
+  s.appendChild(v);track.appendChild(s);vids.push(v);
+  var d=document.createElement('button');d.className='dot';d.setAttribute('aria-label','Go to slide '+(i+1));d.onclick=function(){go(i)};dots.appendChild(d);
+});
+var cur=0;
+function go(i){i=Math.max(0,Math.min(NAMES.length-1,i));track.scrollTo({left:i*track.clientWidth,behavior:'smooth'})}
+function setCur(i){cur=i;cnt.textContent=(i+1)+' / '+NAMES.length;cap.innerHTML='<b>'+NAMES[i]+'</b>';[].forEach.call(dots.children,function(d,k){d.setAttribute('aria-current',k===i?'true':'false')});
+  vids.forEach(function(v,k){if(k===i){v.currentTime=0;var p=v.play();if(p&&p.catch)p.catch(function(){})}else{v.pause()} if(Math.abs(k-i)<=1)v.preload='auto'})}
+track.addEventListener('scroll',function(){var i=Math.round(track.scrollLeft/track.clientWidth);if(i!==cur)setCur(i)},{passive:true});
+document.getElementById('prev').onclick=function(){go(cur-1)};document.getElementById('next').onclick=function(){go(cur+1)};
+track.addEventListener('keydown',function(e){if(e.key==='ArrowRight')go(cur+1);if(e.key==='ArrowLeft')go(cur-1)});
+setCur(0);
+</script>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1414" width="297mm" height="420mm">
+<defs>
+<radialGradient id="glow"><stop offset="0" stop-color="#fff2c0" stop-opacity=".55"/><stop offset="1" stop-color="#fff2c0" stop-opacity="0"/></radialGradient>
+<filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4"/><feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .22 0"/></filter>
+<clipPath id="c"><rect x="34" y="34" width="932" height="1276"/></clipPath>
+</defs>
+<rect width="1000" height="1414" fill="#efe3cf"/>
+<g clip-path="url(#c)"><rect width="1000" height="1414" fill="#efe3cf"/><rect y="330" width="1000" height="320" fill="#d9d2c4"/><text x="500" y="290" text-anchor="middle" font-family="Liberation Sans,sans-serif" font-weight="700" font-size="190" letter-spacing="10" fill="#2a2420">DUNES</text><path d="M0,650 L500,1000 L1000,650 L1000,1414 L0,1414Z" fill="#f2b233"/><path d="M0,860 L1000,520 L1000,1414 L0,1414Z" fill="#e89a1f" opacity=".85"/><path d="M0,1100 L600,860 L1000,1000 L1000,1414 L0,1414Z" fill="#f7c351"/><g fill="#1c1816"><circle cx="500" cy="1120" r="14"/><path d="M482,1135 Q500,1128 518,1135 L526,1250 L474,1250Z"/></g><path d="M474,1250 L474,1330 M526,1250 L526,1330" stroke="#1c1816" stroke-width="14"/><text x="500" y="370" text-anchor="middle" font-family="Liberation Sans,sans-serif" font-size="18" letter-spacing="6" fill="#2a2420">ARRAKIS — THE SPICE MUST FLOW</text>
+<rect width="1000" height="1414" filter="url(#grain)" opacity=".5"/></g>
+<text x="34" y="1358" font-family="Liberation Sans,sans-serif" font-weight="700" font-size="30" letter-spacing="9" fill="#2a2420">DUNES</text>
+<text x="966" y="1358" text-anchor="end" font-family="Liberation Sans,sans-serif" font-size="18" letter-spacing="5" fill="#2a2420">NO. 04 / A3</text>
+<rect x="34" y="1374" width="932" height="2" fill="#2a2420"/>
+</svg>

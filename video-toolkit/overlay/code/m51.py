@@ -2,15 +2,16 @@ import sys; sys.path.insert(0, '/tmp/claude-0/-home-user-saidadencoder222/21382d
 import os, math, json
 import numpy as np, cv2
 from simple import *
+import grade51 as G
 import bscenes as B                      # WB look helper (imports the engine; only look() is used)
 doc.FILES.update({'serifb': 'CrimsonPro-Bold.ttf', 'inter': 'Inter.ttf'})
-S3.setup(50, WHITE); S = S3.STATE; B.set_wall([118, 160, 200])
+S3.setup(51, WHITE); S = S3.STATE; B.set_wall([118, 160, 200])
 SC = '/tmp/claude-0/-home-user-saidadencoder222/21382d86-4091-5f53-a3a6-32d6a75a5607/scratchpad/c6'; GOT = f'{SC}/got'; BF = f'{SC}/work/bfr'
 VDUR = S['VDUR']; DUR = VDUR + .4; NF = int(round(DUR * FPS)); WH = (255, 255, 255); YEL = (185, 248, 248); LBLUE = (235, 202, 174)         # BGR (the reference's pale yellow + light blue)
 # --- ASR fixes (flagged to the user) ---
 W_ = [list(w) for w in S['words']]
 def fixw(i, txt): W_[i][0] = txt
-fixw(68, 'is House'); fixw(69, 'Stark.'); fixw(124, 'pays his'); fixw(125, 'debts.')
+fixw(69, 'is House'); fixw(70, 'Stark.'); fixw(125, 'pays his'); fixw(126, 'debts.')
 S['words'] = [tuple(w) for w in W_]
 T = lambda i: S['words'][i][1]                                                             # start time of word i
 # --- overlay plan: (first_word, end_word, kind, params).  Each overlay ends when the next begins. ---
@@ -41,6 +42,8 @@ EV = [
  (182, 190, 'pop', ('You need to have a', 'specific color scheme', '')),
  (190, 207, 'clip', [(17.6, 19.6), (16.6, 17.13), (7.23, 8.27)]),
 ]
+sh = lambda i: i if i <= 66 else i + 1
+EV = [(sh(a), sh(b), k, p) for a, b, k, p in EV]
 EVT = [(T(a), (T(b) if b < len(S['words']) else VDUR + .4), k, p) for a, b, k, p in EV]
 # --- card builders (each returns a BGR image with the white edge, plus alpha) ---
 EDGE = 6; CW, CH = 700, 394; BOTTOM = 512
@@ -155,18 +158,26 @@ def caps(f, t, words, y=1345, size=46):
             put(f, m, 540, y, (0, 0, 0), a * .5, blur=7, dy=3); put(f, m, 540, y, WH, a); return
 EMPH = [6, 8, 38, 58, 65, 75, 81, 86, 101, 106, 125, 130, 149, 153, 162, 170, 189]       # words that get a close-up punch
 def zoom(t):
-    """subtle motion: the footage drifts in and out across each overlay (ping-pong), plus a quick close-up punch on the emphasised words"""
-    z = 1.0; evs = EVT
-    for i, (t0, t1, kd, pp) in enumerate(evs):
+    """camera motion on the footage: ping-pong zoom-ins/outs across each overlay (1.03 to 1.10) plus a quick close-up punch on emphasised words. Overlay cards stay fixed."""
+    z = 1.04
+    for i, (t0, t1, kd, pp) in enumerate(EVT):
         if t0 - .03 <= t < t1:
-            u = clamp((t - t0) / max(t1 - t0, .1)); a, b = (1.0, 1.07) if i % 2 == 0 else (1.07, 1.0); z = a + (b - a) * eio(u); break
+            u = clamp((t - t0) / max(t1 - t0, .1)); a, b = (1.03, 1.10) if i % 2 == 0 else (1.10, 1.03); z = a + (b - a) * eio(u); break
     for i in EMPH:
-        d = t - T(i)
+        d = t - T(sh(i))
         if 0 <= d < .55: z += .05 * (eo(d / .12) if d < .12 else 1 - eio((d - .12) / .43))
     return z
+def pan(t, z):
+    """slow horizontal/vertical drift, direction alternating per overlay; kept inside the crop margin so no edges show"""
+    px = py = 0.0
+    for i, (t0, t1, kd, pp) in enumerate(EVT):
+        if t0 - .03 <= t < t1:
+            u = clamp((t - t0) / max(t1 - t0, .1)); d = 1 if i % 2 == 0 else -1; px = d * (u * 2 - 1) * .8; py = (-1 if i % 3 == 0 else 1) * (u * 2 - 1) * .5; break
+    mx = (z - 1) * 540 * .9; my = (z - 1) * 960 * .45
+    return px * mx, py * my
 def footage(k):
-    raw = cv2.imread(f"{SC.replace('c6', 'c5')}/work/fd50/{min(k, NFV - 1) + 1:04d}.jpg"); raw = cv2.resize(raw[10:], (1080, 1920), interpolation=cv2.INTER_LINEAR); fr = B.look(raw); z = zoom(k / FPS)
-    if abs(z - 1) > 1e-4: fr = cv2.warpAffine(fr, np.float32([[z, 0, 540 - z * 540], [0, z, 820 - z * 820]]), (1080, 1920), flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE)
+    raw = cv2.imread(f"{SC.replace('c6', 'c5')}/work/fd51/{min(k, NFV - 1) + 1:04d}.jpg"); raw = cv2.resize(raw[10:], (1080, 1920), interpolation=cv2.INTER_LINEAR); fr = G.warm_grade(raw); t_ = k / FPS; z = zoom(t_); px, py = pan(t_, z)
+    if True: fr = cv2.warpAffine(fr, np.float32([[z, 0, 540 - z * 540 + px], [0, z, 820 - z * 820 + py]]), (1080, 1920), flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE)
     return fr       # crop the thin bright band at the top edge
 NFV = int(VDUR * 30)
 def frame(k):

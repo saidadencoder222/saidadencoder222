@@ -15,6 +15,7 @@ Usage:
   python3 find_leads.py                       # all niches, whole area
   python3 find_leads.py --niches beauty food  # only some niches
   python3 find_leads.py --town cheltenham     # only one town
+  python3 find_leads.py --town southwest      # every South West town in the list
   python3 find_leads.py --seed my_handles.txt # also add handles you found by hand
 Output: leads.csv  (load it in index.html)
 """
@@ -26,11 +27,40 @@ OVERPASS = ["https://overpass-api.de/api/interpreter",
             "https://overpass.kumi.systems/api/interpreter"]
 
 # south, west, north, east
+# Town-sized boxes (south, west, north, east). Small boxes keep Overpass fast and polite.
 BBOX = {
     "gloucester":  (51.80, -2.30, 51.90, -2.18),
     "cheltenham":  (51.86, -2.14, 51.95, -2.03),
-    "region":      (51.78, -2.35, 52.00, -2.00),   # both + Churchdown, Brockworth, Charlton Kings...
+    "region":      (51.78, -2.35, 52.00, -2.00),
+    "stroud":      (51.70, -2.25, 51.76, -2.17),
+    "cirencester": (51.69, -1.99, 51.75, -1.93),
+    "bristol":     (51.40, -2.70, 51.52, -2.50),
+    "bath":        (51.35, -2.42, 51.42, -2.31),
+    "weston":      (51.32, -2.99, 51.38, -2.90),
+    "taunton":     (50.99, -3.15, 51.04, -3.06),
+    "yeovil":      (50.92, -2.66, 50.97, -2.60),
+    "swindon":     (51.53, -1.84, 51.61, -1.71),
+    "salisbury":   (51.05, -1.82, 51.09, -1.76),
+    "exeter":      (50.69, -3.56, 50.75, -3.48),
+    "plymouth":    (50.34, -4.19, 50.42, -4.07),
+    "torquay":     (50.44, -3.57, 50.50, -3.49),
+    "barnstaple":  (51.06, -4.09, 51.10, -4.03),
+    "truro":       (50.25, -5.09, 50.28, -5.03),
+    "falmouth":    (50.14, -5.10, 50.17, -5.04),
+    "newquay":     (50.40, -5.10, 50.44, -5.04),
+    "stives":      (50.20, -5.50, 50.23, -5.46),
+    "penzance":    (50.11, -5.56, 50.14, -5.51),
+    "bournemouth": (50.70, -1.92, 50.76, -1.80),
+    "poole":       (50.70, -2.02, 50.74, -1.94),
+    "dorchester":  (50.70, -2.46, 50.73, -2.42),
+    "weymouth":    (50.60, -2.48, 50.64, -2.43),
+    "chippenham":  (51.44, -2.14, 51.48, -2.09),
+    "trowbridge":  (51.30, -2.23, 51.34, -2.18),
+    "wells":       (51.19, -2.66, 51.22, -2.62),
+    "glastonbury": (51.13, -2.73, 51.16, -2.69),
+    "tiverton":    (50.89, -3.51, 50.92, -3.46),
 }
+SOUTHWEST = [t for t in BBOX if t != "region"]
 
 NICHES = {
     "beauty":  [("shop", "hairdresser|beauty|massage|tattoo|nails|barber"),
@@ -141,14 +171,23 @@ def to_lead(el):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--niches", nargs="+", choices=list(NICHES), default=list(NICHES))
-    ap.add_argument("--town", choices=list(BBOX), default="region")
+    ap.add_argument("--town", nargs="+", choices=list(BBOX) + ["southwest"], default=["region"],
+                    help="one or more towns, or 'southwest' for every town listed")
+    ap.add_argument("--target", type=int, default=0, help="stop once this many leads with Instagram are found")
     ap.add_argument("--seed", help="text file, one instagram handle or URL per line")
     ap.add_argument("--out", default="leads.csv")
     ap.add_argument("--workers", type=int, default=8)
     a = ap.parse_args()
 
-    print(f"Querying OpenStreetMap for {', '.join(a.niches)} in {a.town}...")
-    leads = [to_lead(e) for e in overpass(build_query(BBOX[a.town], a.niches))]
+    towns = SOUTHWEST if "southwest" in a.town else a.town
+    leads = []
+    for t in towns:
+        print(f"Querying OpenStreetMap: {', '.join(a.niches)} in {t}...")
+        try:
+            leads += [to_lead(e) for e in overpass(build_query(BBOX[t], a.niches))]
+        except SystemExit as ex:
+            print(f"  skipped {t}: {ex}", file=sys.stderr)
+        time.sleep(5)   # be polite to the free Overpass servers
     # de-dupe by name+address
     seen, uniq = set(), []
     for l in leads:
@@ -172,6 +211,8 @@ def main():
                               "website": "", "instagram": h, "source": "manual"})
 
     with_ig = [l for l in leads if l["instagram"]]
+    if a.target:
+        with_ig = with_ig[:a.target]
     with open(a.out, "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=["name", "category", "address", "phone",
                                           "website", "instagram", "source"])

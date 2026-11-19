@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IG DM Desk</title>
+<style>
+  :root{--bg:#0f1115;--card:#181b22;--line:#2a2f3a;--tx:#e8eaf0;--mut:#8b93a5;--acc:#6ea8ff;--ok:#4ade80;--warn:#fbbf24;--bad:#f87171}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.45 system-ui,sans-serif}
+  header{display:flex;gap:16px;align-items:center;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:5}
+  header h1{font-size:16px;margin:0}
+  .pill{background:var(--card);border:1px solid var(--line);border-radius:99px;padding:4px 12px;font-size:13px;color:var(--mut)}
+  .pill b{color:var(--tx)}
+  .bar{height:6px;background:var(--line);border-radius:9px;overflow:hidden;width:140px}
+  .bar i{display:block;height:100%;background:var(--ok);width:0}
+  nav{display:flex;gap:4px;margin-left:auto}
+  nav button,.btn{background:var(--card);color:var(--tx);border:1px solid var(--line);border-radius:8px;padding:7px 12px;cursor:pointer;font:inherit}
+  nav button.on{border-color:var(--acc);color:var(--acc)}
+  .btn:hover,nav button:hover{border-color:var(--acc)}
+  .btn.pri{background:var(--acc);color:#0a1020;border-color:var(--acc);font-weight:600}
+  .btn.ok{background:var(--ok);color:#06210f;border-color:var(--ok);font-weight:600}
+  .btn.bad{color:var(--bad)}
+  main{max-width:1000px;margin:0 auto;padding:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:14px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:760px){.grid{grid-template-columns:1fr}}
+  h2{margin:0 0 4px;font-size:20px}
+  .mut{color:var(--mut)} .small{font-size:13px}
+  textarea,input,select{width:100%;background:#0f1218;color:var(--tx);border:1px solid var(--line);border-radius:8px;padding:9px;font:inherit}
+  textarea{min-height:130px;resize:vertical}
+  label{display:block;font-size:12px;color:var(--mut);margin:10px 0 4px}
+  .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th,td{text-align:left;padding:8px;border-bottom:1px solid var(--line)}
+  th{color:var(--mut);font-weight:500;font-size:12px}
+  tr.click{cursor:pointer} tr.click:hover{background:#1d212a}
+  .tag{font-size:11px;padding:2px 8px;border-radius:99px;border:1px solid var(--line);color:var(--mut)}
+  .tag.sent{color:var(--warn);border-color:var(--warn)} .tag.replied{color:var(--acc);border-color:var(--acc)}
+  .tag.booked{color:var(--ok);border-color:var(--ok)} .tag.dead{color:var(--bad);border-color:var(--bad)}
+  .warn{background:#2a2110;border:1px solid #5b4514;color:var(--warn);padding:8px 12px;border-radius:8px;font-size:13px;margin-bottom:12px}
+  .hide{display:none} a{color:var(--acc)}
+  .empty{text-align:center;padding:40px;color:var(--mut)}
+  kbd{background:#0f1218;border:1px solid var(--line);border-radius:4px;padding:1px 5px;font-size:12px}
+</style>
+</head>
+<body>
+<header>
+  <h1>IG DM Desk</h1>
+  <span class="pill">Today <b id="sentToday">0</b> / <b id="goalShow">50</b></span>
+  <div class="bar"><i id="bar"></i></div>
+  <span class="pill">Replies <b id="statReplies">0</b></span>
+  <span class="pill">Booked <b id="statBooked">0</b></span>
+  <nav>
+    <button data-tab="work" class="on">Work queue</button>
+    <button data-tab="followups">Follow-ups <span id="fuCount"></span></button>
+    <button data-tab="pipeline">Pipeline</button>
+    <button data-tab="setup">Setup</button>
+  </nav>
+</header>
+
+<main>
+<!-- WORK QUEUE -->
+<section id="tab-work">
+  <div id="warnBox" class="warn hide"></div>
+  <div id="workCard"></div>
+</section>
+
+<!-- FOLLOW UPS -->
+<section id="tab-followups" class="hide"><div id="fuList"></div></section>
+
+<!-- PIPELINE -->
+<section id="tab-pipeline" class="hide">
+  <div class="row" style="margin:0 0 12px">
+    <select id="fStatus" style="width:auto"></select>
+    <input id="fSearch" placeholder="Search name / handle / category" style="flex:1;min-width:200px">
+    <button class="btn" id="exportBtn">Export CSV</button>
+  </div>
+  <div class="card" style="padding:0;overflow:auto"><table id="pipeTable"></table></div>
+</section>
+
+<!-- SETUP -->
+<section id="tab-setup" class="hide">
+  <div class="card">
+    <b>1. Load leads</b>
+    <p class="mut small">Run <code>python3 find_leads.py</code> to make <code>leads.csv</code>, then load it here. Loading again never duplicates anyone you already have.</p>
+    <input type="file" id="fileIn" accept=".csv,.json" style="width:auto">
+    <label>Or paste Instagram handles / URLs you found by hand (one per line)</label>
+    <textarea id="pasteIn" placeholder="glosbarbers&#10;https://instagram.com/cheltenhamcafe"></textarea>
+    <div class="row"><button class="btn pri" id="pasteBtn">Add pasted handles</button></div>
+  </div>
+  <div class="card">
+    <b>2. Settings</b>
+    <div class="grid">
+      <div><label>Your name (used as {me})</label><input id="sMe" placeholder="Said"></div>
+      <div><label>Daily DM goal</label><input id="sGoal" type="number" min="1" value="50"></div>
+      <div><label>What you do, in a few words (used as {offer})</label><input id="sOffer" placeholder="short-form content for local businesses"></div>
+      <div><label>Follow up after (days)</label><input id="sFu" type="number" min="1" value="2"></div>
+    </div>
+  </div>
+  <div class="card">
+    <b>3. Message templates</b>
+    <p class="mut small">Merge fields: <code>{name}</code> <code>{handle}</code> <code>{category}</code> <code>{me}</code> <code>{offer}</code> <code>{hook}</code> (the line you type per-lead in the work queue). Make each DM genuinely specific; copy-pasting an identical message to 100 people is what gets accounts restricted.</p>
+    <label>Opening DM</label><textarea id="tOpen"></textarea>
+    <label>Follow-up 1</label><textarea id="tFu1"></textarea>
+    <label>Follow-up 2 (last)</label><textarea id="tFu2"></textarea>
+    <label>When they reply interested: ask for a call</label><textarea id="tCall"></textarea>
+  </div>
+  <div class="card">
+    <b>Data</b>
+    <p class="mut small">Everything is stored in this browser only. Export a CSV backup now and then.</p>
+    <div class="row"><button class="btn" id="exportBtn2">Export CSV</button><button class="btn bad" id="wipeBtn">Delete all data</button></div>
+  </div>
+</section>
+</main>
+
+<script>
+const $ = s => document.querySelector(s);
+const KEY = "igdesk.v1";
+const DEFAULTS = {
+  settings:{me:"",goal:50,offer:"short-form content for local businesses",fuDays:2},
+  templates:{
+    open:"Hey {name}! Been looking at your page, {hook}\n\nI do {offer} here in Glos/Chelt. I put together a quick idea for your next post, want me to send it over?",
+    fu1:"Hey {name}, just bumping this in case it got buried. Happy to send the idea over, no strings. - {me}",
+    fu2:"Last one from me, {name}! If content isn't a priority right now no worries at all. Good luck with everything.",
+    call:"Great! The easiest way is a quick 10 min call so I can show you what I have in mind. Does tomorrow or Thursday work?"
+  },
+  leads:[], log:{}   // log: {"2025-01-01": sentCount}
+};
+let S = load();
+function load(){ try{ const j=JSON.parse(localStorage.getItem(KEY)); if(j) return {...DEFAULTS,...j,settings:{...DEFAULTS.settings,...j.settings},templates:{...DEFAULTS.templates,...j.templates}}; }catch(e){} return structuredClone(DEFAULTS); }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} render(); }
+
+const today = () => new Date().toISOString().slice(0,10);
+const addDays = (n) => { const d=new Date(); d.setDate(d.getDate()+n); return d.toISOString().slice(0,10); };
+const STATUS = {new:"New", sent:"DM sent", fu1:"Follow-up 1 sent", fu2:"Follow-up 2 sent", replied:"Replied", booked:"Call booked", won:"Client", dead:"Not interested"};
+
+function cleanHandle(raw){
+  raw=(raw||"").trim(); if(!raw) return "";
+  const m = raw.match(/instagram\.com\/([A-Za-z0-9_.]{2,30})/i) || raw.match(/^@?([A-Za-z0-9_.]{2,30})$/);
+  if(!m) return ""; const h=m[1].replace(/\.$/,"").toLowerCase();
+  return ["p","reel","reels","explore","accounts","stories"].includes(h)?"":h;
+}
+function addLead(l){
+  const h = cleanHandle(l.instagram); if(!h) return false;
+  if(S.leads.some(x=>x.handle===h)) return false;
+  S.leads.push({id:crypto.randomUUID(),handle:h,name:l.name||h,category:l.category||"",address:l.address||"",phone:l.phone||"",website:l.website||"",
+    status:"new",active:null,hook:"",notes:"",sentAt:null,nextFu:null,history:[]});
+  return true;
+}
+function parseCSV(t){
+  const rows=[];let r=[],c="",q=false;
+  for(let i=0;i<t.length;i++){const ch=t[i];
+    if(q){ if(ch=='"'){ if(t[i+1]=='"'){c+='"';i++} else q=false } else c+=ch }
+    else if(ch=='"') q=true; else if(ch==','){r.push(c);c=""} else if(ch=='\n'||ch=='\r'){ if(ch=='\r'&&t[i+1]=='\n')i++; r.push(c);c=""; if(r.length>1||r[0]!=="")rows.push(r); r=[] } else c+=ch }
+  if(c!==""||r.length){r.push(c);rows.push(r)}
+  const head=rows.shift().map(h=>h.trim().toLowerCase());
+  return rows.map(row=>Object.fromEntries(head.map((h,i)=>[h,row[i]||""])));
+}
+const csvCell = v => `"${String(v??"").replace(/"/g,'""')}"`;
+
+// ---------- merge fields
+function fill(tpl, l){
+  const firstName = (l.name||"").split(/[\s&]/)[0];
+  return tpl.replace(/\{name\}/g, l.name||firstName)
+            .replace(/\{handle\}/g, "@"+l.handle).replace(/\{category\}/g, l.category||"business")
+            .replace(/\{me\}/g, S.settings.me||"").replace(/\{offer\}/g, S.settings.offer)
+            .replace(/\{hook\}/g, l.hook||"love what you're doing").replace(/ +\n/g,"\n");
+}
+
+// ---------- counts / views
+const sentToday = () => S.log[today()]||0;
+function nextNew(){ // active ones first, then unchecked, never dormant
+  const pool=S.leads.filter(l=>l.status==="new" && l.active!==false);
+  return pool.find(l=>l.active===true) || pool.find(l=>l.active===null) || null;
+}
+function dueFollowups(){ return S.leads.filter(l=>["sent","fu1"].includes(l.status) && l.nextFu && l.nextFu<=today()); }
+
+function render(){
+  const st = sentToday(), goal=S.settings.goal;
+  $("#sentToday").textContent=st; $("#goalShow").textContent=goal;
+  $("#bar").style.width=Math.min(100,st/goal*100)+"%";
+  $("#statReplies").textContent=S.leads.filter(l=>["replied","booked","won"].includes(l.status)).length;
+  $("#statBooked").textContent=S.leads.filter(l=>["booked","won"].includes(l.status)).length;
+  const fu=dueFollowups().length; $("#fuCount").textContent=fu?`(${fu})`:"";
+  const w=$("#warnBox");
+  if(st>=40){ w.classList.remove("hide"); w.textContent="You've sent "+st+" cold DMs today. Instagram often restricts accounts that send lots of near-identical messages, especially new or low-follower ones. Slow down, vary the wording, and spread sends through the day."; } else w.classList.add("hide");
+  renderWork(); renderFu(); renderPipe();
+}
+
+function renderWork(){
+  const el=$("#workCard");
+  if(!S.leads.length){ el.innerHTML=`<div class="card empty">No leads yet. Open <b>Setup</b> and load <code>leads.csv</code> or paste some handles.</div>`; return; }
+  const l=nextNew();
+  if(!l){ el.innerHTML=`<div class="card empty">Queue empty. All fresh leads are DM'd or marked dormant. Check <b>Follow-ups</b>, or load more leads.</div>`; return; }
+  const left=S.leads.filter(x=>x.status==="new"&&x.active!==false).length;
+  el.innerHTML=`
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">
+      <div><h2>${esc(l.name)}</h2>
+        <div class="mut small">${esc(l.category)} ${l.address?"· "+esc(l.address):""} ${l.phone?"· "+esc(l.phone):""}</div>
+        <div class="small">@${esc(l.handle)} ${l.website?` · <a href="${esc(l.website.startsWith('http')?l.website:'http://'+l.website)}" target="_blank" rel="noopener">website</a>`:""}</div></div>
+      <div class="mut small">${left} left in queue</div>
+    </div>
+    <div class="row">
+      <a class="btn pri" href="https://instagram.com/${esc(l.handle)}" target="_blank" rel="noopener" id="openIg">1. Open profile ↗</a>
+      <button class="btn" id="actYes">Posts regularly ✓</button>
+      <button class="btn bad" id="actNo">Dormant / skip ✕</button>
+    </div>
+    <label>2. One specific thing you noticed (becomes {hook}, e.g. "that reel of the lemon tart was great, but the lighting is dull")</label>
+    <input id="hook" value="${esc(l.hook)}">
+    <label>3. DM (edit freely before sending)</label>
+    <textarea id="msg">${esc(fill(S.templates.open,l))}</textarea>
+    <div class="row">
+      <button class="btn" id="copyBtn">Copy message</button>
+      <button class="btn ok" id="sentBtn">I sent it ✓ (next)</button>
+    </div>
+    <p class="mut small">Paste it in the Instagram DM yourself. Make each one different. Reply to anything they send from inside Instagram, then mark them in <b>Pipeline</b>.</p>
+  </div>`;
+  $("#hook").oninput=e=>{ l.hook=e.target.value; $("#msg").value=fill(S.templates.open,l); try{localStorage.setItem(KEY,JSON.stringify(S))}catch(_){} };
+  $("#actYes").onclick=()=>{ l.active=true; save(); };
+  $("#actNo").onclick=()=>{ l.active=false; l.status="dead"; l.notes=(l.notes?l.notes+" | ":"")+"dormant"; save(); };
+  $("#copyBtn").onclick=async()=>{ await copy($("#msg").value); $("#copyBtn").textContent="Copied ✓"; };
+  $("#sentBtn").onclick=()=>{ l.status="sent"; l.sentAt=today(); l.nextFu=addDays(S.settings.fuDays); l.history.push({d:today(),t:"opening DM",m:$("#msg").value});
+    S.log[today()]=sentToday()+1; save(); };
+}
+
+function renderFu(){
+  const list=dueFollowups(), el=$("#fuList");
+  if(!list.length){ el.innerHTML=`<div class="card empty">Nothing due. Follow-ups appear here ${S.settings.fuDays} days after a DM with no reply.</div>`; return; }
+  el.innerHTML=list.map(l=>{ const which=l.status==="sent"?"fu1":"fu2"; const tpl=S.templates[which];
+    return `<div class="card" data-id="${l.id}">
+      <b>${esc(l.name)}</b> <span class="tag ${l.status}">${STATUS[l.status]}</span> <span class="mut small">· due ${l.nextFu}</span>
+      <div class="row"><a class="btn" href="https://instagram.com/${esc(l.handle)}" target="_blank" rel="noopener">Open DM ↗</a>
+      <button class="btn" data-a="replied">They replied</button></div>
+      <textarea style="min-height:80px;margin-top:10px">${esc(fill(tpl,l))}</textarea>
+      <div class="row"><button class="btn" data-a="copy">Copy</button><button class="btn ok" data-a="sent">Sent ✓</button>
+      <button class="btn bad" data-a="dead">Drop</button></div></div>`}).join("");
+  el.querySelectorAll(".card").forEach(c=>{ const l=S.leads.find(x=>x.id===c.dataset.id), ta=c.querySelector("textarea");
+    c.querySelectorAll("button[data-a]").forEach(b=>b.onclick=async()=>{ const a=b.dataset.a;
+      if(a==="copy"){ await copy(ta.value); b.textContent="Copied ✓"; return; }
+      if(a==="replied"){ l.status="replied"; l.nextFu=null; }
+      if(a==="dead"){ l.status="dead"; l.nextFu=null; }
+      if(a==="sent"){ const first=l.status==="sent"; l.history.push({d:today(),t:first?"follow-up 1":"follow-up 2",m:ta.value});
+        l.status=first?"fu1":"fu2"; l.nextFu=first?addDays(S.settings.fuDays+1):null; S.log[today()]=sentToday()+1; }
+      save(); });
+  });
+}
+
+function renderPipe(){
+  const fs=$("#fStatus"); if(!fs.options.length){ fs.innerHTML=`<option value="">All stages</option>`+Object.entries(STATUS).map(([k,v])=>`<option value="${k}">${v}</option>`).join(""); fs.onchange=renderPipe; $("#fSearch").oninput=renderPipe; }
+  const q=$("#fSearch").value.toLowerCase(), f=fs.value;
+  const rows=S.leads.filter(l=>(!f||l.status===f)&&(!q||(l.name+l.handle+l.category).toLowerCase().includes(q)));
+  $("#pipeTable").innerHTML=`<tr><th>Business</th><th>Handle</th><th>Stage</th><th>Notes</th></tr>`+
+    (rows.map(l=>`<tr class="click" data-id="${l.id}"><td>${esc(l.name)}<div class="mut small">${esc(l.category)}</div></td><td><a href="https://instagram.com/${esc(l.handle)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">@${esc(l.handle)}</a></td>
+      <td><select data-s style="width:auto">${Object.entries(STATUS).map(([k,v])=>`<option value="${k}" ${k===l.status?"selected":""}>${v}</option>`).join("")}</select></td>
+      <td><input data-n value="${esc(l.notes)}" placeholder="notes"></td></tr>`).join("")||`<tr><td colspan="4" class="empty">Nothing here.</td></tr>`);
+  $("#pipeTable").querySelectorAll("tr[data-id]").forEach(tr=>{ const l=S.leads.find(x=>x.id===tr.dataset.id);
+    tr.querySelector("[data-s]").onchange=e=>{ l.status=e.target.value; if(["replied","booked","won","dead"].includes(l.status)) l.nextFu=null; save(); };
+    tr.querySelector("[data-n]").onchange=e=>{ l.notes=e.target.value; save(); };
+    tr.querySelector("[data-s]").onclick=e=>e.stopPropagation(); tr.querySelector("[data-n]").onclick=e=>e.stopPropagation(); });
+}
+
+// ---------- setup wiring
+function bindSetup(){
+  const map={sMe:["settings","me"],sGoal:["settings","goal"],sOffer:["settings","offer"],sFu:["settings","fuDays"],tOpen:["templates","open"],tFu1:["templates","fu1"],tFu2:["templates","fu2"],tCall:["templates","call"]};
+  for(const [id,[g,k]] of Object.entries(map)){ const el=$("#"+id); el.value=S[g][k];
+    el.onchange=()=>{ S[g][k]=el.type==="number"?Math.max(1,+el.value||1):el.value; save(); }; }
+  $("#fileIn").onchange=async e=>{ const f=e.target.files[0]; if(!f) return; const t=await f.text();
+    const rows=f.name.endsWith(".json")?JSON.parse(t):parseCSV(t); let n=0; rows.forEach(r=>{ if(addLead(r)) n++; });
+    save(); alert(`Added ${n} new leads (${rows.length-n} skipped as duplicates or missing a handle).`); e.target.value=""; };
+  $("#pasteBtn").onclick=()=>{ let n=0; $("#pasteIn").value.split(/\n/).forEach(x=>{ if(addLead({instagram:x})) n++; }); $("#pasteIn").value=""; save(); alert(`Added ${n} leads.`); };
+  $("#wipeBtn").onclick=()=>{ if(confirm("Delete ALL leads and history from this browser?")){ S=structuredClone(DEFAULTS); save(); bindSetup(); } };
+  const exp=()=>{ const cols=["name","handle","category","address","phone","website","status","active","sentAt","nextFu","hook","notes"];
+    const csv=[cols.join(",")].concat(S.leads.map(l=>cols.map(c=>csvCell(l[c])).join(","))).join("\n");
+    const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"})); a.download=`ig-desk-${today()}.csv`; a.click(); };
+  $("#exportBtn").onclick=exp; $("#exportBtn2").onclick=exp;
+}
+
+// ---------- utils
+function esc(s){ return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+async function copy(t){ try{ await navigator.clipboard.writeText(t); }catch(e){ const ta=document.createElement("textarea"); ta.value=t; document.body.appendChild(ta); ta.select(); document.execCommand("copy"); ta.remove(); } }
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll("nav button").forEach(x=>x.classList.toggle("on",x===b));
+  document.querySelectorAll("main > section").forEach(s=>s.classList.toggle("hide",s.id!=="tab-"+b.dataset.tab)); });
+bindSetup(); render();
+if(!S.leads.length) document.querySelector('nav button[data-tab="setup"]').click();
+</script>
+</body>
+</html>

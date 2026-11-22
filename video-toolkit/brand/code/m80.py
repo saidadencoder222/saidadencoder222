@@ -28,13 +28,18 @@ STACKS = [(T0(s5), T0(idx('and', idx('thoughts', s5))), 'Journaling', 'your thou
           (T0(s3), T0(idx('to', idx('conditioning', s3))), "Pavlov's", 'conditioning to make yourself', 'way more consistent'),
           (T0(s2), T0(idx('indulge', s2)), 'Unhinged', 'one day at the end of every month', 'so you can work hard'),
           (T0(s1), T0(idx("don't", s1)), 'Your day', 'instead of the future ahead of you', 'focus')]
-IMGS = [(.3, T1(hk_end), [('hook_a_c', 215, 240, 330, -3), ('hook_b_c', 865, 240, 330, 3)]),           # hook collage: two portraits in the headroom, one low-left (like the inspo)
-        (T0(idx('and', idx('thoughts', s5))), T1(e5), [('journal', 540, 240, 800, -2)]),
-        (T0(idx('think', s4)), T1(e4), [('walk', 540, 240, 800, 2)]),
-        (T0(idx('to', idx('conditioning', s3))), T1(e3), [('pavlov3', 250, 235, 440, -3), ('pavlov4', 740, 235, 700, 2)]),
-        (T0(idx('indulge', s2)), T0(idx('work', s2)), [('party', 540, 240, 800, -2)]),
-        (T0(idx('work', s2)), T1(e2), [('fireworks', 540, 240, 800, 2)]),
-        (T0(idx("don't", s1)), T1(e1), [('window1', 540, 240, 800, 2)])]
+ith = idx('thoughts', s5); itk = idx('think', s4); icn = idx('to', idx('conditioning', s3)); iin = idx('indulge', s2); iwk = idx('work', s2); idn = idx("don't", s1)
+IMGS = [(.0, T1(hk_end), [('athens_c', 180, 1700, 340, -2), ('nietzsche_c', 540, 1720, 340, 2), ('thinker_c', 900, 1700, 340, -2)]),
+        (T0(s5), T0(idx('and', ith)), [('thinker_g', 540, 245, 820, -1)]),
+        (T0(idx('and', ith)), T1(e5), [('journal', 540, 245, 820, 1)]),
+        (T0(s4), T0(itk), [('forest', 540, 245, 820, -1)]),
+        (T0(itk), T1(e4), [('walk', 540, 245, 820, 1)]),
+        (T0(s3), T0(icn), [('dog', 540, 245, 820, -1)]),
+        (T0(icn), T1(e3), [('pavlov3', 250, 245, 440, -2), ('pavlov4', 740, 245, 700, 2)]),
+        (T0(iin), T0(iwk), [('party', 540, 245, 820, -1)]),
+        (T0(iwk), T1(e2), [('fireworks', 540, 245, 820, 1)]),
+        (T0(s1), T0(idn), [('sunrise', 540, 245, 820, -1)]),
+        (T0(idn), T1(e1), [('mucha', 540, 245, 820, 1)])]
 # ---------------------------------------------------------------- captions -----------------------------------------------------------------------------
 def groups():
     gs, cur = [], []
@@ -71,16 +76,15 @@ def frame(k):
             for j, (nm, cx, cy, w, rot) in enumerate(items):
                 im = load(nm)
                 if im is None: continue
-                u = t - a - (j * .16 if ii == 0 else 0)
-                if u < 0: continue
-                brand.paper(f, im, cx, cy + (0 if ii == 0 else 4 * u), w, rot, reveal=max(brand.ease(u / (.3 if ii == 0 else .2)), .02), dy=-(1 - brand.ease(u / .35)) * 140 if ii == 0 else 0)
+                u = t - a
+                brand.paper(f, im, cx, cy, w, rot)
             break
     st = None
     for s in STACKS:
         if s[0] <= t < s[1]: st = s; break
     in_title = in_win(t, TITLE[0], TITLE[1])
     if in_title:
-        sub = [x for x in SUBS if x[0] <= t < x[1]]; brand.title2(f, TITLE[2], sub[0][2] if sub else SUBS[-1][2], y=1545, a=1.0)
+        sub = [x for x in SUBS if x[0] <= t < x[1]]; brand.title2(f, TITLE[2], sub[0][2] if sub else SUBS[-1][2], y=285, a=1.0)
     if st:
         si = STACKS.index(st); x_ = 400 if si % 2 == 0 else 680
         brand.accent(f, st[2], x_, 1500, t - st[0], size=170, glow=(si % 2 == 1), white_above=st[3], white_below=st[4])
@@ -90,7 +94,7 @@ def frame(k):
             if a0 <= t < a1:
                 ws = [FIX.get(w[0].strip('.,!?').lower(), w[0]) if 'FIX' in globals() else w[0] for w in g]; hi = {i for i, w in enumerate(ws) if w.strip('.,!?').lower() in HI}
                 ci = GS.index(g); cx_, cy_ = CAPPOS[ci % len(CAPPOS)]
-                if in_title: cy_ = 1320
+                if in_title: cy_ = 1330
                 brand.caption_small(f, ws, cy_, hi=hi, cx=cx_, u=t - g[0][1] + .02); break
     extra(f, t)
     return f

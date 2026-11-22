@@ -187,10 +187,10 @@ def title2(f, big, sub, y=1530, a=1.0, maxw=820):
 def accent(f, word, x, y, u, size=190, glow=False, white_above=None, white_below=None, a=1.0):
     """big yellow serif word with an oversized italic swash capital (the inspo's 'Destroyed', 'Betrayed', 'Downfall'), small white sans lines above / below"""
     if u < 0: return
-    a = a * clamp(u / .12); first, rest = word[0], word[1:]
+    a = a; first, rest = word[0], word[1:]
     mF, advF, baseF, PF = tm(first, 'serifi', int(size * 1.35), 400, 0); mR, advR, baseR, PR = tm(rest, 'serif', size, 400, -.015 * size, .8)
     total = advF * .82 + advR; x0 = x - total / 2
-    slide = (1 - ease(u / .3)) * 40
+    slide = 0
     for off, col, al, bl in ((0, YEL, a, 0.0),):
         if glow: blit(f, mF, x0 - PF + slide, y, baseF, YEL, a * .9, blur=16, add=True); blit(f, mR, x0 + advF * .82 - PR + slide, y, baseR, YEL, a * .9, blur=16, add=True)
         blit(f, mF, x0 - PF + slide, y + 4, baseF, (0, 0, 0), a * .45, blur=10, dy=6); blit(f, mR, x0 + advF * .82 - PR + slide, y, baseR, (0, 0, 0), a * .5, blur=10, dy=7)
@@ -232,3 +232,31 @@ def grade_cine(raw):
     out = out * (1 - .2 * np.clip(d, 0, 1))[..., None]
     hsv = cv2.cvtColor((np.clip(out, 0, 1) * 255).astype(np.uint8), cv2.COLOR_BGR2HSV).astype(np.float32); hsv[..., 1] = np.clip(hsv[..., 1] * 1.12, 0, 255)
     return cv2.cvtColor(hsv.astype(np.uint8), cv2.COLOR_HSV2BGR)
+
+def title_anim(f, big, sub, u, y=300, maxw=900):
+    """ANIMATED hero title (above the head): each letter rises out of a blur, one after another (28 ms stagger) and lands with a tiny overshoot;
+    once landed the yellow breathes (glow pulse) and a light sweep slides across the letters twice; the white caps line wipes in word by word; a yellow underline draws."""
+    sz = fit('serif', [big], 250, maxw, 400, -.02, .8); fnt = pf('serif', sz, 400); cx = .8; tr = -.02 * sz
+    adv_total = fnt.getlength(big) * cx + tr * (len(big) - 1) * cx; x0 = 540 - adv_total / 2
+    n = len(big); land = .28 + .028 * n
+    for i, ch in enumerate(big):
+        if ch == ' ': continue
+        px = fnt.getlength(big[:i]) * cx + tr * i * cx
+        ui = clamp((u - i * .028) / .28); e = 1 - (1 - ui) ** 3; over = 1 + .08 * math.sin(ui * math.pi) * (1 - ui)
+        m, adv, base, PADX = tm(ch, 'serif', sz, 400, 0, cx); yy = y + (1 - e) * 70; a = clamp(ui * 2.2)
+        m2 = m if ui >= .98 else cv2.GaussianBlur(m, (0, 0), (1 - ui) * 7 + .01)
+        xx = x0 + px - PADX
+        pulse = .5 + .5 * math.sin(u * 4.2 - i * .35) if u > land else 0
+        if u > land: blit(f, m, xx, yy, base, YEL, .35 + .3 * pulse, blur=18, add=True)
+        blit(f, m2, xx, yy, base, (0, 0, 0), a * .55, blur=12, dy=7); blit(f, m2, xx, yy, base, YEL, a, sc=over)
+        for sweep in (land + .15, land + 2.4):                                                                                   # light sweep across the letters
+            sp = (u - sweep) / .7
+            if 0 <= sp <= 1:
+                pos = (sp * 1.4 - .2) * n; k = max(0, 1 - abs(i - pos) / 2.2)
+                if k > 0: blit(f, m, xx, yy, base, (255, 255, 255), k * .85, add=False)
+    ss = fit('sans', [sub], 84, 940, 600, -.01); words = sub.split(' '); xw = 540 - tm(sub, 'sans', ss, 600, -.01 * ss)[1] / 2; sp_ = tm(' ', 'sans', ss, 600, 0)[1] or ss * .3
+    for j, wd in enumerate(words):
+        uj = clamp((u - land * .55 - j * .12) / .22); m, adv, base, P = tm(wd, 'sans', ss, 600, -.01 * ss); xx = xw - P + 0; ee = 1 - (1 - uj) ** 3
+        blit(f, m, xx, y + 100 + (1 - ee) * 26, base, (0, 0, 0), uj * .55, blur=9, dy=5); blit(f, m, xx, y + 100 + (1 - ee) * 26, base, WH, uj); xw += adv + sp_
+    r = clamp((u - land * .8) / .5); r = 1 - (1 - r) ** 3
+    if r > 0: cv2.line(f, (int(540 - adv_total * .45), int(y + 28)), (int(540 - adv_total * .45 + adv_total * .9 * r), int(y + 28)), YEL, 4, cv2.LINE_AA)

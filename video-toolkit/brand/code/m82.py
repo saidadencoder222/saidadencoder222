@@ -26,11 +26,18 @@ STACKS = [(T0(i_dost), T0(idx('destroyed')), 'Dostoevsky', 'the worst sin is you
           (T0(i_ref), T0(idx('because', i_ref)), 'Your limit', 'you refuse to change your beliefs', 'because you believe you are smart'),
           (T0(i_why), T0(idx('cruised')), 'Comfortable', 'you know that you are smart', 'so you cruise'),
           (T0(i_how), T0(idx('more', i_how)), 'Combat this', 'how should you actually', 'push yourself')]
-IMGS = [(.3, T1(i_stuck), [('chess_c', 215, 240, 330, -3), ('dostoevsky_c', 865, 240, 330, 3), ('journal', 540, 1800, 400, -2)]),                   # her hook: two images up top, a journal low
-        (T0(i_pot - 6), T1(i_pot), [('hook_c_l', 540, 240, 800, 2)]),
-        (T0(i_ref), T1(i_lim), [('library', 540, 240, 800, -2)]),
-        (T0(idx('cruised')), T1(i_occ), [('window1', 540, 240, 800, 2)]),
-        (T0(idx('more', i_how)), T1(i_end), [('hook_b_l', 540, 240, 800, -2)])]
+i_w = lambda w, start=0: idx(w, start)
+IMGS = [(.0, T1(i_stuck), [('dostoevsky_c', 180, 1700, 340, -2), ('hook_a_c', 540, 1720, 340, 2), ('wanderer_c', 900, 1700, 340, -2)]),
+        (T0(idx('dostoevsky')), T1(i_noth), [('scream', 540, 245, 820, -1)]),
+        (T0(idx('but')), T1(idx('way')), [('icarus', 540, 245, 820, 1)]),
+        (T0(i_pot - 6), T1(i_pot), [('hook_c_l', 540, 245, 820, -1)]),
+        (T0(i_ref), T1(i_lim), [('library', 540, 245, 820, 1)]),
+        (T0(idx('why')), T1(idx('comfortable')), [('window1', 540, 245, 820, -1)]),
+        (T0(idx('comfortable') + 1), T1(idx('life')), [('reverie', 540, 245, 820, 1)]),
+        (T0(idx('so', idx('life'))), T1(idx('uncomfortable', idx('so', idx('life')))), [('starry', 540, 245, 860, -1)]),
+        (T0(idx('and', idx('uncomfortable', idx('so', idx('life'))))), T1(i_occ), [('hook_b_l', 540, 245, 820, 1)]),
+        (T0(idx('more', i_how)), T1(idx('this', i_how)), [('wanderer_l', 540, 245, 820, -1)]),
+        (T0(idx('this', i_how) + 1), T1(i_end), [('seneca', 540, 245, 820, 1)])]
 # ---------------------------------------------------------------- captions -----------------------------------------------------------------------------
 def groups():
     gs, cur = [], []
@@ -79,16 +86,15 @@ def frame(k):
             for j, (nm, cx, cy, w, rot) in enumerate(items):
                 im = load(nm)
                 if im is None: continue
-                u = t - a - (j * .16 if ii == 0 else 0)
-                if u < 0: continue
-                brand.paper(f, im, cx, cy + (0 if ii == 0 else 4 * u), w, rot, reveal=max(brand.ease(u / (.3 if ii == 0 else .2)), .02), dy=-(1 - brand.ease(u / .35)) * 140 if ii == 0 else 0)
+                u = t - a
+                brand.paper(f, im, cx, cy, w, rot)
             break
     st = None
     for s in STACKS:
         if s[0] <= t < s[1]: st = s; break
     in_title = in_win(t, TITLE[0], TITLE[1])
     if in_title:
-        sub = [x for x in SUBS if x[0] <= t < x[1]]; brand.title2(f, TITLE[2], sub[0][2] if sub else SUBS[-1][2], y=1545, a=1.0)
+        sub = [x for x in SUBS if x[0] <= t < x[1]]; brand.title2(f, TITLE[2], sub[0][2] if sub else SUBS[-1][2], y=285, a=1.0)
     acc_on = any(T0(a_) <= t < T1(b_) + (.25 if b_ == idx('nothing') else .0) for a_, b_, *_ in ACCENTS)
     if acc_on: pass
     else:
@@ -97,7 +103,7 @@ def frame(k):
             if a0 <= t < a1:
                 ws = [FIX.get(w[0].strip('.,!?').lower(), w[0]) if 'FIX' in globals() else w[0] for w in g]; hi = {i for i, w in enumerate(ws) if w.strip('.,!?').lower() in HI}
                 ci = GS.index(g); cx_, cy_ = CAPPOS[ci % len(CAPPOS)]
-                if in_title: cy_ = 1320
+                if in_title: cy_ = 1330
                 brand.caption_small(f, ws, cy_, hi=hi, cx=cx_, u=t - g[0][1] + .02); break
     extra(f, t)
     return f

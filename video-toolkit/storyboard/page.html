@@ -66,6 +66,18 @@ textarea{resize:vertical;min-height:54px}
 .foot{margin-top:26px;display:grid;gap:12px}
 .empty{padding:40px 20px;border:1px dashed var(--line);border-radius:14px;text-align:center;color:var(--muted)}
 .hint{color:var(--muted);font-size:13px;max-width:70ch}
+
+.sug{margin-top:26px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:12px}
+.sug h2{font:400 28px/1 var(--display);margin:0;color:var(--accent)}
+.sug .add{display:grid;grid-template-columns:minmax(0,1fr);gap:10px}
+.sug .bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.sug .bar select{width:auto;min-width:150px}
+.si{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:start;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--panel2)}
+.si.done{opacity:.55}
+.si .when{font:500 12px var(--mono);color:var(--accent);cursor:pointer;background:none;border:0;padding:2px 0;text-align:left}
+.si .k{display:inline-block;font:600 10px var(--body);letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--accent-d);color:var(--accent);border-radius:999px;padding:1px 8px;margin-top:4px}
+.si p{margin:2px 0 0;white-space:pre-wrap}
+.si .x{background:none;border:0;color:var(--muted);cursor:pointer;font-size:18px;line-height:1}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 <div class="wrap">
@@ -94,6 +106,20 @@ textarea{resize:vertical;min-height:54px}
  </aside>
  <section id="list"><div class="empty" id="empty">Loading the storyboard…</div></section>
 </div>
+
+<section class="sug" aria-labelledby="sugh">
+ <h2 id="sugh">My edits and suggestions</h2>
+ <p class="hint">Write anything you want changed that the lines above do not cover: a new image, a different sound, a rewrite, a cut, a mood. Tap “Use video time” to pin it to the moment you are watching. Claude reads every one of these before editing and ticks them off.</p>
+ <div class="add">
+  <label for="sugtext">Your edit or suggestion<textarea id="sugtext" rows="3" placeholder="e.g. At the Dostoevsky line, show a real book cover. Make the title bigger. Cut the pause before ‘How should you…’."></textarea></label>
+  <div class="bar">
+   <label for="sugkind" style="display:flex;gap:8px;align-items:center;text-transform:none;letter-spacing:0;font-size:13px;color:var(--ink)">Type<select id="sugkind"><option>Edit</option><option>Cut</option><option>Add image</option><option>Change text</option><option>Sound</option><option>Idea</option><option>Other</option></select></label>
+   <button class="btn ghost" id="sugtime">Use video time: <span id="sugt">0:00.0</span></button>
+   <button class="btn" id="sugadd">Add</button>
+  </div>
+ </div>
+ <div id="suglist"></div>
+</section>
 <div class="foot">
  <label for="overall">Overall notes for Claude<textarea id="overall" placeholder="Anything that applies to the whole video: pace, mood, what to cut hard, what to keep."></textarea></label>
 </div>
@@ -170,11 +196,23 @@ $('#loop').onclick=e=>{loopOn=!loopOn;e.target.setAttribute('aria-pressed',loopO
 $('#approve').onclick=async()=>{project.status='approved';chips();if(db){try{await db.doc('project/main').update({status:'approved'});setStatus('approved: Claude can start editing',true)}catch(e){setStatus('could not save ('+(e.code||'error')+')')}}};
 $('#copy').onclick=async()=>{const txt=JSON.stringify({project,overall:$('#overall').value,beats},null,1);try{await navigator.clipboard.writeText(txt);setStatus('copied the changes',true)}catch(e){const t=document.createElement('textarea');t.value=txt;document.body.appendChild(t);t.select();setStatus('select and copy the text below');}};
 let ovT;$('#overall').addEventListener('input',()=>{clearTimeout(ovT);ovT=setTimeout(async()=>{if(db){try{await db.doc('project/main').update({overall:$('#overall').value});setStatus('saved '+new Date().toLocaleTimeString(),true)}catch(e){setStatus('could not save')}}},600)});
+
+let sugs=[],sugT=null;
+function sugRender(){const L=$('#suglist');if(!sugs.length){L.innerHTML='<div class="empty" style="padding:18px">Nothing yet. Your suggestions will list here.</div>';return}
+ L.innerHTML=sugs.map(s=>`<div class="si${s.done?' done':''}" data-id="${s.id}"><label class="glow" style="margin:0"><input type="checkbox" data-sd ${s.done?'checked':''} aria-label="Done"></label><div><button class="when" data-seek="${s.t??''}">${s.t==null?'whole video':fmt(s.t)}</button> <span class="k">${esc(s.kind)}</span><p>${esc(s.text)}</p></div><button class="x" data-del aria-label="Delete">×</button></div>`).join('');
+ L.querySelectorAll('[data-seek]').forEach(b=>b.onclick=()=>{if(b.dataset.seek!=='')vid.currentTime=+b.dataset.seek});
+ L.querySelectorAll('.si').forEach(el=>{const id=el.dataset.id;el.querySelector('[data-sd]').onchange=async e=>{try{await db.collection('suggestions').doc(id).update({done:e.target.checked})}catch(_){setStatus('could not save')}};el.querySelector('[data-del]').onclick=async()=>{try{await db.collection('suggestions').doc(id).delete()}catch(_){setStatus('could not delete')}}})}
+vid.addEventListener('timeupdate',()=>{$('#sugt').textContent=fmt(vid.currentTime)});
+$('#sugtime').onclick=()=>{sugT=+vid.currentTime.toFixed(2);$('#sugtime').innerHTML='Pinned at '+fmt(sugT)+' (tap to unpin)';$('#sugtime').onclick=unpin};
+function unpin(){sugT=null;$('#sugtime').innerHTML='Use video time: <span id="sugt">'+fmt(vid.currentTime)+'</span>';$('#sugtime').onclick=()=>{sugT=+vid.currentTime.toFixed(2);$('#sugtime').innerHTML='Pinned at '+fmt(sugT)+' (tap to unpin)';$('#sugtime').onclick=unpin}}
+$('#sugadd').onclick=async()=>{const text=$('#sugtext').value.trim();if(!text)return;if(!db){setStatus('sign in to save');return}
+ try{await db.collection('suggestions').doc().set({text,kind:$('#sugkind').value,t:sugT,done:false,at:Date.now()});$('#sugtext').value='';setStatus('suggestion saved '+new Date().toLocaleTimeString(),true)}catch(e){setStatus('could not save ('+(e.code||'error')+')')}};
 (async()=>{
  const to=setTimeout(()=>{if(!beats.length)setStatus('storage did not answer; open the page again')},10000);
  try{db=await claude.use('db')}catch(e){db=null}
  if(!db){clearTimeout(to);setStatus('sign in to save changes');$('#empty').textContent='This storyboard needs you to be signed in so your changes can be saved.';return}
  db.doc('project/main').onSnapshot(s=>{if(s.exists){project=Object.assign(project,s.data());const o=$('#overall');if(document.activeElement!==o&&project.overall!==undefined)o.value=project.overall;chips()}},()=>{});
+ db.collection('suggestions').orderBy('at').onSnapshot(s=>{sugs=s.docs.map(d=>Object.assign({id:d.id},d.data()));sugRender()},()=>{});
  db.collection('beats').orderBy('i').onSnapshot(s=>{clearTimeout(to);beats=s.docs.map(d=>Object.assign({id:d.id},d.data()));setStatus('live',true);renderList()},e=>setStatus('could not load ('+(e.code||'error')+')'))
 })();
 </script>

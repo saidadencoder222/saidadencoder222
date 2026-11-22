@@ -36,7 +36,7 @@ def mix(voice_wav, cues, dur, out_wav, music_db=-23, music_path=None):
     duck = 1 - .55 * env; fade = np.minimum(np.arange(N) / (1.5 * SR), 1) * np.minimum((N - np.arange(N)) / (2.2 * SR), 1)
     mus = m * duck * fade; mus *= 10 ** (music_db / 20) / (np.sqrt(np.mean(mus ** 2)) + 1e-6) * 10 ** (-14 / 20 + .0) if False else 1
     # music level: RMS -> target loudness about -27 LUFS-ish under a -14 LUFS voice
-    r = np.sqrt(np.mean((m * duck * fade) ** 2)) + 1e-6; mus = (m * duck * fade) * (10 ** (music_db / 20) / r) * .1
+    r = np.sqrt(np.mean((m * duck * fade) ** 2)) + 1e-6; mus = (m * duck * fade) * (10 ** (music_db / 20) / r)
     mix = voice + mus; sf = {}
     for name, t, db, ml in cues:
         if name not in sf: sf[name] = _load(f'{SF}{name}.wav')
@@ -52,3 +52,12 @@ def mix(voice_wav, cues, dur, out_wav, music_db=-23, music_path=None):
 if __name__ == '__main__':
     m = music(20); print(m.shape, np.abs(m).max())
     a16 = (m * .5 * 32767).astype(np.int16); w = wave.open('/tmp/claude-0/-home-user-saidadencoder222/21382d86-4091-5f53-a3a6-32d6a75a5607/scratchpad/c9/work/music_test.wav', 'wb'); w.setnchannels(1); w.setsampwidth(2); w.setframerate(SR); w.writeframes(a16.tobytes()); w.close()
+
+def loop_music(path, dur, out_wav, xf=2.0):
+    """loop a music file to cover dur seconds with an equal-power crossfade at each seam"""
+    import subprocess
+    d = float(subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', path], capture_output=True, text=True).stdout)
+    n = int(dur / (d - xf)) + 2; ins = sum([['-i', path] for _ in range(n)], []); chain = '[0:a]'
+    fl = ''; prev = '[0:a]'
+    for i in range(1, n): fl += f'{prev}[{i}:a]acrossfade=d={xf}:c1=qsin:c2=qsin[x{i}];'; prev = f'[x{i}]'
+    subprocess.run(['ffmpeg', '-v', 'error', '-y'] + ins + ['-filter_complex', fl.rstrip(';'), '-map', prev, '-ac', '1', '-ar', '48000', '-t', str(dur + 1), out_wav], check=True)

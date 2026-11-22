@@ -191,7 +191,7 @@ def accent(f, word, x, y, u, size=190, glow=False, white_above=None, white_below
     """big yellow serif word with an oversized italic swash capital (the inspo's 'Destroyed', 'Betrayed', 'Downfall'), small white sans lines above / below"""
     if u < 0: return
     a = a; first, rest = word[0], word[1:]
-    mF, advF, baseF, PF = tm(first, 'pfi', int(size * 1.3), 700, 0); mR, advR, baseR, PR = tm(rest, 'pf', int(size * .92), 700, -.01 * size, .86)
+    mF, advF, baseF, PF = tm(first, 'serifi', int(size * 1.35), 400, 0); mR, advR, baseR, PR = tm(rest, 'serif', size, 400, -.015 * size, .8)
     total = advF * .82 + advR; x0 = x - total / 2
     slide = 0
     for off, col, al, bl in ((0, YEL, a, 0.0),):

@@ -28,7 +28,7 @@ STACKS = [(T0(s5), T0(idx('and', idx('thoughts', s5))), 'Journaling', 'your thou
           (T0(s3), T0(idx('to', idx('conditioning', s3))), "Pavlov's", 'conditioning to make yourself', 'way more consistent'),
           (T0(s2), T0(idx('indulge', s2)), 'Unhinged', 'one day at the end of every month', 'so you can work hard'),
           (T0(s1), T0(idx("don't", s1)), 'Your day', 'instead of the future ahead of you', 'focus')]
-IMGS = [(.3, T1(hk_end), [('hook_a_c', 215, 240, 330, -3), ('hook_b_c', 865, 240, 330, 3), ('hook_c_c', 540, 215, 250, 1)]),           # hook collage: two portraits in the headroom, one low-left (like the inspo)
+IMGS = [(.3, T1(hk_end), [('hook_a_c', 215, 240, 330, -3), ('hook_b_c', 865, 240, 330, 3)]),           # hook collage: two portraits in the headroom, one low-left (like the inspo)
         (T0(idx('and', idx('thoughts', s5))), T1(e5), [('journal', 540, 240, 800, -2)]),
         (T0(idx('think', s4)), T1(e4), [('walk', 540, 240, 800, 2)]),
         (T0(idx('to', idx('conditioning', s3))), T1(e3), [('pavlov3', 250, 235, 440, -3), ('pavlov4', 740, 235, 700, 2)]),
@@ -59,7 +59,7 @@ def in_win(t, a, b): return a <= t < b
 CAPPOS = [(540, 1330), (440, 1400), (640, 1360), (500, 1450), (620, 1320), (460, 1390), (590, 1430), (540, 1350)]
 CAPNOW = [0]
 def frame(k):
-    t = k / 30.0; kk = min(k, NFV - 1); raw = cv2.imread(f'{FD}/{kk + 1:04d}.jpg'); fr = brand.grade_brand(raw)
+    t = k / 30.0; kk = min(k, NFV - 1); raw = cv2.imread(f'{FD}/{kk + 1:04d}.jpg'); fr = brand.grade_cine(raw)
     z = 1.0
     for (a, b, *_) in [(s[0], s[1]) for s in STACKS] + [(s[0], s[1]) for s in IMGS]:
         if a <= t < b: z = 1.0 + .03 * (t - a) / max(b - a, .1); break
@@ -80,7 +80,7 @@ def frame(k):
         if s[0] <= t < s[1]: st = s; break
     in_title = in_win(t, TITLE[0], TITLE[1])
     if in_title:
-        sub = [x for x in SUBS if x[0] <= t < x[1]]; brand.title2(f, TITLE[2], sub[0][2] if sub else SUBS[-1][2], y=1570, a=1.0 if t > .35 else .35 + .65 * (((int(t * 30) * 7) % 3) == 0))
+        sub = [x for x in SUBS if x[0] <= t < x[1]]; brand.title2(f, TITLE[2], sub[0][2] if sub else SUBS[-1][2], y=1545, a=1.0)
     if st:
         si = STACKS.index(st); x_ = 400 if si % 2 == 0 else 680
         brand.accent(f, st[2], x_, 1500, t - st[0], size=170, glow=(si % 2 == 1), white_above=st[3], white_below=st[4])
@@ -90,7 +90,7 @@ def frame(k):
             if a0 <= t < a1:
                 ws = [FIX.get(w[0].strip('.,!?').lower(), w[0]) if 'FIX' in globals() else w[0] for w in g]; hi = {i for i, w in enumerate(ws) if w.strip('.,!?').lower() in HI}
                 ci = GS.index(g); cx_, cy_ = CAPPOS[ci % len(CAPPOS)]
-                if in_title: cy_ = 1390
+                if in_title: cy_ = 1320
                 brand.caption_small(f, ws, cy_, hi=hi, cx=cx_, u=t - g[0][1] + .02); break
     extra(f, t)
     return f
@@ -108,10 +108,4 @@ def extra(f, t):
     for i, a in enumerate(HABIT_T):
         if t >= a: fr_ = (i + 1) / 5.0 if t >= a + .7 else i / 5.0 + (1 / 5.0) * brand.ease((t - a) / .7)
 
-GFX = [(lambda f, u: brand.g_write(f, 900, 1080, u), 0), (lambda f, u: brand.g_path(f, 900, 1080, u), 1), (lambda f, u: brand.g_ripple(f, 900, 1080, u), 2), (lambda f, u: brand.g_burst(f, 900, 1080, u), 3), (lambda f, u: brand.g_target(f, 900, 1080, u), 4)]
-_extra_old = extra
-def extra(f, t):
-    _extra_old(f, t)
-    for (fn, i) in GFX:
-        t0 = HABIT_T[i]; t1 = HABIT_T[i + 1] if i + 1 < len(HABIT_T) else DUR
-        if t0 + .15 <= t < t1: fn(f, t - t0 - .15)
+

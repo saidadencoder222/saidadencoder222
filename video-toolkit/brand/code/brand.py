@@ -182,7 +182,7 @@ def title2(f, big, sub, y=1530, a=1.0, maxw=820):
     """hero title: mixed-case yellow condensed serif (no neon), white sans CAPS line under it. Sits low, over the torso, under the chin."""
     sz = fit('serif', [big], 230, maxw, 400, -.02, .8); m, adv, base, PADX = tm(big, 'serif', sz, 400, -.02 * sz, .8); x = 540 - adv / 2 - PADX
     blit(f, m, x, y, base, (0, 0, 0), a * .55, blur=14, dy=7); blit(f, m, x, y, base, YEL, a)
-    ss = fit('sans', [sub], 62, maxw * .96, 600, -.01); m2, adv2, base2, P2 = tm(sub, 'sans', ss, 600, -.01 * ss); x2 = 540 - adv2 / 2 - P2
+    ss = fit('sans', [sub], 62, 960, 600, -.01); m2, adv2, base2, P2 = tm(sub, 'sans', ss, 600, -.01 * ss); x2 = 540 - adv2 / 2 - P2
     blit(f, m2, x2, y + 100, base2, (0, 0, 0), a * .55, blur=9, dy=5); blit(f, m2, x2, y + 100, base2, WH, a)
 def accent(f, word, x, y, u, size=190, glow=False, white_above=None, white_below=None, a=1.0):
     """big yellow serif word with an oversized italic swash capital (the inspo's 'Destroyed', 'Betrayed', 'Downfall'), small white sans lines above / below"""
@@ -211,3 +211,24 @@ def frame_shift(fr, shift=200, zoom=1.0):
     can[shift - 26:shift] = (band[:26] * (1 - g) + fr[:26].astype(np.float32) * g).astype(np.uint8)                     # feather the seam
     if zoom != 1.0: can = cv2.warpAffine(can, np.float32([[zoom, 0, 540 - zoom * 540], [0, zoom, 1300 - zoom * 1300]]), (1080, 1920), flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE)
     return can
+
+def grade_cine(raw):
+    """her grade, measured (inspo frame Lab: mean L 41.6, p5 0.8, p95 88.6, a +2.6, b +16, wall RGB 188/176/131 cream-olive, rich saturation) applied to the user's room:
+    deeper crushed blacks and a darker mid (cinematic), pink/orange pulled toward cream-olive (a -6, b -5.5), filmic S-curve, highlight roll-off, soft bloom, vignette."""
+    f = raw.astype(np.float32) / 255
+    lab = cv2.cvtColor(f, cv2.COLOR_BGR2LAB); L, A, B = lab[..., 0], lab[..., 1], lab[..., 2]
+    x = np.clip((L - 9) / 74, 0, 1.15); x = x ** 1.32                                                    # crush blacks, darker mids
+    x = x + (x - .5) * (1 - np.abs(x - .5) * 2).clip(0, 1) * .18                                         # S-curve
+    L2 = np.clip(x * 91, 0, 100)
+    skin = np.clip((A - 8) / 6, 0, 1) * np.clip((B - 14) / 8, 0, 1)                                      # protect warm skin from the green push
+    A2 = A - 6.0 * (1 - .55 * skin); B2 = B - 5.5 * (1 - .45 * skin)
+    out = cv2.cvtColor(np.dstack([L2, A2, B2]).astype(np.float32), cv2.COLOR_LAB2BGR)
+    out = np.clip(out, 0, 1)
+    lum = (out[..., 0] * .114 + out[..., 1] * .587 + out[..., 2] * .299); mx = out.max(2); mn = out.min(2); chroma = (mx - mn)
+    wallm = np.clip((lum - .38) / .25, 0, 1) * np.clip(1 - chroma / .22, 0, 1); wallm = cv2.GaussianBlur(wallm, (0, 0), 6)[..., None]                 # pale low-chroma surfaces (the wall) -> her cream-olive
+    out = out * (1 - wallm * .85) + out * np.array([.66, .95, 1.0], np.float32) * wallm * .85
+    bl = cv2.GaussianBlur(np.clip(out - .62, 0, 1) * 2.6, (0, 0), 22); out = 1 - (1 - out) * (1 - bl * .16)
+    H, W = out.shape[:2]; yy, xx = np.mgrid[0:H, 0:W].astype(np.float32); d = ((xx - W / 2) / (W * .75)) ** 2 + ((yy - H * .5) / (H * .7)) ** 2
+    out = out * (1 - .2 * np.clip(d, 0, 1))[..., None]
+    hsv = cv2.cvtColor((np.clip(out, 0, 1) * 255).astype(np.uint8), cv2.COLOR_BGR2HSV).astype(np.float32); hsv[..., 1] = np.clip(hsv[..., 1] * 1.12, 0, 255)
+    return cv2.cvtColor(hsv.astype(np.uint8), cv2.COLOR_HSV2BGR)

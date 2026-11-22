@@ -2,6 +2,7 @@ import sys; sys.path.insert(0, '/tmp/claude-0/-home-user-saidadencoder222/21382d
 import os, json, math
 import numpy as np, cv2
 import brand
+import mscenes as MS
 from brand import *
 SC = '/tmp/claude-0/-home-user-saidadencoder222/21382d86-4091-5f53-a3a6-32d6a75a5607/scratchpad'; WD = f'{SC}/c9/work'; FD = f'{WD}/fd81'; IM = f'{SC}/c9/img'
 CUT = json.load(open(f'{WD}/cut81b.json')); WORDS = CUT['words']; DUR = CUT['dur'] + .3; NF = int(round(DUR * 30)); NFV = len(os.listdir(FD))
@@ -29,7 +30,7 @@ STACKS = [(T0(s5), T0(idx('and', idx('thoughts', s5))), 'Journaling', 'your thou
           (T0(s2), T0(idx('indulge', s2)), 'Unhinged', 'one day at the end of every month', 'so you can work hard'),
           (T0(s1), T0(idx("don't", s1)), 'Your day', 'instead of the future ahead of you', 'focus')]
 ith = idx('thoughts', s5); itk = idx('think', s4); icn = idx('to', idx('conditioning', s3)); iin = idx('indulge', s2); iwk = idx('work', s2); idn = idx("don't", s1)
-IMGS = [(.0, T1(hk_end), [('athens_c', 180, 1700, 340, -2), ('nietzsche_c', 540, 1720, 340, 2), ('thinker_c', 900, 1700, 340, -2)]),
+IMGS = [(.0, T1(hk_end), [('athens_c', 150, 1010, 420, -3), ('thinker_c', 930, 1010, 420, 3), ('nietzsche_c', 540, 700, 300, 1)]),
         (T0(s5), T0(idx('and', ith)), [('thinker_g', 540, 245, 820, -1)]),
         (T0(idx('and', ith)), T1(e5), [('journal', 540, 245, 820, 1)]),
         (T0(s4), T0(itk), [('forest', 540, 245, 820, -1)]),
@@ -63,22 +64,26 @@ def load(n):
 def in_win(t, a, b): return a <= t < b
 CAPPOS = [(540, 1330), (440, 1400), (640, 1360), (500, 1450), (620, 1320), (460, 1390), (590, 1430), (540, 1350)]
 CAPNOW = [0]
+ALPHA = MS.alpha_arr(81)
 def frame(k):
     t = k / 30.0; kk = min(k, NFV - 1); raw = cv2.imread(f'{FD}/{kk + 1:04d}.jpg'); fr = brand.grade_cine(raw)
     z = 1.0
     for (a, b, *_) in [(s[0], s[1]) for s in STACKS] + [(s[0], s[1]) for s in IMGS]:
         if a <= t < b: z = 1.0 + .03 * (t - a) / max(b - a, .1); break
     f = brand.frame_shift(fr, 210, z)
-    on_img = None
+    person = f.copy(); hook_on = False; on_img = None
     for ii, (a, b, items) in enumerate(IMGS):
         if a <= t < b:
-            on_img = items
+            on_img = items; hook_on = (ii == 0)
             for j, (nm, cx, cy, w, rot) in enumerate(items):
                 im = load(nm)
                 if im is None: continue
                 u = t - a
                 brand.paper(f, im, cx, cy, w, rot)
             break
+    if hook_on:
+        al_ = cv2.resize(np.asarray(ALPHA[kk], np.float32) / 255, (1080, 1920), interpolation=cv2.INTER_LINEAR); aw_ = brand.alpha_shift(al_, 210, z)[..., None]
+        f = np.clip(f.astype(np.float32) * (1 - aw_) + person.astype(np.float32) * aw_, 0, 255).astype(np.uint8)
     st = None
     for s in STACKS:
         if s[0] <= t < s[1]: st = s; break

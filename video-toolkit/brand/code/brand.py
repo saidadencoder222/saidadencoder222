@@ -9,12 +9,15 @@ import simple                                    # sets up the shared font dir
 from simple import *
 FDIR = simple.C2 + '/fonts'
 YEL = (16, 244, 242); WH = (255, 255, 255); BLK = (10, 10, 10)          # BGR
-FONTS = {'serif': 'InstrumentSerif-Regular.ttf', 'serifi': 'InstrumentSerif-Italic.ttf', 'sans': 'Inter.ttf'}
+FONTS = {'serif': 'InstrumentSerif-Regular.ttf', 'serifi': 'InstrumentSerif-Italic.ttf', 'sans': 'Inter.ttf', 'pf': 'PlayfairDisplay.ttf', 'pfi': 'PlayfairDisplay-Italic.ttf'}
 _F = {}
 def pf(kind, size, w=700):
     k = (kind, size, w)
     if k not in _F:
         f = ImageFont.truetype(f'{FDIR}/{FONTS[kind]}', size)
+        if kind in ('pf', 'pfi'):
+            try: f.set_variation_by_axes([700])
+            except Exception: pass
         if kind == 'sans':
             try: f.set_variation_by_axes([14 if 'opsz' in (a['name'].decode() if isinstance(a['name'], bytes) else a['name']).lower() else w for a in f.get_variation_axes()][:1] + [w])
             except Exception:
@@ -188,7 +191,7 @@ def accent(f, word, x, y, u, size=190, glow=False, white_above=None, white_below
     """big yellow serif word with an oversized italic swash capital (the inspo's 'Destroyed', 'Betrayed', 'Downfall'), small white sans lines above / below"""
     if u < 0: return
     a = a; first, rest = word[0], word[1:]
-    mF, advF, baseF, PF = tm(first, 'serifi', int(size * 1.35), 400, 0); mR, advR, baseR, PR = tm(rest, 'serif', size, 400, -.015 * size, .8)
+    mF, advF, baseF, PF = tm(first, 'pfi', int(size * 1.3), 700, 0); mR, advR, baseR, PR = tm(rest, 'pf', int(size * .92), 700, -.01 * size, .86)
     total = advF * .82 + advR; x0 = x - total / 2
     slide = 0
     for off, col, al, bl in ((0, YEL, a, 0.0),):
@@ -260,3 +263,9 @@ def title_anim(f, big, sub, u, y=300, maxw=900):
         blit(f, m, xx, y + 100 + (1 - ee) * 26, base, (0, 0, 0), uj * .55, blur=9, dy=5); blit(f, m, xx, y + 100 + (1 - ee) * 26, base, WH, uj); xw += adv + sp_
     r = clamp((u - land * .8) / .5); r = 1 - (1 - r) ** 3
     if r > 0: cv2.line(f, (int(540 - adv_total * .45), int(y + 28)), (int(540 - adv_total * .45 + adv_total * .9 * r), int(y + 28)), YEL, 4, cv2.LINE_AA)
+
+def alpha_shift(al, shift=210, zoom=1.0):
+    """same geometry as frame_shift, for the matte (float 0..1, 1080x1920)"""
+    can = np.zeros((1920, 1080), np.float32); can[shift:] = al[:1920 - shift]
+    if zoom != 1.0: can = cv2.warpAffine(can, np.float32([[zoom, 0, 540 - zoom * 540], [0, zoom, 1300 - zoom * 1300]]), (1080, 1920), flags=cv2.INTER_LINEAR, borderValue=0)
+    return can

@@ -2,6 +2,7 @@ import sys; sys.path.insert(0, '/tmp/claude-0/-home-user-saidadencoder222/21382d
 import os, json, math
 import numpy as np, cv2
 import brand
+import mscenes as MS
 from brand import *
 SC = '/tmp/claude-0/-home-user-saidadencoder222/21382d86-4091-5f53-a3a6-32d6a75a5607/scratchpad'; WD = f'{SC}/c9/work'; FD = f'{WD}/fd82'; IM = f'{SC}/c9/img'
 CUT = json.load(open(f'{WD}/cut82b.json')); WORDS = CUT['words']; DUR = CUT['dur'] + .3; NF = int(round(DUR * 30)); NFV = len(os.listdir(FD))
@@ -27,7 +28,7 @@ STACKS = [(T0(i_dost), T0(idx('destroyed')), 'Dostoevsky', 'the worst sin is you
           (T0(i_why), T0(idx('cruised')), 'Comfortable', 'you know that you are smart', 'so you cruise'),
           (T0(i_how), T0(idx('more', i_how)), 'Combat this', 'how should you actually', 'push yourself')]
 i_w = lambda w, start=0: idx(w, start)
-IMGS = [(.0, T1(i_stuck), [('dostoevsky_c', 180, 1700, 340, -2), ('hook_a_c', 540, 1720, 340, 2), ('wanderer_c', 900, 1700, 340, -2)]),
+IMGS = [(.0, T1(i_stuck), [('dostoevsky_c', 150, 1010, 420, -3), ('hook_a_c', 930, 1010, 420, 3), ('wanderer_c', 540, 700, 300, 1)]),
         (T0(idx('dostoevsky')), T1(i_noth), [('scream', 540, 245, 820, -1)]),
         (T0(idx('but')), T1(idx('way')), [('icarus', 540, 245, 820, 1)]),
         (T0(i_pot - 6), T1(i_pot), [('hook_c_l', 540, 245, 820, -1)]),
@@ -73,22 +74,26 @@ def ACC_draw(f, t):
     for a_, b_, txt, x, y, wa, wb, gl in ACCENTS:
         t0 = T0(a_); t1 = T1(b_) + (.25 if b_ == idx('nothing') else .0)
         if t0 <= t < t1: brand.accent(f, txt, x, y, t - t0, size=150, glow=gl, white_above=wa, white_below=wb)
+ALPHA = MS.alpha_arr(82)
 def frame(k):
     t = k / 30.0; kk = min(k, NFV - 1); raw = cv2.imread(f'{FD}/{kk + 1:04d}.jpg'); fr = brand.grade_cine(raw)
     z = 1.0
     for (a, b, *_) in [(s[0], s[1]) for s in STACKS] + [(s[0], s[1]) for s in IMGS]:
         if a <= t < b: z = 1.0 + .03 * (t - a) / max(b - a, .1); break
     f = brand.frame_shift(fr, 210, z)
-    on_img = None
+    person = f.copy(); hook_on = False; on_img = None
     for ii, (a, b, items) in enumerate(IMGS):
         if a <= t < b:
-            on_img = items
+            on_img = items; hook_on = (ii == 0)
             for j, (nm, cx, cy, w, rot) in enumerate(items):
                 im = load(nm)
                 if im is None: continue
                 u = t - a
                 brand.paper(f, im, cx, cy, w, rot)
             break
+    if hook_on:
+        al_ = cv2.resize(np.asarray(ALPHA[kk], np.float32) / 255, (1080, 1920), interpolation=cv2.INTER_LINEAR); aw_ = brand.alpha_shift(al_, 210, z)[..., None]
+        f = np.clip(f.astype(np.float32) * (1 - aw_) + person.astype(np.float32) * aw_, 0, 255).astype(np.uint8)
     st = None
     for s in STACKS:
         if s[0] <= t < s[1]: st = s; break

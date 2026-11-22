@@ -46,3 +46,15 @@ Voice only (the inspo has no sound effects): `highpass 70, acompressor -30dB 3.5
 
 ## Where the code lives
 `video-toolkit/brand/code/` (brand.py = the style, m80.py / m82.py = two finished edits, mkcut/selcut/tighten = cutting, gi9.py = image fetch), fonts in `video-toolkit/brand/assets/`.
+
+## UPDATE (latest, supersedes anything above that conflicts): the "You're Too Smart To Grow" reel is the reference
+The user supplied this Dostoevsky reel (70 s) as the style to copy "for everything". Measured:
+- **Frame**: speaker at full width, pushed down about 210 px (`brand.frame_shift`) so the wall above the head becomes headroom. No scale-down, no side strips, no blur plate.
+- **Title**: MIXED-CASE yellow condensed serif (e.g. "You're Too Smart", about 80% of frame width, no neon glow) over a white sans CAPS second line ("TO GROW"), sitting LOW over the torso at about y 1570 (the inspo puts it at 60% of frame height). Small captions sit above it.
+- **Captions**: SMALL (about 40 px), plain white Inter 700, tight tracking, dark soft shadow, NO box and NO pill, key words acid yellow and bold, centred under the chin / around the mic hand (y about 1330-1450), position varied a little chunk to chunk, words rise in one after another.
+- **Accent words** (`brand.accent`): a big yellow serif word whose first letter is a giant ITALIC SWASH capital (Destroyed / Betrayed / Self-betrayal / Downfall), small white sans line above and below, alternating left and right of centre at about y 1500; some glow (soft yellow bloom).
+- **Images**: unframed, rotated slightly, big. Hook = two portraits in the headroom (about 330 px wide each at x 215 and 865, y 240) plus a third small piece (centre, above the head or low-left). Later: one landscape image in the headroom (800 px wide, 16:9) per idea, film/illustration/stock matching the sentence, sometimes a clip. Always relevant to the exact words.
+- **Transitions**: instant cuts; glass-shatter or wipe only occasionally.
+- **Motion graphics (user asked, keep light)**: thin yellow/white line-art drawn on beside the shoulder (x about 900, y about 1080): writing lines, dotted path, ripples, burst, target, ceiling bar, loop, check. No meters, no counters unless the content is a countdown.
+- **Audio**: user's Interstellar piano bed from `audio-library/music/` ducked under the voice (about -29 LUFS), real SFX from `audio-library/sfx/` on each image / accent word / hook piece, a very soft `light_pop` (-27 dB) on each caption chunk, riser into the hook. Voice -14 LUFS. Never AI-sounding blips.
+- Code: `video-toolkit/brand/code/brand.py` (`title2`, `accent`, `caption_small`, `frame_shift`, `g_*` graphics) and `brand_av.py` (`mix`, `loop_music`).

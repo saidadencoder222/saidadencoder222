@@ -30,7 +30,7 @@ STACKS = [(T0(s5), T0(idx('and', idx('thoughts', s5))), 'Journaling', 'your thou
           (T0(s2), T0(idx('indulge', s2)), 'Unhinged', 'one day at the end of every month', 'so you can work hard'),
           (T0(s1), T0(idx("don't", s1)), 'Your day', 'instead of the future ahead of you', 'focus')]
 ith = idx('thoughts', s5); itk = idx('think', s4); icn = idx('to', idx('conditioning', s3)); iin = idx('indulge', s2); iwk = idx('work', s2); idn = idx("don't", s1)
-IMGS = [(.0, T1(hk_end), [('athens_c', 150, 1010, 420, -3), ('thinker_c', 930, 1010, 420, 3), ('nietzsche_c', 540, 700, 300, 1)]),
+IMGS = [(.0, T1(hk_end), [('athens', 175, 105, 320, -1), ('nietzsche', 540, 100, 320, 1), ('thinker', 905, 105, 320, -1)]),
         (T0(s5), T0(idx('and', ith)), [('thinker_g', 540, 245, 820, -1)]),
         (T0(idx('and', ith)), T1(e5), [('journal', 540, 245, 820, 1)]),
         (T0(s4), T0(itk), [('forest', 540, 245, 820, -1)]),
@@ -74,7 +74,7 @@ def frame(k):
     person = f.copy(); hook_on = False; on_img = None
     for ii, (a, b, items) in enumerate(IMGS):
         if a <= t < b:
-            on_img = items; hook_on = (ii == 0)
+            on_img = items; hook_on = False
             for j, (nm, cx, cy, w, rot) in enumerate(items):
                 im = load(nm)
                 if im is None: continue
@@ -89,7 +89,7 @@ def frame(k):
         if s[0] <= t < s[1]: st = s; break
     in_title = in_win(t, TITLE[0], TITLE[1])
     if in_title:
-        sub = [x for x in SUBS if x[0] <= t < x[1]]; brand.title2(f, TITLE[2], sub[0][2] if sub else SUBS[-1][2], y=285, a=1.0)
+        sub = [x for x in SUBS if x[0] <= t < x[1]]; brand.title2(f, TITLE[2], sub[0][2] if sub else SUBS[-1][2], y=335, a=1.0)
     if st:
         si = STACKS.index(st); x_ = 400 if si % 2 == 0 else 680
         brand.accent(f, st[2], x_, 1500, t - st[0], size=170, glow=(si % 2 == 1), white_above=st[3], white_below=st[4])

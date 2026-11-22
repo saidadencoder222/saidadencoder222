@@ -28,7 +28,7 @@ STACKS = [(T0(i_dost), T0(idx('destroyed')), 'Dostoevsky', 'the worst sin is you
           (T0(i_why), T0(idx('cruised')), 'Comfortable', 'you know that you are smart', 'so you cruise'),
           (T0(i_how), T0(idx('more', i_how)), 'Combat this', 'how should you actually', 'push yourself')]
 i_w = lambda w, start=0: idx(w, start)
-IMGS = [(.0, T1(i_stuck), [('dostoevsky_c', 150, 1010, 420, -3), ('hook_a_c', 930, 1010, 420, 3), ('wanderer_c', 540, 700, 300, 1)]),
+IMGS = [(.0, T1(i_stuck), [('dostoevsky', 175, 105, 320, -1), ('hook_a', 540, 100, 320, 1), ('wanderer', 905, 105, 320, -1)]),
         (T0(idx('dostoevsky')), T1(i_noth), [('scream', 540, 245, 820, -1)]),
         (T0(idx('but')), T1(idx('way')), [('icarus', 540, 245, 820, 1)]),
         (T0(i_pot - 6), T1(i_pot), [('hook_c_l', 540, 245, 820, -1)]),
@@ -84,7 +84,7 @@ def frame(k):
     person = f.copy(); hook_on = False; on_img = None
     for ii, (a, b, items) in enumerate(IMGS):
         if a <= t < b:
-            on_img = items; hook_on = (ii == 0)
+            on_img = items; hook_on = False
             for j, (nm, cx, cy, w, rot) in enumerate(items):
                 im = load(nm)
                 if im is None: continue
@@ -99,7 +99,7 @@ def frame(k):
         if s[0] <= t < s[1]: st = s; break
     in_title = in_win(t, TITLE[0], TITLE[1])
     if in_title:
-        sub = [x for x in SUBS if x[0] <= t < x[1]]; brand.title2(f, TITLE[2], sub[0][2] if sub else SUBS[-1][2], y=285, a=1.0)
+        sub = [x for x in SUBS if x[0] <= t < x[1]]; brand.title2(f, TITLE[2], sub[0][2] if sub else SUBS[-1][2], y=335, a=1.0)
     acc_on = any(T0(a_) <= t < T1(b_) + (.25 if b_ == idx('nothing') else .0) for a_, b_, *_ in ACCENTS)
     if acc_on: pass
     else:
